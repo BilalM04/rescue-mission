@@ -12,6 +12,8 @@ public class Explorer implements IExplorerRaid {
 
     private final Logger logger = LogManager.getLogger();
 
+    private int flyCount = 0;
+
     @Override
     public void initialize(String s) {
         logger.info("** Initializing the Exploration Command Center");
@@ -26,8 +28,19 @@ public class Explorer implements IExplorerRaid {
     @Override
     public String takeDecision() {
         JSONObject decision = new JSONObject();
-        decision.put("action", "stop"); // we stop the exploration immediately
+        if (flyCount < 50) {
+            decision.put("action", "fly");
+            if (flyCount % 2 == 0) {
+                JSONObject params = new JSONObject();
+                params.put("direction", "S");
+                decision.put("action", "echo");
+                decision.put("parameters", params);
+            }
+        } else {
+            decision.put("action", "stop"); // we stop the exploration immediately
+        }
         logger.info("** Decision: {}",decision.toString());
+        flyCount++;
         return decision.toString();
     }
 
