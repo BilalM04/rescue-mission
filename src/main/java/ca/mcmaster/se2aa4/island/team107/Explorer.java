@@ -32,16 +32,23 @@ public class Explorer implements IExplorerRaid {
         JSONObject decision = new JSONObject();
         JSONObject params = new JSONObject();
         
-        if (flyCount < 50) {
-            params.put("direction", "S");
-            decision.put("action", "fly");
-            if (flyCount % 2 == 0) {
+        if (flyCount < 150) {
+            if (flyCount % 3 == 0) {
+                decision.put("action", "fly");
+            }
+            else if (flyCount % 3 == 1) {
+                decision.put("action", "scan");
+            }
+            else if (flyCount % 3 == 2) {
                 decision.put("action", "echo");
+                params.put("direction", "S");
                 decision.put("parameters", params);
             }
+
             if (!prevDirection.equals(direction)) {
                 prevDirection = direction;
                 decision.put("action", "heading");
+                params.put("direction", direction);
                 decision.put("parameters", params);
             }
         } else {
