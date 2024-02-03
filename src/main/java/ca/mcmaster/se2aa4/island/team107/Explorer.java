@@ -13,6 +13,8 @@ public class Explorer implements IExplorerRaid {
     private final Logger logger = LogManager.getLogger();
 
     private int flyCount = 0;
+    private String direction = "E";
+    private String prevDirection = "E";
 
     @Override
     public void initialize(String s) {
@@ -28,12 +30,18 @@ public class Explorer implements IExplorerRaid {
     @Override
     public String takeDecision() {
         JSONObject decision = new JSONObject();
+        JSONObject params = new JSONObject();
+        
         if (flyCount < 50) {
+            params.put("direction", "S");
             decision.put("action", "fly");
             if (flyCount % 2 == 0) {
-                JSONObject params = new JSONObject();
-                params.put("direction", "S");
                 decision.put("action", "echo");
+                decision.put("parameters", params);
+            }
+            if (!prevDirection.equals(direction)) {
+                prevDirection = direction;
+                decision.put("action", "heading");
                 decision.put("parameters", params);
             }
         } else {
@@ -54,6 +62,15 @@ public class Explorer implements IExplorerRaid {
         logger.info("The status of the drone is {}", status);
         JSONObject extraInfo = response.getJSONObject("extras");
         logger.info("Additional information received: {}", extraInfo);
+        
+        if (extraInfo.has("found")) {
+            String echoStatus = extraInfo.get("found").toString();
+
+            if (echoStatus.equals("GROUND")) {
+                logger.info("GROUND found!");
+                direction = "S";
+            }
+        }
     }
 
     @Override
