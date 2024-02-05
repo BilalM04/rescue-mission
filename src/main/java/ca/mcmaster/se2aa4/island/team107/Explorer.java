@@ -12,9 +12,12 @@ public class Explorer implements IExplorerRaid {
 
     private final Logger logger = LogManager.getLogger();
 
-    private int flyCount = 0;
-    private String direction = "E";
+    private int battery;
+    private int flyCount = 0, length = 0;
+    private String direction = "E", echoDirection = "S";
     private String prevDirection = "E";
+    private boolean isComplete = false;
+    private boolean hasCrossed = false;
 
     @Override
     public void initialize(String s) {
@@ -25,6 +28,8 @@ public class Explorer implements IExplorerRaid {
         Integer batteryLevel = info.getInt("budget");
         logger.info("The drone is facing {}", direction);
         logger.info("Battery level is {}", batteryLevel);
+
+        battery = batteryLevel;
     }
 
     @Override
@@ -32,27 +37,29 @@ public class Explorer implements IExplorerRaid {
         JSONObject decision = new JSONObject();
         JSONObject params = new JSONObject();
         
-        if (flyCount < 150) {
-            if (flyCount % 3 == 0) {
-                decision.put("action", "fly");
-            }
-            else if (flyCount % 3 == 1) {
-                decision.put("action", "scan");
-            }
-            else if (flyCount % 3 == 2) {
-                decision.put("action", "echo");
-                params.put("direction", "S");
-                decision.put("parameters", params);
-            }
+        if (flyCount % 3 == 0) {
+            decision.put("action", "fly");
+            if (hasCrossed) length++;
+        }
+        else if (flyCount % 3 == 1) {
+            decision.put("action", "scan");
+        }
+        else if (flyCount % 3 == 2) {
+            decision.put("action", "echo");
+            params.put("direction", echoDirection);
+            decision.put("parameters", params);
+        }
 
-            if (!prevDirection.equals(direction)) {
-                prevDirection = direction;
-                decision.put("action", "heading");
-                params.put("direction", direction);
-                decision.put("parameters", params);
-            }
-        } else {
-            decision.put("action", "stop"); // we stop the exploration immediately
+        if (!prevDirection.equals(direction)) {
+            prevDirection = direction;
+            decision.put("action", "heading");
+            params.put("direction", direction);
+            decision.put("parameters", params);
+        }
+        
+        if (battery < 100 || isComplete) {
+            decision.put("action", "stop");
+            logger.info("*** Flight length is " + length);
         }
         logger.info("** Decision: {}",decision.toString());
         flyCount++;
@@ -63,10 +70,17 @@ public class Explorer implements IExplorerRaid {
     public void acknowledgeResults(String s) {
         JSONObject response = new JSONObject(new JSONTokener(new StringReader(s)));
         logger.info("** Response received:\n"+response.toString(2));
+
         Integer cost = response.getInt("cost");
         logger.info("The cost of the action was {}", cost);
+
+        battery -= cost;
+
+        logger.info("Battery level is {}", battery);
+
         String status = response.getString("status");
         logger.info("The status of the drone is {}", status);
+
         JSONObject extraInfo = response.getJSONObject("extras");
         logger.info("Additional information received: {}", extraInfo);
         
@@ -74,10 +88,18 @@ public class Explorer implements IExplorerRaid {
             String echoStatus = extraInfo.get("found").toString();
 
             if (echoStatus.equals("GROUND")) {
+                if (echoDirection == "E") {
+                    hasCrossed = true;
+                }
                 logger.info("GROUND found!");
                 direction = "S";
+                echoDirection = "E";
+            } else if (hasCrossed) {
+                isComplete = true;
             }
         }
+
+        
     }
 
     @Override
