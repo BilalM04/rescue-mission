@@ -13,11 +13,18 @@ public class Explorer implements IExplorerRaid {
     private final Logger logger = LogManager.getLogger();
 
     private int battery;
-    private int flyCount = 0, length = 0;
+    private int flyCount = 0;
     private String direction = "E", echoDirection = "S";
     private String prevDirection = "E";
-    private boolean isComplete = false;
-    private boolean hasCrossed = false;
+
+    private boolean aligned = false,
+                    verticalEchoed = false,
+                    horizontalEchoed = false,
+                    hasCrossed = false;
+
+    private int distance = 0,
+                length = 0,
+                width = 0;
 
     @Override
     public void initialize(String s) {
@@ -37,9 +44,14 @@ public class Explorer implements IExplorerRaid {
         JSONObject decision = new JSONObject();
         JSONObject params = new JSONObject();
         
-        if (flyCount % 3 == 0) {
+        if (!prevDirection.equals(direction)) {
+            prevDirection = direction;
+            decision.put("action", "heading");
+            params.put("direction", direction);
+            decision.put("parameters", params);
+        }
+        else if (flyCount % 3 == 0) {
             decision.put("action", "fly");
-            if (hasCrossed) length++;
         }
         else if (flyCount % 3 == 1) {
             decision.put("action", "scan");
@@ -50,19 +62,17 @@ public class Explorer implements IExplorerRaid {
             decision.put("parameters", params);
         }
 
-        if (!prevDirection.equals(direction)) {
-            prevDirection = direction;
-            decision.put("action", "heading");
-            params.put("direction", direction);
-            decision.put("parameters", params);
-        }
-        
-        if (battery < 100 || isComplete) {
-            decision.put("action", "stop");
-            logger.info("*** Flight length is " + length);
-        }
-        logger.info("** Decision: {}",decision.toString());
         flyCount++;
+        
+        if (battery < 100 || verticalEchoed && horizontalEchoed) {
+            decision.put("action", "stop");
+            logger.info("******************************************");
+            logger.info("*** Flight Length = " + length + ", Flight Width = " + width);
+            logger.info("******************************************");
+        }
+
+        logger.info("** Decision: {}",decision.toString());
+        
         return decision.toString();
     }
 
@@ -87,15 +97,20 @@ public class Explorer implements IExplorerRaid {
         if (extraInfo.has("found")) {
             String echoStatus = extraInfo.get("found").toString();
 
-            if (echoStatus.equals("GROUND")) {
-                if (echoDirection == "E") {
-                    hasCrossed = true;
-                }
-                logger.info("GROUND found!");
+            if (echoStatus.equals("GROUND") && !aligned) {
+                aligned = true;
                 direction = "S";
                 echoDirection = "E";
-            } else if (hasCrossed) {
-                isComplete = true;
+            } 
+            else if (aligned) {
+                if (!verticalEchoed) {
+                    length = distance;
+                    verticalEchoed = echoFinished("S", "E", echoStatus);
+                }
+                else {
+                    width = distance;
+                    horizontalEchoed = echoFinished("E", "N", echoStatus);
+                }
             }
         }
 
@@ -105,6 +120,23 @@ public class Explorer implements IExplorerRaid {
     @Override
     public String deliverFinalReport() {
         return "no creek found";
+    }
+
+    private boolean echoFinished(String dir, String edir, String status) {
+        boolean stop = false;
+        direction = dir;
+        echoDirection = edir;
+
+        if (status.equals("GROUND")) {
+            distance += 1;
+            hasCrossed = true;   
+        } else if (hasCrossed) {
+            logger.info("FINISHED ECHOING");
+            stop = true;
+            hasCrossed = false;
+            distance = 0;
+        }
+        return stop;
     }
 
 }
