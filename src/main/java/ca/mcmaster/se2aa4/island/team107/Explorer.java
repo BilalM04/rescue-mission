@@ -1,5 +1,6 @@
 package ca.mcmaster.se2aa4.island.team107;
 
+import java.lang.Math;
 import java.io.StringReader;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -14,17 +15,16 @@ public class Explorer implements IExplorerRaid {
 
     private int battery;
     private int flyCount = 0;
-    private String direction = "E", echoDirection = "S";
-    private String prevDirection = "E";
+    private String direction;
+    private String prevDirection;
 
-    private boolean aligned = false,
-                    verticalEchoed = false,
-                    horizontalEchoed = false,
-                    hasCrossed = false;
+    private boolean frontEcho;
+    private boolean leftEcho;
+    private boolean rightEcho;
+    private boolean shouldTurn;
+    private boolean atIsland;
 
-    private int distance = 0,
-                length = 0,
-                width = 0;
+    private boolean isComplete;
 
     @Override
     public void initialize(String s) {
@@ -36,39 +36,72 @@ public class Explorer implements IExplorerRaid {
         logger.info("The drone is facing {}", direction);
         logger.info("Battery level is {}", batteryLevel);
 
-        battery = batteryLevel;
+        this.battery = batteryLevel;
+        this.direction = direction;
+        this.prevDirection = direction;
+        this.shouldTurn = false;
+        this.atIsland = false;
+        this.isComplete = false;
     }
 
     @Override
     public String takeDecision() {
         JSONObject decision = new JSONObject();
         JSONObject params = new JSONObject();
+
+        logger.info("Current heading: {}", direction);
+
+        leftEcho = false;
+        rightEcho = false;
+        frontEcho = false;
         
         if (!prevDirection.equals(direction)) {
+            String prev = prevDirection;
             prevDirection = direction;
             decision.put("action", "heading");
             params.put("direction", direction);
             decision.put("parameters", params);
+            if (shouldTurn && atIsland) {
+                if (leftOf(prev) == direction) {
+                    direction = leftOf(direction);
+                }
+                else {
+                    direction = rightOf(direction);
+                }
+                shouldTurn = false;
+            }
+            
         }
-        else if (flyCount % 3 == 0) {
+        else if (flyCount % 5 == 0) {
             decision.put("action", "fly");
+            shouldTurn = true;
         }
-        else if (flyCount % 3 == 1) {
+        else if (flyCount % 5 == 1) {
             decision.put("action", "scan");
         }
-        else if (flyCount % 3 == 2) {
+        else if (flyCount % 5 == 2) {
             decision.put("action", "echo");
-            params.put("direction", echoDirection);
+            params.put("direction", direction);
             decision.put("parameters", params);
+            frontEcho = true;
+        }
+        else if (flyCount % 5 == 3) {
+            decision.put("action", "echo");
+            params.put("direction", leftOf(direction));
+            decision.put("parameters", params);
+            leftEcho = true;
+        }
+        else if (flyCount % 5 == 4) {
+            decision.put("action", "echo");
+            params.put("direction", rightOf(direction));
+            decision.put("parameters", params);
+            rightEcho = true;
         }
 
         flyCount++;
         
-        if (battery < 100 || verticalEchoed && horizontalEchoed) {
+        if (battery < 100 || flyCount > 1000) {
             decision.put("action", "stop");
-            logger.info("******************************************");
-            logger.info("*** Flight Length = " + length + ", Flight Width = " + width);
-            logger.info("******************************************");
         }
 
         logger.info("** Decision: {}",decision.toString());
@@ -96,25 +129,22 @@ public class Explorer implements IExplorerRaid {
         
         if (extraInfo.has("found")) {
             String echoStatus = extraInfo.get("found").toString();
+            int range = (Integer)extraInfo.get("range");
 
-            if (echoStatus.equals("GROUND") && !aligned) {
-                aligned = true;
-                direction = "S";
-                echoDirection = "E";
-            } 
-            else if (aligned) {
-                if (!verticalEchoed) {
-                    length = distance;
-                    verticalEchoed = echoFinished("S", "E", echoStatus);
+            if (echoStatus.equals("GROUND")) {
+                if (range == 0) {
+                    atIsland = true;
                 }
-                else {
-                    width = distance;
-                    horizontalEchoed = echoFinished("E", "N", echoStatus);
+                if (frontEcho) {
+                    shouldTurn = false;
+                }
+
+                if (shouldTurn) {
+                    String t = (leftEcho) ? leftOf(direction) : direction;
+                    direction = (rightEcho) ? rightOf(direction) : t;
                 }
             }
         }
-
-        
     }
 
     @Override
@@ -122,21 +152,21 @@ public class Explorer implements IExplorerRaid {
         return "no creek found";
     }
 
-    private boolean echoFinished(String dir, String edir, String status) {
-        boolean stop = false;
-        direction = dir;
-        echoDirection = edir;
+    private String rightOf(String dir) {
+        if (dir.equals("N")) return "E";
+        if (dir.equals("S")) return "W";
+        if (dir.equals("E")) return "S";
+        if (dir.equals("W")) return "N";
+        return "";
+    }
 
-        if (status.equals("GROUND")) {
-            distance += 1;
-            hasCrossed = true;   
-        } else if (hasCrossed) {
-            logger.info("FINISHED ECHOING");
-            stop = true;
-            hasCrossed = false;
-            distance = 0;
-        }
-        return stop;
+    
+    private String leftOf(String dir) {
+        if (dir.equals("N")) return "W";
+        if (dir.equals("S")) return "E";
+        if (dir.equals("E")) return "N";
+        if (dir.equals("W")) return "S";
+        return "";
     }
 
 }
