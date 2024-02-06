@@ -18,11 +18,14 @@ public class Explorer implements IExplorerRaid {
     private String direction;
     private String prevDirection;
 
+    private String prevLeftEcho;
+
     private boolean frontEcho;
     private boolean leftEcho;
     private boolean rightEcho;
     private boolean shouldTurn;
     private boolean atIsland;
+    private boolean turnLeft;
 
     private boolean isComplete;
 
@@ -42,6 +45,7 @@ public class Explorer implements IExplorerRaid {
         this.shouldTurn = false;
         this.atIsland = false;
         this.isComplete = false;
+        this.turnLeft = false;
     }
 
     @Override
@@ -131,17 +135,27 @@ public class Explorer implements IExplorerRaid {
             String echoStatus = extraInfo.get("found").toString();
             int range = (Integer)extraInfo.get("range");
 
+            if (leftEcho) {
+                prevLeftEcho = echoStatus;
+            }
+
             if (echoStatus.equals("GROUND")) {
-                if (range == 0) {
+                if (range == 0 && !atIsland) {
                     atIsland = true;
+                    turnLeft = prevLeftEcho.equals("GROUND");
                 }
                 if (frontEcho) {
                     shouldTurn = false;
                 }
 
                 if (shouldTurn) {
-                    String t = (leftEcho) ? leftOf(direction) : direction;
-                    direction = (rightEcho) ? rightOf(direction) : t;
+                    if (atIsland) {
+                        direction = (turnLeft) ? leftOf(direction) : rightOf(direction);
+                        turnLeft = !turnLeft;
+                    } else {
+                        String t = (leftEcho) ? leftOf(direction) : direction;
+                        direction = (rightEcho) ? rightOf(direction) : t;
+                    }
                 }
             }
         }
