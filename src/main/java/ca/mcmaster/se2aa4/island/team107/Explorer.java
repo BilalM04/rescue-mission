@@ -1,6 +1,5 @@
 package ca.mcmaster.se2aa4.island.team107;
 
-import java.lang.Math;
 import java.io.StringReader;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -26,6 +25,7 @@ public class Explorer implements IExplorerRaid {
     private boolean shouldTurn;
     private boolean atIsland;
     private boolean turnLeft;
+    private boolean checkIsland;
 
     private boolean isComplete;
 
@@ -46,6 +46,8 @@ public class Explorer implements IExplorerRaid {
         this.atIsland = false;
         this.isComplete = false;
         this.turnLeft = false;
+        this.checkIsland = false;
+        this.prevLeftEcho = "";
     }
 
     @Override
@@ -73,8 +75,9 @@ public class Explorer implements IExplorerRaid {
                     direction = rightOf(direction);
                 }
                 shouldTurn = false;
+                checkIsland = true;
             }
-            
+
         }
         else if (flyCount % 5 == 0) {
             decision.put("action", "fly");
@@ -104,7 +107,7 @@ public class Explorer implements IExplorerRaid {
 
         flyCount++;
         
-        if (battery < 100 || flyCount > 1000) {
+        if (battery < 100 || isComplete) {
             decision.put("action", "stop");
         }
 
@@ -137,6 +140,11 @@ public class Explorer implements IExplorerRaid {
 
             if (leftEcho) {
                 prevLeftEcho = echoStatus;
+            }
+
+            if (frontEcho && checkIsland) {
+                checkIsland = false;
+                isComplete = echoStatus.equals("OUT_OF_RANGE");
             }
 
             if (echoStatus.equals("GROUND")) {
