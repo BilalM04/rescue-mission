@@ -156,15 +156,14 @@ public class Explorer implements IExplorerRaid {
                     shouldTurn = false;
                 }
 
-                if (shouldTurn) {
-                    if (atIsland) {
-                        direction = (turnLeft) ? leftOf(direction) : rightOf(direction);
-                        turnLeft = !turnLeft;
-                    } else {
-                        String t = (leftEcho) ? leftOf(direction) : direction;
-                        direction = (rightEcho) ? rightOf(direction) : t;
-                    }
+                if (shouldTurn && !atIsland) {
+                    String t = (leftEcho) ? leftOf(direction) : direction;
+                    direction = (rightEcho) ? rightOf(direction) : t;
                 }
+            }
+            else if (atIsland && frontEcho) {
+                direction = (turnLeft) ? leftOf(direction) : rightOf(direction);
+                turnLeft = !turnLeft;
             }
         }
     }
