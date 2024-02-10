@@ -1,10 +1,14 @@
 package ca.mcmaster.se2aa4.island.team107;
 
 import java.io.StringReader;
+import java.util.ArrayList;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import eu.ace_design.island.bot.IExplorerRaid;
+
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
@@ -29,6 +33,8 @@ public class Explorer implements IExplorerRaid {
 
     private boolean isComplete;
 
+    private ArrayList<String> creeks;
+
     @Override
     public void initialize(String s) {
         logger.info("** Initializing the Exploration Command Center");
@@ -48,6 +54,7 @@ public class Explorer implements IExplorerRaid {
         this.turnLeft = false;
         this.checkIsland = false;
         this.prevLeftEcho = "";
+        this.creeks = new ArrayList<>();
     }
 
     @Override
@@ -133,10 +140,17 @@ public class Explorer implements IExplorerRaid {
 
         JSONObject extraInfo = response.getJSONObject("extras");
         logger.info("Additional information received: {}", extraInfo);
+
+        if (extraInfo.has("creeks")) {
+            JSONArray creeksFound = (JSONArray)extraInfo.getJSONArray("creeks");
+            if (!creeksFound.isEmpty()) {
+                addCreeks(creeksFound);
+            }
+        }
         
         if (extraInfo.has("found")) {
-            String echoStatus = extraInfo.get("found").toString();
-            int range = (Integer)extraInfo.get("range");
+            String echoStatus = extraInfo.getString("found");
+            int range = extraInfo.getInt("range");
 
             if (leftEcho) {
                 prevLeftEcho = echoStatus;
@@ -170,7 +184,15 @@ public class Explorer implements IExplorerRaid {
 
     @Override
     public String deliverFinalReport() {
-        return "no creek found";
+        String result = "Creeks Found: ";
+
+        for (String creek : creeks) {
+            result += creek + " ";
+        }
+        logger.info("*********************************");
+        logger.info("**** " + result);
+        logger.info("*********************************");
+        return result;
     }
 
     private String rightOf(String dir) {
@@ -188,6 +210,12 @@ public class Explorer implements IExplorerRaid {
         if (dir.equals("E")) return "N";
         if (dir.equals("W")) return "S";
         return "";
+    }
+
+    private void addCreeks(JSONArray c) {
+        for (int i = 0; i < c.length(); i++) {
+            creeks.add(c.getString(i));
+        }
     }
 
 }
