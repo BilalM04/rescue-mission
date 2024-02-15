@@ -1,17 +1,22 @@
 package ca.mcmaster.se2aa4.island.team107;
 
+enum TypePOI {
+    CREEK,
+    EMERGENCY_SITE
+}
+
 public class POI {
-    private String kind;
+    private TypePOI kind;
     private int x;
     private int y;
 
-    public POI(String kind, int x, int y) {
+    public POI(TypePOI kind, int x, int y) {
         this.kind = kind;
         this.x = x;
         this.y = y;
     }
 
-    public String getKind() {
+    public TypePOI getKind() {
         return this.kind;
     }
 
