@@ -1,6 +1,7 @@
 package ca.mcmaster.se2aa4.island.team107;
 
 public class Drone {
+
     private Integer batteryLevel;
     private Direction heading;
     private Coordinate location;
@@ -8,8 +9,7 @@ public class Drone {
     public Drone(Integer batteryLevel, Direction heading) {
         this.batteryLevel = batteryLevel;
         this.heading = heading;
-        this.location.setX(0);
-        this.location.setY(0);
+        this.location = new Coordinate(0, 0);
     }
 
     public Integer getBatteryLevel() {
