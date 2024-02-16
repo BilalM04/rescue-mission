@@ -16,6 +16,10 @@ public class Drone {
         return this.batteryLevel;
     }
 
+    public void drainBattery(Integer cost) {
+        this.batteryLevel -= cost;
+    }
+
     public Direction getHeading() {
         return this.heading;
     }
@@ -45,7 +49,7 @@ public class Drone {
         }
     }
 
-    private void turnRight() {
+    public void turnRight() {
         switch (this.heading) {
             case Direction.North: 
                 location.setY(getY() + 1);
@@ -67,7 +71,7 @@ public class Drone {
         heading = heading.getRight();
     }
 
-    private void turnLeft() {
+    public void turnLeft() {
         switch (this.heading) {
             case Direction.North: 
                 location.setY(getY() + 1);
