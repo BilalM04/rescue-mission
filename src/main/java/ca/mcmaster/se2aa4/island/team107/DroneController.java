@@ -29,7 +29,6 @@ public class DroneController {
         JSONObject decision = new JSONObject();
         decision.put("action", "fly");
         drone.flyForward();
-        drone.drainBattery(2);
         return decision.toString();
     }
 
@@ -47,7 +46,6 @@ public class DroneController {
             drone.turnLeft();
         }
 
-        drone.drainBattery(4);
         return decision.toString();
     }
 
@@ -59,21 +57,18 @@ public class DroneController {
         params.put("direction", dir.getSymbol());
         decision.put("parameters", params);
 
-        drone.drainBattery(1);
         return decision.toString();
     }
 
     public String scan() {
         JSONObject decision = new JSONObject();
         decision.put("action", "scan");
-        drone.drainBattery(2);
         return decision.toString();
     }
 
     public String stop() {
         JSONObject decision = new JSONObject();
         decision.put("action", "stop");
-        drone.drainBattery(3);
         return decision.toString();
     }
 }

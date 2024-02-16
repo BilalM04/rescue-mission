@@ -14,7 +14,8 @@ public class Explorer implements IExplorerRaid {
 
     private final Logger logger = LogManager.getLogger();
 
-    DroneController controller;
+    private Drone drone;
+    private Search gridSearch;
 
     @Override
     public void initialize(String s) {
@@ -26,15 +27,13 @@ public class Explorer implements IExplorerRaid {
         logger.info("The drone is facing {}", direction);
         logger.info("Battery level is {}", batteryLevel);
 
-        Drone initialDrone = new Drone(
-            batteryLevel, Direction.fromSymbol(direction)
-        );
-        controller = new DroneController(initialDrone);
+        this.drone = new Drone(batteryLevel, Direction.fromSymbol(direction));
+        this.gridSearch = new GridSearch(drone);
     }
 
     @Override
     public String takeDecision() {
-        return controller.runCommand();
+        return gridSearch.performSearch();
     }
 
     @Override
@@ -42,7 +41,7 @@ public class Explorer implements IExplorerRaid {
         JSONObject response = new JSONObject(new JSONTokener(new StringReader(s)));
         logger.info("** Response received:\n"+response.toString(2));
 
-        controller.respond(response);
+        gridSearch.readResponse(response);
     }
 
     @Override
