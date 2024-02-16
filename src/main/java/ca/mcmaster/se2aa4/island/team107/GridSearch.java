@@ -24,6 +24,8 @@ public class GridSearch implements Search {
     private boolean atIsland;
     private boolean turnLeft;
     private boolean checkIsland;
+    private boolean checkInitially;
+    private boolean turnBeforeScan;
 
     private boolean isComplete;
 
@@ -32,11 +34,15 @@ public class GridSearch implements Search {
         this.controller = new DroneController(drone);
         this.prevDirection = drone.getHeading();
         this.direction = drone.getHeading();
+        
         this.shouldTurn = false;
         this.atIsland = false;
         this.isComplete = false;
         this.turnLeft = false;
         this.checkIsland = false;
+
+        this.checkInitially = true;
+        this.turnBeforeScan = false;
     }
 
     public String performSearch() {
@@ -83,6 +89,7 @@ public class GridSearch implements Search {
         else if (flyCount % 5 == 4) {
             command = controller.echo(direction.getRight());
             rightEcho = true;
+            checkInitially = false;
         }
 
         flyCount++;
@@ -131,9 +138,19 @@ public class GridSearch implements Search {
             }
 
             if (echoStatus.equals("GROUND")) {
+                if (checkInitially) {
+                    checkInitially = false;
+                    turnBeforeScan = true;
+                }
+
                 if (range == 0 && !atIsland) {
                     atIsland = true;
                     turnLeft = prevLeftEcho.equals("GROUND");
+                    // scan in other direction if land already in range
+                    if (turnBeforeScan) {
+                        direction = direction.getLeft();
+                        turnLeft = false;
+                    }
                 }
                 if (frontEcho) {
                     shouldTurn = false;
