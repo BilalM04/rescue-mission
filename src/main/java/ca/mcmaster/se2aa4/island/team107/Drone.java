@@ -1,18 +1,15 @@
 package ca.mcmaster.se2aa4.island.team107;
 
-import org.json.JSONObject;
-
 public class Drone {
     private Integer batteryLevel;
     private Direction heading;
-    private int x;
-    private int y;
+    private Coordinate location;
 
     public Drone(Integer batteryLevel, Direction heading) {
         this.batteryLevel = batteryLevel;
         this.heading = heading;
-        this.x = 0;
-        this.y = 0;
+        this.location.setX(0);
+        this.location.setY(0);
     }
 
     public Integer getBatteryLevel() {
@@ -23,70 +20,48 @@ public class Drone {
         return this.heading;
     }
 
-    public int x() {
-        return this.x;
+    public int getX() {
+        return this.location.getX();
     }
 
-    public int y() {
-        return this.y;
+    public int getY() {
+        return this.location.getY();
     }
 
-    public String fly() {
-        JSONObject decision = new JSONObject();
-        decision.put("action", "fly");
-
+    public void flyForward() {
         switch (this.heading) {
-            case Direction.North: 
-                this.y++;
+            case Direction.North:
+                location.setY(getY() + 1);
                 break;
             case Direction.East:
-                this.x++; 
+                location.setX(getX() + 1); 
                 break;
             case Direction.South:
-                this.y--;
+                location.setY(getY() - 1);
                 break;
             case Direction.West:
-                this.x--;
+                location.setX(getX() - 1);
                 break;
         }
-
-        return decision.toString();
-    }
-
-    public String heading(Direction dir) {
-        JSONObject decision = new JSONObject();
-        JSONObject params = new JSONObject();
-        
-        decision.put("action", "heading");
-        params.put("direction", dir.getSymbol());
-        decision.put("parameters", params);
-
-        if (heading.getRight().equals(dir)) {
-            this.turnRight();
-        } else if (heading.getLeft().equals(dir)) {
-            this.turnLeft();
-        }
-
-        return decision.toString();
     }
 
     private void turnRight() {
         switch (this.heading) {
             case Direction.North: 
-                this.y++;
-                this.x++;
+                location.setY(getY() + 1);
+                location.setX(getX() + 1); 
                 break;
             case Direction.East:
-                this.y--;
-                this.x++;
+                location.setY(getY() - 1);
+                location.setX(getX() + 1); 
                 break;
             case Direction.South:
-                this.y--;
-                this.x--;
+                location.setY(getY() - 1);
+                location.setX(getX() - 1); 
                 break;
             case Direction.West:
-                this.y++;
-                this.x--;
+                location.setY(getY() + 1);
+                location.setX(getX() - 1); 
                 break;
         }
         heading = heading.getRight();
@@ -95,50 +70,22 @@ public class Drone {
     private void turnLeft() {
         switch (this.heading) {
             case Direction.North: 
-                this.y++;
-                this.x--;
+                location.setY(getY() + 1);
+                location.setX(getX() - 1); 
                 break;
             case Direction.East:
-                this.y++;
-                this.x++;
+                location.setY(getY() + 1);
+                location.setX(getX() + 1); 
                 break;
             case Direction.South:
-                this.y--;
-                this.x++;
+                location.setY(getY() - 1);
+                location.setX(getX() + 1); 
                 break;
             case Direction.West:
-                this.y--;
-                this.x--;
+                location.setY(getY() - 1);
+                location.setX(getX() - 1); 
                 break;
         }
         heading = heading.getLeft();
-    }
-
-    public String echo(Direction dir) {
-        JSONObject decision = new JSONObject();
-        JSONObject params = new JSONObject();
-        
-        decision.put("action", "echo");
-        params.put("direction", dir.getSymbol());
-        decision.put("parameters", params);
-
-        return decision.toString();
-    }
-
-    public String scan() {
-        JSONObject decision = new JSONObject();
-        decision.put("action", "scan");
-        return decision.toString();
-    }
-
-    public String stop() {
-        JSONObject decision = new JSONObject();
-        decision.put("action", "stop");
-        return decision.toString();
-    }
-
-    public void updateDrone(JSONObject response) {
-        Integer cost = response.getInt("cost");
-        this.batteryLevel -= cost;
     }
 }
