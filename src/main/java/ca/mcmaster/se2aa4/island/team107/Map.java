@@ -13,7 +13,7 @@ public class Map {
     }
 
     public void addCreek(POI creek) {
-        if (!creek.getKind().equals("Creek")) {
+        if (creek.getKind() != TypePOI.CREEK) {
             throw new IllegalArgumentException();
         }
 
@@ -21,7 +21,7 @@ public class Map {
     }
 
     public void addEmergencySite(POI site) {
-        if (!site.getKind().equals("EmergencySite")) {
+        if (site.getKind() != TypePOI.EMERGENCY_SITE) {
             throw new IllegalArgumentException();
         }
 

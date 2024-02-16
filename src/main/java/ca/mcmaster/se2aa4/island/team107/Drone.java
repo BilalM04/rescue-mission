@@ -58,7 +58,7 @@ public class Drone {
         JSONObject params = new JSONObject();
         
         decision.put("action", "heading");
-        params.put("direction", dir.toString());
+        params.put("direction", dir.getSymbol());
         decision.put("parameters", params);
 
         if (heading.getRight().equals(dir)) {
@@ -119,7 +119,7 @@ public class Drone {
         JSONObject params = new JSONObject();
         
         decision.put("action", "echo");
-        params.put("direction", dir.toString());
+        params.put("direction", dir.getSymbol());
         decision.put("parameters", params);
 
         return decision.toString();
