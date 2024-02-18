@@ -1,9 +1,6 @@
 package ca.mcmaster.se2aa4.island.team107;
 
-import org.apache.logging.log4j.core.config.json.JsonConfiguration;
 import org.json.JSONObject;
-
-import netscape.javascript.JSObject;
 
 public class DroneController {
     private Drone drone;
@@ -48,6 +45,7 @@ public class DroneController {
         } else if (dir.equals(getHeading().getLeft())) {
             drone.turnLeft();
         }
+
         return decision.toString();
     }
 

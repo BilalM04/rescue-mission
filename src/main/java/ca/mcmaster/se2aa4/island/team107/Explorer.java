@@ -14,6 +14,7 @@ public class Explorer implements IExplorerRaid {
 
     private Drone drone;
     private Search gridSearch;
+    private Map map;
 
     @Override
     public void initialize(String s) {
@@ -26,7 +27,9 @@ public class Explorer implements IExplorerRaid {
         logger.info("Battery level is {}", batteryLevel);
 
         this.drone = new Drone(batteryLevel, Direction.fromSymbol(direction));
-        this.gridSearch = new GridSearch(drone);
+        this.map = new Map();
+        this.gridSearch = new GridSearch(drone, map);
+
     }
 
     @Override
@@ -53,6 +56,7 @@ public class Explorer implements IExplorerRaid {
 
     @Override
     public String deliverFinalReport() {
+        ((GridSearch) gridSearch).report();
         String result = "no creek found";
         return result;
     }

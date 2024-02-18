@@ -18,7 +18,7 @@ public enum Direction {
     }
 
     public Direction getLeft() {
-        return values()[(this.ordinal() - 1) % 4];
+        return values()[(this.ordinal() - 1 + 4) % 4];
     }
 
     public static Direction fromSymbol(String s) {

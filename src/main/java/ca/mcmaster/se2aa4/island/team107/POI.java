@@ -8,11 +8,13 @@ enum TypePOI {
 public class POI {
     private TypePOI kind;
     private int x, y;
+    private String id;
 
-    public POI(TypePOI kind, int x, int y) {
+    public POI(TypePOI kind, int x, int y, String id) {
         this.kind = kind;
         this.x = x;
         this.y = y;
+        this.id = id;
     }
 
     public TypePOI getKind() {
@@ -25,5 +27,9 @@ public class POI {
 
     public int y() {
         return this.y;
+    }
+
+    public String getID() {
+        return this.id;
     }
 }
