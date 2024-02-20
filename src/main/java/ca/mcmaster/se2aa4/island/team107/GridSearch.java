@@ -12,6 +12,7 @@ public class GridSearch implements Search {
     private DroneController controller;
 
     private int flyCount = 0;
+    private int turnCount = 0;
     private Direction direction;
     private Direction prevDirection;
 
@@ -26,6 +27,7 @@ public class GridSearch implements Search {
     private boolean checkIsland;
     private boolean checkInitially;
     private boolean turnBeforeScan;
+    private boolean uturn;
 
     private boolean isComplete;
 
@@ -43,6 +45,7 @@ public class GridSearch implements Search {
 
         this.checkInitially = true;
         this.turnBeforeScan = false;
+        this.uturn = false;
     }
 
     public String performSearch() {
@@ -56,19 +59,26 @@ public class GridSearch implements Search {
         String command = "";
         
         if (prevDirection != direction) {
-            command = controller.heading(direction);
+            if (turnCount != 3) {
+                prevDirection = direction;
+                command = controller.heading(direction);
+            }
             
-            if (shouldTurn && atIsland) {
-                if (prevDirection.getLeft() == direction) {
+            if (uturn) {
+                if (turnCount == 3) {
+                    command = controller.fly();
+                } else if (turnLeft) {
                     direction = direction.getLeft();
                 }
                 else {
                     direction = direction.getRight();
                 }
-                checkIsland = true;
-                shouldTurn = false;
-            } else {
-                prevDirection = direction;
+                if (turnCount++ >= 3) {
+                    checkIsland = true;
+                    uturn = false;
+                    turnCount = 0;
+                    turnLeft = !turnLeft;
+                }
             }
         }
         else if (flyCount % 5 == 0) {
@@ -162,8 +172,8 @@ public class GridSearch implements Search {
                 }
             }
             else if (atIsland && frontEcho) {
-                direction = (turnLeft) ? direction.getLeft() : direction.getRight();
-                turnLeft = !turnLeft;
+                direction = (turnLeft) ? direction.getRight() : direction.getLeft();
+                uturn = true;
             }
         }
     }
