@@ -51,10 +51,6 @@ public class GridSearch implements Search {
     public String performSearch() {
         logger.info("Current heading: {}, Previous: {}", direction, prevDirection);
         logger.info("Position X: {}, Position Y: {}", drone.getX(), drone.getY());
-
-        leftEcho = false;
-        rightEcho = false;
-        frontEcho = false;
         
         String command = "";
         
@@ -81,28 +77,15 @@ public class GridSearch implements Search {
                 }
             }
         }
-        else if (flyCount % 5 == 0) {
-            command = controller.fly();
-            shouldTurn = true;
+        else {
+            if (!atIsland) {
+                command = getDroneRoutineSearch(flyCount);
+            }
+            else {
+                command = getDroneRoutineScan(flyCount);
+            }
+            flyCount++;
         }
-        else if (flyCount % 5 == 1) {
-            command = controller.scan();
-        }
-        else if (flyCount % 5 == 2) {
-            command = controller.echo(direction);
-            frontEcho = true;
-        }
-        else if (flyCount % 5 == 3) {
-            command = controller.echo(direction.getLeft());
-            leftEcho = true;
-        }
-        else if (flyCount % 5 == 4) {
-            command = controller.echo(direction.getRight());
-            rightEcho = true;
-            checkInitially = false;
-        }
-
-        flyCount++;
         
         if (drone.getBatteryLevel() < 100 || isComplete) {
             command = controller.stop();
@@ -176,5 +159,47 @@ public class GridSearch implements Search {
                 uturn = true;
             }
         }
+    }
+
+    private String getDroneRoutineSearch(int count) {
+        frontEcho = false;
+        leftEcho = false;
+        rightEcho = false;
+
+        switch (count % 5) {
+            case 0:
+                shouldTurn = true;
+                return controller.fly();
+            case 1:
+                return controller.scan();
+            case 2:
+                frontEcho = true;
+                return controller.echo(direction);
+            case 3:
+                leftEcho = true;
+                return controller.echo(direction.getLeft());
+            case 4:
+                rightEcho = true;
+                checkInitially = false;
+                return controller.echo(direction.getRight());
+        }
+
+        return "";
+    }
+
+    private String getDroneRoutineScan(int count) {
+        frontEcho = false;
+
+        switch (count % 3) {
+            case 0:
+                return controller.fly();
+            case 1:
+                return controller.scan();
+            case 2:
+                frontEcho = true;
+                return controller.echo(direction);
+        }
+
+        return "";
     }
 }
