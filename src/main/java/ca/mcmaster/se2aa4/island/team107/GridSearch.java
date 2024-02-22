@@ -157,6 +157,12 @@ public class GridSearch implements Search {
             else if (atIsland && frontEcho) {
                 direction = (turnLeft) ? direction.getRight() : direction.getLeft();
                 uturn = true;
+                // TEMPORARY FIX
+                // In the event that wide turns lose drone signal, stop immediately
+                // TODO: Modify turn path if at edge of map
+                if (range < 3) {
+                    isComplete = true;
+                }
             }
         }
     }
