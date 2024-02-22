@@ -7,7 +7,7 @@ enum TypePOI {
 }
 
 public class PointOfInterest {
-    private TypePOI kind;
+    private final TypePOI kind;
     private Coordinate location;
     private String id;
 
