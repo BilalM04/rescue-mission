@@ -12,7 +12,7 @@ public class Drone {
     }
 
     public Integer getBatteryLevel() {
-        return batteryLevel;
+        return this.batteryLevel;
     }
 
     public void drainBattery(Integer cost) {
