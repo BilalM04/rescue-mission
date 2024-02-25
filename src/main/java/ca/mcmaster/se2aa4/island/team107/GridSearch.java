@@ -242,6 +242,7 @@ public class GridSearch implements Search {
     public void report() {
         map.printCreeks();
         map.printSites();
+        map.closestInlet();
     }
 
     private String getDroneRoutineSearch(int count) {

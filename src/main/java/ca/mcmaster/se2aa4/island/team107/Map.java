@@ -6,8 +6,8 @@ import org.apache.logging.log4j.Logger;
 
 public class Map {
     private final Logger logger = LogManager.getLogger();
-    List<POI> creeks;
-    List<POI> emergencySite;
+    private List<POI> creeks;
+    private List<POI> emergencySite;
 
     public Map() {
         this.creeks = new ArrayList<>();
@@ -26,6 +26,30 @@ public class Map {
             throw new IllegalArgumentException();
         }
         emergencySite.add(site);
+    }
+
+    public void closestInlet() {
+        if (emergencySite.size() == 0) {
+            throw new IllegalArgumentException();
+        }
+        double distance = 1000000;
+        int x = 0;
+        int y = 0;
+        String id = "";
+        Coordinate creek;
+        Coordinate site = new Coordinate(emergencySite.get(0).x(), emergencySite.get(0).y());
+        for (int i = 0; i < creeks.size(); i++) {
+            creek = new Coordinate(creeks.get(i).x(), creeks.get(i).y());
+            if (site.distanceTo(creek) < distance) {
+                distance = site.distanceTo(creek);
+                x = creek.getX();
+                y = creek.getY();
+                id = creeks.get(i).getID();
+            }
+        }
+        logger.info("The distance between the closest creek and emergency site is: {}", distance);
+        logger.info("The Emergency site is located at x: {} y: {}", site.getX(), site.getY());
+        logger.info("The Creek is located at x: {} y: {} ID: {}", x, y, id);
     }
 
     public void printCreeks() {
