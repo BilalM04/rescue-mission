@@ -1,0 +1,41 @@
+@startuml
+    title "Sequence Diagram"
+
+    actor Drone
+    participant Explorer
+    participant "gridSearch: GridSearch" as GS
+    participant "map: Map" as map
+    participant readResponse as response
+    participant performSearch
+    participant getDroneRoutineSearch as search
+    participant getDroneRoutineScan as scan
+    
+    
+
+    Drone -> Explorer++: this()
+    Explorer -> GS ++: this(drone: Drone, map: Map)
+    Explorer -> GS ++: initialize(s: String)
+    Explorer <-- GS: gridSearch
+
+    group loop decision != stop
+        Explorer -> GS ++: takeDecision()
+        GS -> performSearch ++: search
+        GS <-- performSearch: command
+        performSearch -> search ++: if !atIsland
+        performSearch <-- search: command
+        performSearch -> scan ++: if atIsland
+        performSearch <-- scan: command
+        Explorer <-- GS: decision
+        Explorer -> GS ++: acknowledgeResults(response)
+        GS -> response ++: response
+        GS <-- response
+        Explorer <-- GS
+    end
+
+    Explorer -> GS ++: deliverFinalReport()
+    Explorer <-- GS: report
+    GS -> map ++: report()
+    GS <-- map: printSite(), printCreeks(), closestInlet()
+
+
+@enduml
