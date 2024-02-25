@@ -11,6 +11,61 @@ skinparam stereotypeCBackgroundColor #LightYellow
 skinparam stereotypeCBorderColor #000000
 skinparam stereotypeCFontColor #000000
 
+class Coordinate {
+    - x: int
+    - y: int
+    --
+    + this(x: int, y: int)
+    --
+    + getX(): int
+    + getY(): int
+    + setX(x: int): void
+    + setY(y: int): void
+    + distanceTo(other: Coordinate): double
+}
+
+enum Direction {
+  - symbol: String
+  --
+  + getSymbol(): String
+  + fromSymbol(s: String): Direction
+  + getRight(): Direction
+  + getLeft(): Direction
+}
+
+class Drone {
+  - batteryLevel: Integer
+  - heading: Direction
+  - location: Coordinate
+  --
+  + this(batteryLevel: Integer, heading: Direction)
+  --
+  + getHeading(): Direction
+  + drainBattery(cost: Integer): void
+  + getBatteryLevel(): Integer
+  + getX(): int
+  + getY(): int
+  + flyForward(): void
+  + turnRight(): void
+  + turnLeft(): void
+}
+
+class DroneController {
+  - drone: Drone
+  --
+  + this(drone: Drone)
+  --
+  + getBatteryLevel(): Integer
+  + getHeading(): Direction
+  + getX(): int
+  + getY(): int
+  + fly(): String
+  + heading(dir: Direction): String
+  + echo(dir: Direction): String
+  + scan(): String
+  + stop(): String
+}
+
 class Map {
     + creeks: List<POI>
     + emergencySite: List<POI>
@@ -23,46 +78,85 @@ class Map {
 
 class POI {
   - kind: String
+  - id: String
   - x: int
   - y: int
   --
-    + this(kind: String, x: int, y: int)
+    + this(kind: String, x: int, y: int, id: String)
   --
     + x(): int
     + y(): int
+    + getKind(): String
+    + getID(): String
 }
 
-enum Direction {
-  - symbol: char
-  + toString(): String
-  + getRight(): Direction
-  + getLeft(): Direction
+interface Search {
+  + performSearch(): String
+  + readResponse(response: JSONObject): void
 }
 
-class Drone {
-  - batteryLevel: integer
-  - heading: Direction
-  - x: int
-  - y: int
+' class Runner {
+'   + <<static>> main(): void
+' }
+
+class Explorer {
+  - logger: Logger
+  - drone: Drone
+  - gridSearch: Search
+  - map: Map
   --
-  + this(batteryLevel: Integer, heading: Direction)
-  --
-  + getHeading(): Direction
-  + getBatteryLevel(): Integer
-  + x(): int
-  + y(): int
-  + fly(): String
-  + heading(dir: Direction): String
-  - turnRight(): void
-  - turnLeft(): void
-  + echo(dir: Direction): String
-  + scan(): String
-  + stop(): String
-  + updateDrone(response: JSONObject): void
+  + initialize(s: String): void
+  + takeDecision(): String
+  + acknowledgeResults(s: String): void
+  + deliverFinalReport(): String
 }
 
-Drone *-- Direction
+class GridSearch {
+  - drone: Drone
+  - controller: DroneController
+  - flyCount: int
+  - turnCount: int
+  - direction: Direction
+  - prevDirection: Direction
+  - prevLeftEcho: String
+  - frontEcho: boolean
+  - leftEcho: boolean
+  - rightEcho: boolean
+  - shouldTurn: boolean
+  - atIsland: boolean
+  - turnLeft: boolean
+  - checkIsland: boolean
+  - checkInitially: boolean
+  - turnBeforeScan: boolean
+  - uturn: boolean
+  --
+  + this(drone: Drone)
+  --
+  + performSearch(): String
+  + readResponse(): void
+  + getDroneRoutineSearch(count: int): String
+  + getDroneRoutineScan(count: int): String
+}
 
-POI <.. Map
+
+
+
+Search <|.. GridSearch
+Coordinate --o Drone
+Coordinate --o POI
+DroneController --* Drone
+POI --* Map
+
+Drone --o GridSearch
+DroneController --o GridSearch
+
+GridSearch --* Explorer
+
+Direction --* Drone
+
+Direction -- DroneController
+
+GridSearch -- Map
+
 
 @enduml

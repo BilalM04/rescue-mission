@@ -57,17 +57,33 @@ public class GridSearch implements Search {
 
         String command = "";
 
+        // This if block get's executed when the prevDir is different from current Dir
         if (prevDirection != direction) {
+            // turn the drone to the direction heading
             command = controller.heading(direction);
 
+            // This if block get's executed when the drone should turn again and is on the
+            // island already, meaning
+            // it has just finished an ith sweep (col or row) of the island then this code
+            // allows the drone to turn again a full 180 to sweep the next row or col.
             if (shouldTurn && atIsland) {
+                // If the prevDir's left heading is equal to the drones current heading then
+                // turn left once more to face 180 degrees to sweep next row or col.
+                // As an Ex if my drone was initially facing S and then it turns E, so
+                // prevDirection is S and direction is E
+                // and since the left of south is also E, the drone's next final direction would
+                // be N since left of E is N.
                 if (prevDirection.getLeft() == direction) {
                     direction = direction.getLeft();
+                    // Do the opposite for this else condition
                 } else {
                     direction = direction.getRight();
                 }
                 checkIsland = true;
                 shouldTurn = false;
+                // Else block get's executed to set the prevDir to the same dir as current
+                // heading. So in the same example above the prevDir and direction will both be
+                // N.
             } else {
                 prevDirection = direction;
             }
@@ -132,23 +148,31 @@ public class GridSearch implements Search {
             String echoStatus = extraInfo.getString("found");
             int range = extraInfo.getInt("range");
 
+            // Everytime you do a leftEcho save the previous leftEcho in the temp variable
+            // prevLeftEcho.
             if (leftEcho) {
                 prevLeftEcho = echoStatus;
             }
-
+            // This stops the drone, sinc it has reached the end of the sweeps
             if (frontEcho && checkIsland) {
                 checkIsland = false;
                 isComplete = echoStatus.equals("OUT_OF_RANGE");
             }
 
+            // If GROUND is found on either front, left or right echo run this piece of
+            // code.
             if (echoStatus.equals("GROUND")) {
                 if (checkInitially) {
                     checkInitially = false;
                     turnBeforeScan = true;
                 }
 
+                // This if block get's executed when the drone reaches the beach
                 if (range == 0 && !atIsland) {
                     atIsland = true;
+                    // if the previous left echo also found GROUND set the turnleft command to true
+                    // since the drone will eventually have to turn left once it reaches the
+                    // opposite end point of the coastline.
                     turnLeft = prevLeftEcho.equals("GROUND");
                     // scan in other direction if land already in range
                     if (turnBeforeScan) {
@@ -156,14 +180,25 @@ public class GridSearch implements Search {
                         turnLeft = false;
                     }
                 }
+
                 if (frontEcho) {
                     shouldTurn = false;
                 }
 
+                // This if block get's executed when the Drone should turn and isn't a the
+                // island yet meaning it will turn towards the edge of a coastline and head
+                // towards that direction.
                 if (shouldTurn && !atIsland) {
                     Direction t = (leftEcho) ? direction.getLeft() : direction;
                     direction = (rightEcho) ? direction.getRight() : t;
                 }
+                // This else if condition get's executed once the drone reaches the opposite
+                // side of the coastline and if towards
+                // the drones left direction there is land then turn.
+                // The reason why this get's executed is since the front echo outputs
+                // OUT_OF_RANGE the else if condition is executed
+                // and since the drone is atIsland == true anf frontEcho is true the drone will
+                // turn left, and set turnLeft flag to false.
             } else if (atIsland && frontEcho) {
                 direction = (turnLeft) ? direction.getLeft() : direction.getRight();
                 turnLeft = !turnLeft;
