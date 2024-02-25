@@ -76,16 +76,20 @@ class Map {
     + addEmergencySite(site: POI)
 }
 
-class POI {
+enum TypePOI {
+  CREEK
+  EMERGENCY_SITE
+  HOMEBASE
+}
+
+class PointOfInterest {
   - kind: String
   - id: String
-  - x: int
-  - y: int
+  - location: Coordinate
   --
-    + this(kind: String, x: int, y: int, id: String)
+    + this(kind: String, location: Coordinate, id: String)
   --
-    + x(): int
-    + y(): int
+    + getLocation(): Coordinate
     + getKind(): String
     + getID(): String
 }
@@ -143,9 +147,9 @@ class GridSearch {
 
 Search <|.. GridSearch
 Coordinate --o Drone
-Coordinate --o POI
+Coordinate --o PointOfInterest
 DroneController --* Drone
-POI --* Map
+PointOfInterest --* Map
 
 Drone --o GridSearch
 DroneController --o GridSearch
@@ -157,6 +161,8 @@ Direction --* Drone
 Direction -- DroneController
 
 GridSearch -- Map
+
+TypePOI -- PointOfInterest
 
 
 @enduml
