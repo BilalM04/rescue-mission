@@ -35,7 +35,7 @@ public class DroneController {
     public String heading(Direction dir) {
         JSONObject decision = new JSONObject();
         JSONObject params = new JSONObject();
-
+        
         decision.put("action", "heading");
         params.put("direction", dir.getSymbol());
         decision.put("parameters", params);
@@ -52,7 +52,7 @@ public class DroneController {
     public String echo(Direction dir) {
         JSONObject decision = new JSONObject();
         JSONObject params = new JSONObject();
-
+        
         decision.put("action", "echo");
         params.put("direction", dir.getSymbol());
         decision.put("parameters", params);
@@ -71,5 +71,4 @@ public class DroneController {
         decision.put("action", "stop");
         return decision.toString();
     }
-
 }

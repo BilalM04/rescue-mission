@@ -1,6 +1,7 @@
 package ca.mcmaster.se2aa4.island.team107;
 
 public class Drone {
+
     private Integer batteryLevel;
     private Direction heading;
     private Coordinate location;
@@ -20,7 +21,7 @@ public class Drone {
     }
 
     public Direction getHeading() {
-        return heading;
+        return this.heading;
     }
 
     public int getX() {
@@ -37,7 +38,7 @@ public class Drone {
                 location.setY(getY() + 1);
                 break;
             case Direction.East:
-                location.setX(getX() + 1);
+                location.setX(getX() + 1); 
                 break;
             case Direction.South:
                 location.setY(getY() - 1);
@@ -50,21 +51,21 @@ public class Drone {
 
     public void turnRight() {
         switch (this.heading) {
-            case Direction.North:
+            case Direction.North: 
                 location.setY(getY() + 1);
-                location.setX(getX() + 1);
+                location.setX(getX() + 1); 
                 break;
             case Direction.East:
                 location.setY(getY() - 1);
-                location.setX(getX() + 1);
+                location.setX(getX() + 1); 
                 break;
             case Direction.South:
                 location.setY(getY() - 1);
-                location.setX(getX() - 1);
+                location.setX(getX() - 1); 
                 break;
             case Direction.West:
                 location.setY(getY() + 1);
-                location.setX(getX() - 1);
+                location.setX(getX() - 1); 
                 break;
         }
         heading = heading.getRight();
@@ -72,24 +73,23 @@ public class Drone {
 
     public void turnLeft() {
         switch (this.heading) {
-            case Direction.North:
+            case Direction.North: 
                 location.setY(getY() + 1);
-                location.setX(getX() - 1);
+                location.setX(getX() - 1); 
                 break;
             case Direction.East:
                 location.setY(getY() + 1);
-                location.setX(getX() + 1);
+                location.setX(getX() + 1); 
                 break;
             case Direction.South:
                 location.setY(getY() - 1);
-                location.setX(getX() + 1);
+                location.setX(getX() + 1); 
                 break;
             case Direction.West:
                 location.setY(getY() - 1);
-                location.setX(getX() - 1);
+                location.setX(getX() - 1); 
                 break;
         }
         heading = heading.getLeft();
     }
-
 }
