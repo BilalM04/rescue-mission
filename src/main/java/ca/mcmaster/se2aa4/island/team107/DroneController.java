@@ -9,10 +9,6 @@ public class DroneController {
         this.drone = drone;
     }
 
-    public Integer getBatteryLevel() {
-        return drone.getBatteryLevel();
-    }
-
     public String fly() {
         JSONObject decision = new JSONObject();
         decision.put("action", "fly");
