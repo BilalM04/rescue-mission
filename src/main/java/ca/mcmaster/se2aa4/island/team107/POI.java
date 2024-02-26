@@ -2,29 +2,30 @@ package ca.mcmaster.se2aa4.island.team107;
 
 enum TypePOI {
     CREEK,
-    EMERGENCY_SITE
+    EMERGENCY_SITE,
+    HOMEBASE
 }
 
 public class POI {
-    private TypePOI kind;
-    private int x;
-    private int y;
+    private final TypePOI kind;
+    private final Coordinate location;
+    private final String id;
 
-    public POI(TypePOI kind, int x, int y) {
+    public POI(TypePOI kind, Coordinate location, String id) {
         this.kind = kind;
-        this.x = x;
-        this.y = y;
+        this.location = location;
+        this.id = id;
     }
 
     public TypePOI getKind() {
         return this.kind;
     }
 
-    public int x() {
-        return this.x;
+    public Coordinate getLocation() {
+        return this.location;
     }
 
-    public int y() {
-        return this.y;
+    public String getID() {
+        return this.id;
     }
 }
