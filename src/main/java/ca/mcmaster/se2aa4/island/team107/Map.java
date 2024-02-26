@@ -19,6 +19,8 @@ public class Map {
             creeks.add(poi);
         } else if (poi.getKind() == TypePOI.EMERGENCY_SITE) {
             emergencySite = poi;
+        } else {
+            throw new IllegalArgumentException();
         }
     }
 

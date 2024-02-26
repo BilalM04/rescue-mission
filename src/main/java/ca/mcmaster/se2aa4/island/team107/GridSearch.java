@@ -10,6 +10,7 @@ public class GridSearch implements Search {
 
     private Drone drone;
     private DroneController controller;
+    private Map map;
 
     private int flyCount = 0;
     private int turnCount = 0;
@@ -31,8 +32,9 @@ public class GridSearch implements Search {
 
     private boolean isComplete;
 
-    public GridSearch(Drone drone) {
+    public GridSearch(Drone drone, Map map) {
         this.drone = drone;
+        this.map = map;
         this.controller = new DroneController(drone);
         this.prevDirection = drone.getHeading();
         this.direction = drone.getHeading();
