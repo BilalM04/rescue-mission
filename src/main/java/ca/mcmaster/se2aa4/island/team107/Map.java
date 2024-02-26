@@ -5,35 +5,35 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 public class Map {
-    private Drone drone;
-    private List<PointOfInterest> creeks;
-    private PointOfInterest emergencySite;
-    private PointOfInterest homeBase;
+    private List<POI> creeks;
+    private POI emergencySite;
+    private POI homeBase;
 
-    public Map(Drone drone) {
+    public Map() {
         this.creeks = new ArrayList<>();
-        this.drone = drone;
-        homeBase = new PointOfInterest(TypePOI.HOMEBASE, new Coordinate(0, 0), null);
+        this.homeBase = new POI(TypePOI.HOMEBASE, new Coordinate(0, 0), null);
     }
 
-    public void addPOI(PointOfInterest POI) {
-        if (POI.getKind() == TypePOI.CREEK) {
-            creeks.add(POI);
-        } else if (POI.getKind() == TypePOI.EMERGENCY_SITE) {
-            emergencySite = POI;
+    public void addPOI(POI poi) {
+        if (poi.getKind() == TypePOI.CREEK) {
+            creeks.add(poi);
+        } else if (poi.getKind() == TypePOI.EMERGENCY_SITE) {
+            emergencySite = poi;
+        } else {
+            throw new IllegalArgumentException();
         }
     }
 
-    public PointOfInterest getClosestCreek() {
+    public POI getClosestCreek() {
         if (creeks.size() == 0 || emergencySite == null) {
             throw new NoSuchElementException("Cannot find closest creek: missing data");
         }
 
-        PointOfInterest closestCreek = null;
+        POI closestCreek = null;
         Double shortestDistance = Double.MAX_VALUE;
         Coordinate emergencyLoc = emergencySite.getLocation();
 
-        for (PointOfInterest creek : creeks) {
+        for (POI creek : creeks) {
             Coordinate creekLoc = creek.getLocation();
             Double currDistance = creekLoc.distanceTo(emergencyLoc);
             if (currDistance < shortestDistance) {

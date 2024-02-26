@@ -1,17 +1,17 @@
 package ca.mcmaster.se2aa4.island.team107;
 
 enum TypePOI {
-    CREEK, 
-    EMERGENCY_SITE, 
+    CREEK,
+    EMERGENCY_SITE,
     HOMEBASE
 }
 
-public class PointOfInterest {
+public class POI {
     private final TypePOI kind;
-    private Coordinate location;
-    private String id;
+    private final Coordinate location;
+    private final String id;
 
-    public PointOfInterest(TypePOI kind, Coordinate location, String id) {
+    public POI(TypePOI kind, Coordinate location, String id) {
         this.kind = kind;
         this.location = location;
         this.id = id;

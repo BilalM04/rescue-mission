@@ -1,0 +1,59 @@
+@startuml
+
+!define MyTheme
+skinparam class {
+    BackgroundColor #LightYellow
+    BorderColor #000000
+    FontColor #000000
+}
+
+skinparam stereotypeCBackgroundColor #LightYellow
+skinparam stereotypeCBorderColor #000000
+skinparam stereotypeCFontColor #000000
+
+class Coordinate {
+    - x: int
+    - y: int
+    --
+    + this(x: int, y: int)
+    --
+    + getX(): int
+    + getY(): int
+    + setX(x: int): void
+    + setY(y: int): void
+    + distanceTo(other: Coordinate): double
+}
+
+enum TypePOI {
+  CREEK
+  EMERGENCY_SITE
+  HOMEBASE
+}
+
+class PointOfInterest {
+  - kind: String
+  - id: String
+  - location: Coordinate
+  --
+    + this(kind: String, location: Coordinate, id: String)
+  --
+    + getLocation(): Coordinate
+    + getKind(): String
+    + getID(): String
+}
+
+class Map {
+    + creeks: List<POI>
+    + emergencySite: List<POI>
+    --
+    + this()
+    --
+    + addCreek(creek: POI)
+    + addEmergencySite(site: POI)
+}
+
+TypePOI -- PointOfInterest
+Coordinate --o PointOfInterest
+PointOfInterest --* Map
+
+@enduml

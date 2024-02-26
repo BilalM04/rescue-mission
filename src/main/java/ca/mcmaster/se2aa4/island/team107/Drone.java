@@ -24,23 +24,27 @@ public class Drone {
         return this.heading;
     }
 
-    public Coordinate getLocation() {
-        return this.location;
+    public int getX() {
+        return this.location.getX();
+    }
+
+    public int getY() {
+        return this.location.getY();
     }
 
     public void flyForward() {
         switch (this.heading) {
             case Direction.NORTH:
-                location.setY(location.getY() + 1);
+                location.setY(getY() + 1);
                 break;
             case Direction.EAST:
-                location.setX(location.getX() + 1); 
+                location.setX(getX() + 1); 
                 break;
             case Direction.SOUTH:
-                location.setY(location.getY() - 1);
+                location.setY(getY() - 1);
                 break;
             case Direction.WEST:
-                location.setX(location.getX() - 1);
+                location.setX(getX() - 1);
                 break;
         }
     }
@@ -48,20 +52,20 @@ public class Drone {
     public void turnRight() {
         switch (this.heading) {
             case Direction.NORTH: 
-                location.setY(location.getY() + 1);
-                location.setX(location.getX() + 1); 
+                location.setY(getY() + 1);
+                location.setX(getX() + 1); 
                 break;
             case Direction.EAST:
-                location.setY(location.getY() - 1);
-                location.setX(location.getX() + 1); 
+                location.setY(getY() - 1);
+                location.setX(getX() + 1); 
                 break;
             case Direction.SOUTH:
-                location.setY(location.getY() - 1);
-                location.setX(location.getX() - 1); 
+                location.setY(getY() - 1);
+                location.setX(getX() - 1); 
                 break;
             case Direction.WEST:
-                location.setY(location.getY() + 1);
-                location.setX(location.getX() - 1); 
+                location.setY(getY() + 1);
+                location.setX(getX() - 1); 
                 break;
         }
         heading = heading.getRight();
@@ -70,20 +74,20 @@ public class Drone {
     public void turnLeft() {
         switch (this.heading) {
             case Direction.NORTH: 
-                location.setY(location.getY() + 1);
-                location.setX(location.getX() - 1); 
+                location.setY(getY() + 1);
+                location.setX(getX() - 1); 
                 break;
             case Direction.EAST:
-                location.setY(location.getY() + 1);
-                location.setX(location.getX() + 1); 
+                location.setY(getY() + 1);
+                location.setX(getX() + 1); 
                 break;
             case Direction.SOUTH:
-                location.setY(location.getY() - 1);
-                location.setX(location.getX() + 1); 
+                location.setY(getY() - 1);
+                location.setX(getX() + 1); 
                 break;
             case Direction.WEST:
-                location.setY(location.getY() - 1);
-                location.setX(location.getX() - 1); 
+                location.setY(getY() - 1);
+                location.setX(getX() - 1); 
                 break;
         }
         heading = heading.getLeft();

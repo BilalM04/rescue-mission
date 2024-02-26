@@ -16,19 +16,21 @@ public class Explorer implements IExplorerRaid {
 
     private Drone drone;
     private Search gridSearch;
+    private Map map;
 
     @Override
     public void initialize(String s) {
         logger.info("** Initializing the Exploration Command Center");
         JSONObject info = new JSONObject(new JSONTokener(new StringReader(s)));
-        logger.info("** Initialization info:\n {}",info.toString(2));
+        logger.info("** Initialization info:\n {}", info.toString(2));
         String direction = info.getString("heading");
         Integer batteryLevel = info.getInt("budget");
         logger.info("The drone is facing {}", direction);
         logger.info("Battery level is {}", batteryLevel);
 
+        this.map = new Map();
         this.drone = new Drone(batteryLevel, Direction.fromSymbol(direction));
-        this.gridSearch = new GridSearch(drone);
+        this.gridSearch = new GridSearch(drone, map);
     }
 
     @Override
@@ -46,7 +48,11 @@ public class Explorer implements IExplorerRaid {
 
     @Override
     public String deliverFinalReport() {
-        String result = "";
+        POI creek = map.getClosestCreek();
+        logger.info("** Closest creek: " + creek.getID());
+
+        String result = "The closest creek is id: " + creek.getID();
+        
         return result;
     }
 }

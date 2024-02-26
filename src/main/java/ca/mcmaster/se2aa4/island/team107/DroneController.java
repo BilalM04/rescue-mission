@@ -24,11 +24,9 @@ public class DroneController {
         params.put("direction", dir.getSymbol());
         decision.put("parameters", params);
 
-        Direction currHeading = drone.getHeading();
-
-        if (dir.equals(currHeading.getRight())) {
+        if (dir.equals(drone.getHeading().getRight())) {
             drone.turnRight();
-        } else if (dir.equals(currHeading.getLeft())) {
+        } else if (dir.equals(drone.getHeading().getLeft())) {
             drone.turnLeft();
         }
 

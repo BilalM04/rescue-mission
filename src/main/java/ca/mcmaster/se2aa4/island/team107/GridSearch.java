@@ -10,6 +10,7 @@ public class GridSearch implements Search {
 
     private Drone drone;
     private DroneController controller;
+    private Map map;
 
     private int flyCount = 0;
     private int turnCount = 0;
@@ -31,8 +32,9 @@ public class GridSearch implements Search {
 
     private boolean isComplete;
 
-    public GridSearch(Drone drone) {
+    public GridSearch(Drone drone, Map map) {
         this.drone = drone;
+        this.map = map;
         this.controller = new DroneController(drone);
         this.prevDirection = drone.getHeading();
         this.direction = drone.getHeading();
@@ -50,7 +52,7 @@ public class GridSearch implements Search {
 
     public String performSearch() {
         logger.info("Current heading: {}, Previous: {}", direction, prevDirection);
-        logger.info("Position X: {}, Position Y: {}", drone.getLocation().getX(), drone.getLocation().getY());
+        logger.info("Position X: {}, Position Y: {}", drone.getX(), drone.getY());
         
         String command = "";
         
@@ -113,7 +115,14 @@ public class GridSearch implements Search {
         if (extraInfo.has("creeks")) {
             JSONArray creeksFound = (JSONArray)extraInfo.getJSONArray("creeks");
             if (!creeksFound.isEmpty()) {
-                // addCreeks(creeksFound);
+                map.addPOI(new POI(TypePOI.CREEK, new Coordinate(drone.getX(), drone.getY()), creeksFound.getString(0)));
+            }
+        }
+
+        if (extraInfo.has("sites")) {
+            JSONArray sites = (JSONArray)extraInfo.getJSONArray("sites");
+            if (!sites.isEmpty()) {
+                map.addPOI(new POI(TypePOI.EMERGENCY_SITE, new Coordinate(drone.getX(), drone.getY()), sites.getString(0)));
             }
         }
         
