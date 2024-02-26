@@ -9,6 +9,22 @@ public class DroneController {
         this.drone = drone;
     }
 
+    public Integer getBatteryLevel() {
+        return drone.getBatteryLevel();
+    }
+
+    public Direction getHeading() {
+        return drone.getHeading();
+    }
+
+    public int getX() {
+        return drone.getX();
+    }
+
+    public int getY() {
+        return drone.getY();
+    }
+
     public String fly() {
         JSONObject decision = new JSONObject();
         decision.put("action", "fly");
@@ -24,11 +40,9 @@ public class DroneController {
         params.put("direction", dir.getSymbol());
         decision.put("parameters", params);
 
-        Direction currHeading = drone.getHeading();
-
-        if (dir.equals(currHeading.getRight())) {
+        if (dir.equals(getHeading().getRight())) {
             drone.turnRight();
-        } else if (dir.equals(currHeading.getLeft())) {
+        } else if (dir.equals(getHeading().getLeft())) {
             drone.turnLeft();
         }
 
