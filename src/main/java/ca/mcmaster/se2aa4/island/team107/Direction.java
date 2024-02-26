@@ -26,11 +26,11 @@ public enum Direction {
             case "N":
                 return NORTH;
             case "S":
-                return EAST;
-            case "W":
                 return SOUTH;
-            case "E":
+            case "W":
                 return WEST;
+            case "E":
+                return EAST;
             default:
                 return null;
         }
