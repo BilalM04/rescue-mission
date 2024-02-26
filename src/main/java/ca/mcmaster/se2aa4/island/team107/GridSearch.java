@@ -50,7 +50,7 @@ public class GridSearch implements Search {
 
     public String performSearch() {
         logger.info("Current heading: {}, Previous: {}", direction, prevDirection);
-        logger.info("Position X: {}, Position Y: {}", drone.getX(), drone.getY());
+        logger.info("Position X: {}, Position Y: {}", drone.getLocation().getX(), drone.getLocation().getY());
         
         String command = "";
         
