@@ -29,6 +29,7 @@ public class GridSearch implements Search {
     private boolean checkInitially;
     private boolean turnBeforeScan;
     private boolean uturn;
+    private boolean oppositeScan;
 
     private boolean isComplete;
 
@@ -48,6 +49,7 @@ public class GridSearch implements Search {
         this.checkInitially = true;
         this.turnBeforeScan = false;
         this.uturn = false;
+        this.oppositeScan = false;
     }
 
     public String performSearch() {
@@ -55,28 +57,38 @@ public class GridSearch implements Search {
         logger.info("Position X: {}, Position Y: {}", drone.getX(), drone.getY());
         
         String command = "";
-        
-        if (prevDirection != direction) {
-            if (turnCount != 3) {
-                prevDirection = direction;
+
+        if (oppositeScan && !atIsland) {
+            if (turnCount == 0) {
+                turnLeft = !turnLeft;
+                direction = (turnLeft) ? direction.getLeft() : direction.getRight();
                 command = controller.heading(direction);
             }
+            else if (turnCount == 1) {
+                command = controller.fly();
+            }
+            else {
+                direction = (!turnLeft) ? direction.getLeft() : direction.getRight();
+                command = controller.heading(direction);
+                atIsland = true;
+                prevDirection = direction;
+            }
+            turnCount++;
+        }
+        else if (prevDirection != direction) {
+            prevDirection = direction;
+            command = controller.heading(direction);
             
             if (uturn) {
-                if (turnCount == 3) {
-                    command = controller.fly();
-                } else if (turnLeft) {
+                if (turnLeft) {
                     direction = direction.getLeft();
                 }
                 else {
                     direction = direction.getRight();
                 }
-                if (turnCount++ >= 3) {
-                    checkIsland = true;
-                    uturn = false;
-                    turnCount = 0;
-                    turnLeft = !turnLeft;
-                }
+                checkIsland = true;
+                uturn = false;
+                turnLeft = !turnLeft;
             }
         }
         else {
@@ -137,6 +149,11 @@ public class GridSearch implements Search {
             if (frontEcho && checkIsland) {
                 checkIsland = false;
                 isComplete = echoStatus.equals("OUT_OF_RANGE");
+                if (isComplete && !oppositeScan) {
+                    isComplete = false;
+                    oppositeScan = true;
+                    atIsland = false;
+                }
             }
 
             if (echoStatus.equals("GROUND")) {
@@ -164,7 +181,7 @@ public class GridSearch implements Search {
                 }
             }
             else if (atIsland && frontEcho) {
-                direction = (turnLeft) ? direction.getRight() : direction.getLeft();
+                direction = (turnLeft) ? direction.getLeft() : direction.getRight();
                 uturn = true;
                 // TEMPORARY FIX
                 // In the event that wide turns lose drone signal, stop immediately
