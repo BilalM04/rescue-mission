@@ -10,8 +10,10 @@ public class GridSearch implements Search {
 
     private Drone drone;
     private DroneController controller;
+    private Map map;
 
     private int flyCount = 0;
+    private int turnCount = 0;
     private Direction direction;
     private Direction prevDirection;
 
@@ -26,11 +28,13 @@ public class GridSearch implements Search {
     private boolean checkIsland;
     private boolean checkInitially;
     private boolean turnBeforeScan;
+    private boolean uturn;
 
     private boolean isComplete;
 
-    public GridSearch(Drone drone) {
+    public GridSearch(Drone drone, Map map) {
         this.drone = drone;
+        this.map = map;
         this.controller = new DroneController(drone);
         this.prevDirection = drone.getHeading();
         this.direction = drone.getHeading();
@@ -43,56 +47,47 @@ public class GridSearch implements Search {
 
         this.checkInitially = true;
         this.turnBeforeScan = false;
+        this.uturn = false;
     }
 
     public String performSearch() {
         logger.info("Current heading: {}, Previous: {}", direction, prevDirection);
         logger.info("Position X: {}, Position Y: {}", drone.getX(), drone.getY());
-
-        leftEcho = false;
-        rightEcho = false;
-        frontEcho = false;
         
         String command = "";
         
         if (prevDirection != direction) {
-            command = controller.heading(direction);
+            if (turnCount != 3) {
+                prevDirection = direction;
+                command = controller.heading(direction);
+            }
             
-            if (shouldTurn && atIsland) {
-                if (prevDirection.getLeft() == direction) {
+            if (uturn) {
+                if (turnCount == 3) {
+                    command = controller.fly();
+                } else if (turnLeft) {
                     direction = direction.getLeft();
                 }
                 else {
                     direction = direction.getRight();
                 }
-                checkIsland = true;
-                shouldTurn = false;
-            } else {
-                prevDirection = direction;
+                if (turnCount++ >= 3) {
+                    checkIsland = true;
+                    uturn = false;
+                    turnCount = 0;
+                    turnLeft = !turnLeft;
+                }
             }
         }
-        else if (flyCount % 5 == 0) {
-            command = controller.fly();
-            shouldTurn = true;
+        else {
+            if (!atIsland) {
+                command = getDroneRoutineSearch(flyCount);
+            }
+            else {
+                command = getDroneRoutineScan(flyCount);
+            }
+            flyCount++;
         }
-        else if (flyCount % 5 == 1) {
-            command = controller.scan();
-        }
-        else if (flyCount % 5 == 2) {
-            command = controller.echo(direction);
-            frontEcho = true;
-        }
-        else if (flyCount % 5 == 3) {
-            command = controller.echo(direction.getLeft());
-            leftEcho = true;
-        }
-        else if (flyCount % 5 == 4) {
-            command = controller.echo(direction.getRight());
-            rightEcho = true;
-            checkInitially = false;
-        }
-
-        flyCount++;
         
         if (drone.getBatteryLevel() < 100 || isComplete) {
             command = controller.stop();
@@ -120,7 +115,14 @@ public class GridSearch implements Search {
         if (extraInfo.has("creeks")) {
             JSONArray creeksFound = (JSONArray)extraInfo.getJSONArray("creeks");
             if (!creeksFound.isEmpty()) {
-                // addCreeks(creeksFound);
+                map.addPOI(new POI(TypePOI.CREEK, new Coordinate(drone.getX(), drone.getY()), creeksFound.getString(0)));
+            }
+        }
+
+        if (extraInfo.has("sites")) {
+            JSONArray sites = (JSONArray)extraInfo.getJSONArray("sites");
+            if (!sites.isEmpty()) {
+                map.addPOI(new POI(TypePOI.EMERGENCY_SITE, new Coordinate(drone.getX(), drone.getY()), sites.getString(0)));
             }
         }
         
@@ -162,9 +164,57 @@ public class GridSearch implements Search {
                 }
             }
             else if (atIsland && frontEcho) {
-                direction = (turnLeft) ? direction.getLeft() : direction.getRight();
-                turnLeft = !turnLeft;
+                direction = (turnLeft) ? direction.getRight() : direction.getLeft();
+                uturn = true;
+                // TEMPORARY FIX
+                // In the event that wide turns lose drone signal, stop immediately
+                // TODO: Modify turn path if at edge of map
+                if (range < 3) {
+                    isComplete = true;
+                }
             }
         }
+    }
+
+    private String getDroneRoutineSearch(int count) {
+        frontEcho = false;
+        leftEcho = false;
+        rightEcho = false;
+
+        switch (count % 5) {
+            case 0:
+                shouldTurn = true;
+                return controller.fly();
+            case 1:
+                return controller.scan();
+            case 2:
+                frontEcho = true;
+                return controller.echo(direction);
+            case 3:
+                leftEcho = true;
+                return controller.echo(direction.getLeft());
+            case 4:
+                rightEcho = true;
+                checkInitially = false;
+                return controller.echo(direction.getRight());
+        }
+
+        return "";
+    }
+
+    private String getDroneRoutineScan(int count) {
+        frontEcho = false;
+
+        switch (count % 3) {
+            case 0:
+                return controller.fly();
+            case 1:
+                return controller.scan();
+            case 2:
+                frontEcho = true;
+                return controller.echo(direction);
+        }
+
+        return "";
     }
 }

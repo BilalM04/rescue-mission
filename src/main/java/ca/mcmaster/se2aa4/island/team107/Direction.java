@@ -1,7 +1,7 @@
 package ca.mcmaster.se2aa4.island.team107;
 
 public enum Direction {
-    North("N"), East("E"), South("S"), West("W");
+    NORTH("N"), EAST("E"), SOUTH("S"), WEST("W");
 
     private String symbol;
 
@@ -24,13 +24,13 @@ public enum Direction {
     public static Direction fromSymbol(String s) {
         switch (s) {
             case "N":
-                return North;
+                return NORTH;
             case "S":
-                return South;
+                return SOUTH;
             case "W":
-                return West;
+                return WEST;
             case "E":
-                return East;
+                return EAST;
             default:
                 return null;
         }
