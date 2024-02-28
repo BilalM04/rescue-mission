@@ -20,6 +20,13 @@ public class Drone {
         this.batteryLevel -= cost;
     }
 
+    public boolean notEnoughBattery(Integer costFly, Integer costHeading) {
+        if (((Math.abs(getX()) * costFly) + (Math.abs(getY()) * costFly) + costHeading) > getBatteryLevel()) {
+            return true;
+        }
+        return false;
+    }
+
     public Direction getHeading() {
         return this.heading;
     }
@@ -38,7 +45,7 @@ public class Drone {
                 location.setY(getY() + 1);
                 break;
             case Direction.EAST:
-                location.setX(getX() + 1); 
+                location.setX(getX() + 1);
                 break;
             case Direction.SOUTH:
                 location.setY(getY() - 1);
@@ -51,21 +58,21 @@ public class Drone {
 
     public void turnRight() {
         switch (this.heading) {
-            case Direction.NORTH: 
+            case Direction.NORTH:
                 location.setY(getY() + 1);
-                location.setX(getX() + 1); 
+                location.setX(getX() + 1);
                 break;
             case Direction.EAST:
                 location.setY(getY() - 1);
-                location.setX(getX() + 1); 
+                location.setX(getX() + 1);
                 break;
             case Direction.SOUTH:
                 location.setY(getY() - 1);
-                location.setX(getX() - 1); 
+                location.setX(getX() - 1);
                 break;
             case Direction.WEST:
                 location.setY(getY() + 1);
-                location.setX(getX() - 1); 
+                location.setX(getX() - 1);
                 break;
         }
         heading = heading.getRight();
@@ -73,21 +80,21 @@ public class Drone {
 
     public void turnLeft() {
         switch (this.heading) {
-            case Direction.NORTH: 
+            case Direction.NORTH:
                 location.setY(getY() + 1);
-                location.setX(getX() - 1); 
+                location.setX(getX() - 1);
                 break;
             case Direction.EAST:
                 location.setY(getY() + 1);
-                location.setX(getX() + 1); 
+                location.setX(getX() + 1);
                 break;
             case Direction.SOUTH:
                 location.setY(getY() - 1);
-                location.setX(getX() + 1); 
+                location.setX(getX() + 1);
                 break;
             case Direction.WEST:
                 location.setY(getY() - 1);
-                location.setX(getX() - 1); 
+                location.setX(getX() - 1);
                 break;
         }
         heading = heading.getLeft();
