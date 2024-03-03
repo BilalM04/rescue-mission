@@ -1,95 +1,20 @@
 package ca.mcmaster.se2aa4.island.team107;
 
-public class Drone {
+public interface Drone {
+    
+    public Integer getBatteryLevel();
 
-    private Integer batteryLevel;
-    private Direction heading;
-    private Coordinate location;
+    public void drainBattery(Integer cost);
 
-    public Drone(Integer batteryLevel, Direction heading) {
-        this.batteryLevel = batteryLevel;
-        this.heading = heading;
-        this.location = new Coordinate(0, 0);
-    }
+    public Direction getHeading();
 
-    public Integer getBatteryLevel() {
-        return this.batteryLevel;
-    }
+    public int getX();
 
-    public void drainBattery(Integer cost) {
-        this.batteryLevel -= cost;
-    }
+    public int getY();
 
-    public Direction getHeading() {
-        return this.heading;
-    }
+    public void flyForward();
 
-    public int getX() {
-        return this.location.getX();
-    }
+    public void turnRight();
 
-    public int getY() {
-        return this.location.getY();
-    }
-
-    public void flyForward() {
-        switch (this.heading) {
-            case Direction.NORTH:
-                location.setY(getY() + 1);
-                break;
-            case Direction.EAST:
-                location.setX(getX() + 1); 
-                break;
-            case Direction.SOUTH:
-                location.setY(getY() - 1);
-                break;
-            case Direction.WEST:
-                location.setX(getX() - 1);
-                break;
-        }
-    }
-
-    public void turnRight() {
-        switch (this.heading) {
-            case Direction.NORTH: 
-                location.setY(getY() + 1);
-                location.setX(getX() + 1); 
-                break;
-            case Direction.EAST:
-                location.setY(getY() - 1);
-                location.setX(getX() + 1); 
-                break;
-            case Direction.SOUTH:
-                location.setY(getY() - 1);
-                location.setX(getX() - 1); 
-                break;
-            case Direction.WEST:
-                location.setY(getY() + 1);
-                location.setX(getX() - 1); 
-                break;
-        }
-        heading = heading.getRight();
-    }
-
-    public void turnLeft() {
-        switch (this.heading) {
-            case Direction.NORTH: 
-                location.setY(getY() + 1);
-                location.setX(getX() - 1); 
-                break;
-            case Direction.EAST:
-                location.setY(getY() + 1);
-                location.setX(getX() + 1); 
-                break;
-            case Direction.SOUTH:
-                location.setY(getY() - 1);
-                location.setX(getX() + 1); 
-                break;
-            case Direction.WEST:
-                location.setY(getY() - 1);
-                location.setX(getX() - 1); 
-                break;
-        }
-        heading = heading.getLeft();
-    }
+    public void turnLeft();
 }
