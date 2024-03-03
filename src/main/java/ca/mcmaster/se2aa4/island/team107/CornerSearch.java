@@ -13,21 +13,24 @@ public class CornerSearch implements Search{
         B, // echos right to find distance
         C, // turns to shortest distance direction
         D, // moves to corner
-        E, // temporary state to perform scan to see if drone is in the corner of the svg
-        F, // stops drone
+        E, // turns to face inwards
+        F, // temporary state to perform scan to see if drone is in the corner of the svg
+        G // stops drone
     }
     private State state;
     private Drone drone;
     private DroneController controller;
 
-    private int distanceLeft = 0;
-    private int distanceRight = 0;
+    private int distanceLeft;
+    private int distanceRight;
     private int count = 0;
+    private Direction finalHeading;
 
     public CornerSearch(Drone drone) {
         this.drone = drone;
         this.state = State.A;
         this.controller = new DroneController(drone);
+        this.finalHeading = drone.getHeading();
     }
 
     public String performSearch() {
@@ -53,12 +56,16 @@ public class CornerSearch implements Search{
                 count++;
                 break;
             case State.E:
+                command = controller.heading(finalHeading);
+                break;
+            case State.F:
                 command = controller.scan();
                 break;
             default:
                 command = controller.stop();
                 logger.info("Drone coords: " + drone.getX() + ", " + drone.getY());
                 logger.info("Drone Battery: " + drone.getBatteryLevel());
+                logger.info("Drone heading: " + drone.getHeading().toString());
                 break;
         }
 
@@ -81,19 +88,25 @@ public class CornerSearch implements Search{
                 break;
             case State.B:
                 distanceRight = extras.getInt("range");
-                state = State.C;
+                if (Math.min(distanceLeft, distanceRight) > 2) {
+                    state = State.C;
+                } else {
+                    state = State.F;
+                }
                 break;
             case State.C:
                 state = State.D;
                 break;
             case State.D:
-                if (count == Math.min(distanceLeft, distanceRight) - 2) {
+                if (count >= Math.min(distanceLeft, distanceRight) - 3) {
                     state = State.E;
                 }
                 break;
             case State.E:
                 state = State.F;
                 break;
+            case State.F:
+                state = State.G;
             default:
                 return;
         }
