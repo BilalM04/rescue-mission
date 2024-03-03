@@ -28,7 +28,7 @@ public class Explorer implements IExplorerRaid {
         logger.info("The drone is facing {}", direction);
         logger.info("Battery level is {}", batteryLevel);
 
-        this.map = new Map();
+        this.map = new ListMap();
         this.drone = new Drone(batteryLevel, Direction.fromSymbol(direction));
         this.gridSearch = new GridSearch(drone, map);
     }
