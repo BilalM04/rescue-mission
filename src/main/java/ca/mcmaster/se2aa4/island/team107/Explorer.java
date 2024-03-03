@@ -30,7 +30,7 @@ public class Explorer implements IExplorerRaid {
 
         this.map = new ListMap();
         this.drone = new Drone(batteryLevel, Direction.fromSymbol(direction));
-        this.gridSearch = new GridSearch(drone, map);
+        this.gridSearch = new AltSearch(drone, map);
     }
 
     @Override
