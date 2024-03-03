@@ -62,7 +62,7 @@ public class CornerSearch implements Search{
                 command = controller.scan();
                 break;
             default:
-                command = controller.stop();
+                command = "end";
                 logger.info("Drone coords: " + drone.getX() + ", " + drone.getY());
                 logger.info("Drone Battery: " + drone.getBatteryLevel());
                 logger.info("Drone heading: " + drone.getHeading().toString());
@@ -98,7 +98,7 @@ public class CornerSearch implements Search{
                 state = State.D;
                 break;
             case State.D:
-                if (count >= Math.min(distanceLeft, distanceRight) - 3) {
+                if (count >= Math.min(distanceLeft, distanceRight) - 2) {
                     state = State.E;
                 }
                 break;
