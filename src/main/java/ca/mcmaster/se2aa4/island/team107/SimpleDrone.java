@@ -20,6 +20,13 @@ public class SimpleDrone implements Drone{
         this.batteryLevel -= cost;
     }
 
+    public boolean notEnoughBattery(Integer costFly, Integer costHeading) {
+        if (((Math.abs(getX()) * costFly) + (Math.abs(getY()) * costFly) + costHeading) > getBatteryLevel()) {
+            return true;
+        }
+        return false;
+    }
+
     public Direction getHeading() {
         return this.heading;
     }

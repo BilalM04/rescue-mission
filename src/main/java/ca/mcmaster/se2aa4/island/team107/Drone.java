@@ -6,6 +6,8 @@ public interface Drone {
 
     public void drainBattery(Integer cost);
 
+    public boolean notEnoughBattery(Integer costFly, Integer costHeading);
+    
     public Direction getHeading();
 
     public int getX();
