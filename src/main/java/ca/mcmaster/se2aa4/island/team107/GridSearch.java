@@ -149,10 +149,10 @@ public class GridSearch implements Search {
                     atIsland = true;
                     turnLeft = prevLeftEcho.equals("GROUND");
                     // scan in other direction if land already in range
-                    if (turnBeforeScan) {
-                        direction = direction.getLeft();
-                        turnLeft = false;
-                    }
+                    // if (turnBeforeScan) {
+                    //     direction = direction.getLeft();
+                    //     turnLeft = false;
+                    // }
                 }
                 if (frontEcho) {
                     shouldTurn = false;
