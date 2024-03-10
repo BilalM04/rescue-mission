@@ -16,7 +16,7 @@ public class ScanLine implements Phase {
 
     private Integer flyCount;
     private String command;
-    
+
 
     public ScanLine(DroneController controller, 
                       Direction initialDirection, 
@@ -28,6 +28,7 @@ public class ScanLine implements Phase {
 
         this.offIsland = false;
         this.hasMoved = false;
+        this.flyCount = 0;
     }
 
     public String getDroneCommand() {

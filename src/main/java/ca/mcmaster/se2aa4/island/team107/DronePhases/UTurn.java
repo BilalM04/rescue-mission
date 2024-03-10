@@ -28,19 +28,17 @@ public class UTurn implements Phase {
     }
 
     public String getDroneCommand() {
-        if (turnCount == 3) {
+        if (turnCount == 0) {
+            command = turnCommand(!turnLeft);
+        }
+        else if (turnCount == 3) {
             command = controller.fly();
         }
-        else if (turnLeft) {
-            command = controller.heading(direction.getLeft());
-            direction = direction.getLeft();
-        }
         else {
-            command = controller.heading(direction.getRight());
-            direction = direction.getRight();
+            command = turnCommand(turnLeft);
         }
 
-        if (turnCount >= 5) {
+        if (turnCount >= 4) {
             hasTurned = true;
         }
 
@@ -65,5 +63,10 @@ public class UTurn implements Phase {
 
     public boolean isLastPhase() {
         return false;
+    }
+
+    private String turnCommand(boolean dirLeft) {
+        direction = (dirLeft) ? direction.getLeft() : direction.getRight();
+        return controller.heading(direction);
     }
 }

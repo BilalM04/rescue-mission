@@ -20,7 +20,7 @@ public class FindIsland implements Phase {
 
     private String prevLeftEcho;
     private String command;
-    
+
     
     public FindIsland(DroneController controller, Direction initialDirection) {
         this.controller = controller;
