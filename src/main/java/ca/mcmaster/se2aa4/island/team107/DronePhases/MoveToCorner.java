@@ -1,12 +1,12 @@
-package ca.mcmaster.se2aa4.island.team107;
+package ca.mcmaster.se2aa4.island.team107.DronePhases;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import ca.mcmaster.se2aa4.island.team107.Direction;
+import ca.mcmaster.se2aa4.island.team107.DroneController;
+
 import org.json.JSONObject;
 
-public class CornerSearch implements Search{
 
-    private final Logger logger = LogManager.getLogger();
+public class MoveToCorner implements Phase {
 
     private enum State {
         A, // echos left to find distance
@@ -17,38 +17,44 @@ public class CornerSearch implements Search{
         F, // temporary state to perform scan to see if drone is in the corner of the svg
         G // stops drone
     }
-    private State state;
-    private Drone drone;
+
     private DroneController controller;
 
+    private Direction direction;
+
+    private State state;
+
+    private String command;
     private int distanceLeft;
     private int distanceRight;
     private int count = 0;
-    private Direction finalHeading;
+    private Direction finalDirection;
+    private boolean hasReachedCorner;
 
-    public CornerSearch(Drone drone) {
-        this.drone = drone;
+    public MoveToCorner(DroneController controller, Direction initialDir) {
+        this.controller = controller;
+        this.direction = initialDir;
         this.state = State.A;
-        this.controller = new DroneController(drone);
-        this.finalHeading = drone.getHeading();
+        this.finalDirection = initialDir;
+        this.hasReachedCorner = false;
     }
 
-    public String performSearch() {
-        String command = "";
-        Direction heading = drone.getHeading();
+    public String getDroneCommand() {
 
         switch (state) {
             case State.A:
-                command = controller.echo(heading.getLeft());
+                command = controller.echo(direction.getLeft());
                 break;
             case State.B:
-                command = controller.echo(heading.getRight());
+                command = controller.echo(direction.getRight());
                 break;
             case State.C:
                 if (distanceRight < distanceLeft) {
-                    command = controller.heading(heading.getRight());
+                    command = controller.heading(direction.getRight());
+                    direction = direction.getRight();
                 } else {
-                    command = controller.heading(heading.getLeft());
+                    command = controller.heading(direction.getLeft());
+                    direction = direction.getLeft();
                 }
                 break;
             case State.D:
@@ -56,38 +62,28 @@ public class CornerSearch implements Search{
                 count++;
                 break;
             case State.E:
-                command = controller.heading(finalHeading);
+                command = controller.heading(finalDirection);
+                direction = finalDirection;
                 break;
             case State.F:
                 command = controller.scan();
                 break;
             default:
-                command = "end";
-                logger.info("Drone coords: " + drone.getX() + ", " + drone.getY());
-                logger.info("Drone Battery: " + drone.getBatteryLevel());
-                logger.info("Drone heading: " + drone.getHeading().toString());
+                command = controller.scan();
+                hasReachedCorner = true;
                 break;
         }
-
-        logger.info("Command sent: " + command);
-
         return command;
     }
 
-    public void readResponse(JSONObject response) {
-        JSONObject extras = response.getJSONObject("extras");
-        Integer cost = response.getInt("cost");
-        logger.info("The cost of the action was {}", cost);
-
-        drone.drainBattery(cost);
-
+    public void processInfo(JSONObject info) {
         switch (state) {
             case State.A:
-                distanceLeft = extras.getInt("range");
+                distanceLeft = info.getInt("range");
                 state = State.B;
                 break;
             case State.B:
-                distanceRight = extras.getInt("range");
+                distanceRight = info.getInt("range");
                 if (Math.min(distanceLeft, distanceRight) > 2) {
                     state = State.C;
                 } else {
@@ -110,5 +106,18 @@ public class CornerSearch implements Search{
             default:
                 return;
         }
+    }
+
+    public Phase getNextPhase() {
+        Phase goToIsland = new FindIsland(controller, direction);
+        return goToIsland;
+    }
+
+    public boolean isFinished() {
+        return hasReachedCorner;
+    }
+
+    public boolean isLastPhase() {
+        return false;
     }
 }

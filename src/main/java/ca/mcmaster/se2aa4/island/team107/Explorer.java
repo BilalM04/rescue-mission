@@ -14,16 +14,9 @@ public class Explorer implements IExplorerRaid {
 
     private final Logger logger = LogManager.getLogger();
 
-    private enum State {
-        A,
-        B
-    }
-
     private Drone drone;
     private Search gridSearch;
-    private Search cornerSearch;
     private Map map;
-    private State state;
 
     @Override
     public void initialize(String s) {
@@ -38,26 +31,11 @@ public class Explorer implements IExplorerRaid {
         this.map = new ListMap();
         this.drone = new SimpleDrone(batteryLevel, Direction.fromSymbol(direction));
         this.gridSearch = new GridSearch(drone, map);
-        this.cornerSearch = new CornerSearch(drone);
-        this.state = State.A;
     }
 
     @Override
     public String takeDecision() {
-        String command = "";
-
-        if (state == State.A) {
-            command = cornerSearch.performSearch();
-            if (command.equals("end")) {
-                state = State.B;
-            }
-        }
-
-        if (state == State.B) {
-            command = gridSearch.performSearch();
-        }
-
-        return command;
+        return gridSearch.performSearch();
     }
 
     @Override
@@ -65,11 +43,7 @@ public class Explorer implements IExplorerRaid {
         JSONObject response = new JSONObject(new JSONTokener(new StringReader(s)));
         logger.info("** Response received:\n"+response.toString(2));
 
-        if (state == State.A) {
-            cornerSearch.readResponse(response);
-        } else {
-            gridSearch.readResponse(response);
-        }
+        gridSearch.readResponse(response);
     }
 
     @Override

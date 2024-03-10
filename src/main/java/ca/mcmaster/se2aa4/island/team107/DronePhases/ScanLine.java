@@ -6,6 +6,10 @@ import org.json.JSONObject;
 
 public class ScanLine implements Phase {
 
+    private final int FLY_MODE = 0;
+    private final int SCAN_MODE = 1;
+    private final int ECHO_FRONT = 2;
+
     private DroneController controller;
 
     private Direction direction;
@@ -70,12 +74,14 @@ public class ScanLine implements Phase {
     }
 
     private String getDroneRoutineScan(int count) {
-        switch (count % 3) {
-            case 0:
+        int mode = count % 3;
+
+        switch (mode) {
+            case FLY_MODE:
                 return controller.fly();
-            case 1:
+            case SCAN_MODE:
                 return controller.scan();
-            case 2:
+            case ECHO_FRONT:
                 return controller.echo(direction);
         }
 

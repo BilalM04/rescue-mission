@@ -6,6 +6,12 @@ import org.json.JSONObject;
 
 public class FindIsland implements Phase {
 
+    private final int FLY_MODE = 0;
+    private final int SCAN_MODE = 1;
+    private final int ECHO_FRONT = 2;
+    private final int ECHO_LEFT = 3;
+    private final int ECHO_RIGHT = 4;
+
     private DroneController controller;
 
     private Integer flyCount;
@@ -87,17 +93,19 @@ public class FindIsland implements Phase {
         leftEcho = false;
         rightEcho = false;
 
-        switch (count % 5) {
-            case 0:
+        int mode = count % 5;
+
+        switch (mode) {
+            case FLY_MODE:
                 return controller.fly();
-            case 1:
+            case SCAN_MODE:
                 return controller.scan();
-            case 2:
+            case ECHO_FRONT:
                 return controller.echo(direction);
-            case 3:
+            case ECHO_LEFT:
                 leftEcho = true;
                 return controller.echo(direction.getLeft());
-            case 4:
+            case ECHO_RIGHT:
                 rightEcho = true;
                 return controller.echo(direction.getRight());
         }

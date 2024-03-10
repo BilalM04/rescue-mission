@@ -18,7 +18,7 @@ public class GridSearch implements Search {
         this.drone = drone;
         this.map = map;
         this.controller = new DroneController(drone);
-        this.phase = new FindIsland(controller, drone.getHeading());
+        this.phase = new MoveToCorner(controller, drone.getHeading());
     }
 
     public String performSearch() {
@@ -26,7 +26,10 @@ public class GridSearch implements Search {
         
         String command = "";
 
-        if (!phase.isLastPhase()) {
+        if (phase.isLastPhase() || drone.getBatteryLevel() < 100) {
+            command = controller.stop();
+        }
+        else {
             if (!phase.isFinished()) {
                 command = phase.getDroneCommand();
             }
@@ -34,9 +37,6 @@ public class GridSearch implements Search {
                 phase = phase.getNextPhase();
                 command = phase.getDroneCommand();
             }
-        }
-        else {
-            command = controller.stop();
         }
 
         return command;
