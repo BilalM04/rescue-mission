@@ -63,7 +63,7 @@ public class Explorer implements IExplorerRaid {
     @Override
     public void acknowledgeResults(String s) {
         JSONObject response = new JSONObject(new JSONTokener(new StringReader(s)));
-        logger.info("** Response received:\n"+response.toString(2));
+        logger.info("** Response received:\n" + response.toString(2));
 
         if (state == State.A) {
             cornerSearch.readResponse(response);
@@ -78,7 +78,7 @@ public class Explorer implements IExplorerRaid {
         logger.info("** Closest creek: " + creek.getID());
 
         String result = "The closest creek is id: " + creek.getID();
-        
+
         return result;
     }
 }
