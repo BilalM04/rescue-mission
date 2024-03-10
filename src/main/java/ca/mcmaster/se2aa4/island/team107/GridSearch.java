@@ -1,5 +1,6 @@
 package ca.mcmaster.se2aa4.island.team107;
 import ca.mcmaster.se2aa4.island.team107.DronePhases.*;
+import ca.mcmaster.se2aa4.island.team107.Position.*;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -64,7 +65,7 @@ public class GridSearch implements Search {
             JSONArray creeksFound = extraInfo.getJSONArray("creeks");
             if (!creeksFound.isEmpty()) {
                 map.addPOI(
-                    new POI(TypePOI.CREEK, 
+                    new POI(POI.TypePOI.CREEK,
                     new Coordinate(
                         drone.getX(), 
                         drone.getY()), 
@@ -78,7 +79,7 @@ public class GridSearch implements Search {
             JSONArray sites = extraInfo.getJSONArray("sites");
             if (!sites.isEmpty()) {
                 map.addPOI(
-                    new POI(TypePOI.EMERGENCY_SITE, 
+                    new POI(POI.TypePOI.EMERGENCY_SITE, 
                     new Coordinate(
                         drone.getX(), 
                         drone.getY()),

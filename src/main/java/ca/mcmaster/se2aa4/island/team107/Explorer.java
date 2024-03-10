@@ -1,5 +1,7 @@
 package ca.mcmaster.se2aa4.island.team107;
 
+import ca.mcmaster.se2aa4.island.team107.Position.*;
+
 import java.io.StringReader;
 
 import org.apache.logging.log4j.LogManager;
