@@ -14,24 +14,39 @@ public class UTurn implements Phase {
     private boolean turnLeft;
 
     private Integer turnCount;
+    private Integer FLY;
+    private Integer TURN_OPPOSITE;
 
     private String command;
     
 
-    public UTurn(DroneController controller, Direction dir, boolean turnLeft) {
+    public UTurn(DroneController controller, 
+                 Direction dir, 
+                 boolean turnLeft, 
+                 boolean outward) {
+
         this.controller = controller;
         this.direction = dir;
 
         this.hasTurned = false;
         this.turnLeft = turnLeft;
         this.turnCount = 0;
+
+        if (outward) {
+            FLY = 3;
+            TURN_OPPOSITE = 0;
+        } 
+        else {
+            FLY = 1;
+            TURN_OPPOSITE = 4;
+        }
     }
 
     public String getDroneCommand() {
-        if (turnCount == 0) {
+        if (turnCount == TURN_OPPOSITE) {
             command = turnCommand(!turnLeft);
         }
-        else if (turnCount == 3) {
+        else if (turnCount == FLY) {
             command = controller.fly();
         }
         else {

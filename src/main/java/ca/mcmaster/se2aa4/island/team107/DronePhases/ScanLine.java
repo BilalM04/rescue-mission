@@ -13,6 +13,7 @@ public class ScanLine implements Phase {
     private boolean turnLeft;
     private boolean offIsland;
     private boolean hasMoved;
+    private boolean moveOutwards;
 
     private Integer flyCount;
     private String command;
@@ -28,6 +29,7 @@ public class ScanLine implements Phase {
 
         this.offIsland = false;
         this.hasMoved = false;
+        this.moveOutwards = false;
         this.flyCount = 0;
     }
 
@@ -42,8 +44,10 @@ public class ScanLine implements Phase {
             return;
         
         String echoStatus = info.getString("found");
+
         if (echoStatus.equals("OUT_OF_RANGE")) {
             offIsland = true;
+            moveOutwards = info.getInt("range") >= 3;
         }
         else {
             hasMoved = true;
@@ -51,7 +55,9 @@ public class ScanLine implements Phase {
     }
 
     public Phase getNextPhase() {
-        Phase turnPhase = new UTurn(controller, direction, turnLeft);
+        Phase turnPhase = new UTurn(
+            controller, direction, turnLeft, moveOutwards
+        );
         return turnPhase;
     }
 
