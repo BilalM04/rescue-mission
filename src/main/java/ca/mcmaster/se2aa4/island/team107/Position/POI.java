@@ -1,12 +1,13 @@
-package ca.mcmaster.se2aa4.island.team107;
-
-enum TypePOI {
-    CREEK,
-    EMERGENCY_SITE,
-    HOMEBASE
-}
+package ca.mcmaster.se2aa4.island.team107.Position;
 
 public class POI {
+
+    public enum TypePOI {
+        CREEK,
+        EMERGENCY_SITE,
+        HOMEBASE
+    }
+
     private final TypePOI kind;
     private final Coordinate location;
     private final String id;
