@@ -1,6 +1,8 @@
-package ca.mcmaster.se2aa4.island.team107;
+package ca.mcmaster.se2aa4.island.team107.Drone;
 
 import org.json.JSONObject;
+
+import ca.mcmaster.se2aa4.island.team107.Position.Direction;
 
 public class DroneController {
     private Drone drone;

@@ -1,4 +1,4 @@
-package ca.mcmaster.se2aa4.island.team107;
+package ca.mcmaster.se2aa4.island.team107.Position;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,13 +11,13 @@ public class ListMap implements Map{
 
     public ListMap() {
         this.creeks = new ArrayList<>();
-        this.homeBase = new POI(TypePOI.HOMEBASE, new Coordinate(0, 0), null);
+        this.homeBase = new POI(POI.TypePOI.HOMEBASE, new Coordinate(0, 0), null);
     }
 
     public void addPOI(POI poi) {
-        if (poi.getKind() == TypePOI.CREEK) {
+        if (poi.getKind() == POI.TypePOI.CREEK) {
             creeks.add(poi);
-        } else if (poi.getKind() == TypePOI.EMERGENCY_SITE) {
+        } else if (poi.getKind() == POI.TypePOI.EMERGENCY_SITE) {
             emergencySite = poi;
         } else {
             throw new IllegalArgumentException();

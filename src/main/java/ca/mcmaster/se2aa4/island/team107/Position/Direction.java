@@ -1,4 +1,4 @@
-package ca.mcmaster.se2aa4.island.team107;
+package ca.mcmaster.se2aa4.island.team107.Position;
 
 public enum Direction {
     NORTH("N"), EAST("E"), SOUTH("S"), WEST("W");
