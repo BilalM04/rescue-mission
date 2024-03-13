@@ -6,6 +6,9 @@ import ca.mcmaster.se2aa4.island.team107.Drone.Drone;
 import ca.mcmaster.se2aa4.island.team107.Drone.SimpleDrone;
 import ca.mcmaster.se2aa4.island.team107.Position.Coordinate;
 import ca.mcmaster.se2aa4.island.team107.Position.Direction;
+import ca.mcmaster.se2aa4.island.team107.Position.ListMap;
+import ca.mcmaster.se2aa4.island.team107.Position.POI;
+import ca.mcmaster.se2aa4.island.team107.Position.POI.TypePOI;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -22,6 +25,14 @@ public class ExampleTest {
         Coordinate coord1 = new Coordinate(1, 0);
         Coordinate coord2 = new Coordinate(2, -1);
         Coordinate coord3 = new Coordinate(3, -2);
+
+        POI creek1 = new POI(TypePOI.CREEK, new Coordinate(0, 0), "1");
+        POI creek2 = new POI(TypePOI.CREEK, new Coordinate(0, 50), "2");
+        POI creek3 = new POI(TypePOI.CREEK, new Coordinate(50, 0), "3");
+        POI creek4 = new POI(TypePOI.CREEK, new Coordinate(50, 50), "4");
+        POI creek5 = new POI(TypePOI.CREEK, new Coordinate(15, 15), "5");
+        POI site = new POI(TypePOI.EMERGENCY_SITE, new Coordinate(25, 25), "site");
+        ListMap map = new ListMap();
 
         // Testing SimpleDrone class public methods
         // Test if getHeading works
@@ -101,6 +112,24 @@ public class ExampleTest {
         } catch (AssertionError ae) {
             System.out.println("FAILED");
         }
+
+        // Testing all public methods part of the ListMap class
+        // Testing the getClosestCreek method in ListMap class
+        try {
+            map.addPOI(creek1);
+            map.addPOI(creek2);
+            map.addPOI(creek3);
+            map.addPOI(creek4);
+            map.addPOI(creek5);
+            map.addPOI(site);
+            // POI closest = map.getClosestCreek();
+            assertEquals(map.getClosestCreek().getID(), "5");
+            System.out.println("PASSED");
+        } catch (AssertionError ae) {
+            System.out.println("FAILED");
+        }
+
+        // Testimg all public methods part of the Direction class
 
     }
 
