@@ -4,5 +4,7 @@ public interface Map {
     
     public void addPOI(POI poi);
 
-    public POI getClosestCreek();
+    public String getEmergencySiteID();
+
+    public String getClosestCreekID();
 }

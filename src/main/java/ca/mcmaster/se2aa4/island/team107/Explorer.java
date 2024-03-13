@@ -54,10 +54,10 @@ public class Explorer implements IExplorerRaid {
 
     @Override
     public String deliverFinalReport() {
-        POI creek = map.getClosestCreek();
-        logger.info("** Closest creek: " + creek.getID());
+        String creek = map.getClosestCreekID();
+        logger.info("** Closest creek: " + creek);
 
-        String result = "The closest creek is id: " + creek.getID();
+        String result = "The closest creek is id: " + creek;
         
         return result;
     }
