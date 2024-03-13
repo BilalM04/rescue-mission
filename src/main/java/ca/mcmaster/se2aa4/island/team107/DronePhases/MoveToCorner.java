@@ -11,11 +11,11 @@ import org.json.JSONObject;
 public class MoveToCorner implements Phase {
 
     private enum State {
-        ECHO_LEFT, // echos left to find distance
-        ECHO_RIGHT, // echos right to find distance
-        TURN_TO_CORNER, // turns to shortest distance direction
-        FLY_TO_CORNER, // moves to corner
-        TURN_INWARD, // turns to face inwards
+        ECHO_LEFT, 
+        ECHO_RIGHT, 
+        TURN_TO_CORNER, 
+        FLY_TO_CORNER, 
+        TURN_INWARD, 
     }
 
     private final Logger logger = LogManager.getLogger();
