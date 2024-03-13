@@ -1,6 +1,6 @@
 package ca.mcmaster.se2aa4.island.team107.DronePhases;
 
-import ca.mcmaster.se2aa4.island.team107.Drone.DroneController;
+import ca.mcmaster.se2aa4.island.team107.Drone.Controller;
 import ca.mcmaster.se2aa4.island.team107.Position.Direction;
 
 import org.apache.logging.log4j.LogManager;
@@ -21,7 +21,7 @@ public class FindIsland implements Phase {
 
     private final Logger logger = LogManager.getLogger();
 
-    private DroneController controller;
+    private Controller controller;
 
     private Direction direction;
 
@@ -33,7 +33,7 @@ public class FindIsland implements Phase {
     private State state;
 
     
-    public FindIsland(DroneController controller, Direction initialDirection) {
+    public FindIsland(Controller controller, Direction initialDirection) {
         this.controller = controller;
         this.direction = initialDirection;
         this.atIsland = false;

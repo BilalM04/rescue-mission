@@ -12,7 +12,7 @@ public class GridSearch implements Search {
     private final Logger logger = LogManager.getLogger();
 
     private Drone drone;
-    private DroneController controller;
+    private Controller controller;
     private Map map;
     private Phase phase;
 

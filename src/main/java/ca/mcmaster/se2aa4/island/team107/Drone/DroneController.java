@@ -4,7 +4,7 @@ import org.json.JSONObject;
 
 import ca.mcmaster.se2aa4.island.team107.Position.Direction;
 
-public class DroneController {
+public class DroneController implements Controller{
     private Drone drone;
 
     public DroneController(Drone drone) {

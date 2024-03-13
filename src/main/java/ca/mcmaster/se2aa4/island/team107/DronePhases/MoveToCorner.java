@@ -1,6 +1,6 @@
 package ca.mcmaster.se2aa4.island.team107.DronePhases;
 
-import ca.mcmaster.se2aa4.island.team107.Drone.DroneController;
+import ca.mcmaster.se2aa4.island.team107.Drone.Controller;
 import ca.mcmaster.se2aa4.island.team107.Position.Direction;
 
 import org.json.JSONObject;
@@ -18,7 +18,7 @@ public class MoveToCorner implements Phase {
         G // stops drone
     }
 
-    private DroneController controller;
+    private Controller controller;
 
     private Direction direction;
 
@@ -31,7 +31,7 @@ public class MoveToCorner implements Phase {
     private Direction finalDirection;
     private boolean hasReachedCorner;
 
-    public MoveToCorner(DroneController controller, Direction initialDir) {
+    public MoveToCorner(Controller controller, Direction initialDir) {
         this.controller = controller;
         this.direction = initialDir;
         this.state = State.A;
