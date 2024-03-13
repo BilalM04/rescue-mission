@@ -26,6 +26,9 @@ public class ExampleTest {
         Coordinate coord2 = new Coordinate(2, -1);
         Coordinate coord3 = new Coordinate(3, -2);
 
+        Coordinate coord4 = new Coordinate(0, 0);
+        Coordinate coord5 = new Coordinate(1, 49);
+
         POI creek1 = new POI(TypePOI.CREEK, new Coordinate(0, 0), "1");
         POI creek2 = new POI(TypePOI.CREEK, new Coordinate(0, 50), "2");
         POI creek3 = new POI(TypePOI.CREEK, new Coordinate(50, 0), "3");
@@ -130,7 +133,37 @@ public class ExampleTest {
         }
 
         // Testimg all public methods part of the Direction class
+        // Testing the getRight and getLeft methods part of the Direction Enum class
+        try {
+            Direction dirR = dir.getRight();
+            assertEquals(dirR, Direction.SOUTH);
+            System.out.println("PASSED");
+        } catch (AssertionError ae) {
+            System.out.println("FAILED");
+        }
+        try {
+            Direction dirL = dir.getLeft();
+            assertEquals(dirL, Direction.NORTH);
+            System.out.println("PASSED");
+        } catch (AssertionError ae) {
+            System.out.println("FAILED");
+        }
 
+        // Testing the getSymbol method part of the Direction Enum class
+        try {
+            assertEquals(dir.getSymbol().toUpperCase(), "E");
+            System.out.println("PASSED");
+        } catch (AssertionError ae) {
+            System.out.println("FAILED");
+        }
+
+        // Testing the distanceTo method in the Coordinate class
+        try {
+            assertEquals(coord4.distanceTo(coord5), Math.sqrt(2402));
+            System.out.println("PASSED");
+        } catch (AssertionError ae) {
+            System.out.println("FAILED");
+        }
     }
 
 }
