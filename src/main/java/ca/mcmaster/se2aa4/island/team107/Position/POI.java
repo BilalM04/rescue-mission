@@ -22,7 +22,7 @@ public class POI {
     }
 
     public Coordinate getLocation() {
-        return this.location;
+        return new Coordinate(location.getX(), location.getY());
     }
 
     public String getID() {
