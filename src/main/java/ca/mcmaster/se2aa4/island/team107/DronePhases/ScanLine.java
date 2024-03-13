@@ -41,7 +41,7 @@ public class ScanLine implements Phase {
         this.offIsland = false;
         this.hasMoved = false;
         this.moveOutwards = false;
-        this.state = State.SCAN;
+        this.state = State.FLY;
     }
 
     public String getDroneCommand() {
