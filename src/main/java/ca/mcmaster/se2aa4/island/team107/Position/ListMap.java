@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
-public class ListMap implements Map{
+public class ListMap implements Map {
     private List<POI> creeks;
     private POI emergencySite;
     private POI homeBase;
