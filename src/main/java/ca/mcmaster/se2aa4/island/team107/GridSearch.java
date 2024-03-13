@@ -1,4 +1,5 @@
 package ca.mcmaster.se2aa4.island.team107;
+
 import ca.mcmaster.se2aa4.island.team107.Drone.*;
 import ca.mcmaster.se2aa4.island.team107.DronePhases.*;
 import ca.mcmaster.se2aa4.island.team107.Position.*;
@@ -25,17 +26,15 @@ public class GridSearch implements Search {
 
     public String performSearch() {
         logger.info("Position X: {}, Position Y: {}", drone.getX(), drone.getY());
-        
+
         String command = "";
 
         if (phase.isLastPhase() || drone.getBatteryLevel() < 100) {
             command = controller.stop();
-        }
-        else {
+        } else {
             if (!phase.isFinished()) {
                 command = phase.getDroneCommand();
-            }
-            else {
+            } else {
                 phase = phase.getNextPhase();
                 command = phase.getDroneCommand();
             }
@@ -58,21 +57,17 @@ public class GridSearch implements Search {
         JSONObject extraInfo = response.getJSONObject("extras");
         logger.info("Additional information received: {}", extraInfo);
 
-
         phase.processInfo(extraInfo);
-
 
         if (extraInfo.has("creeks")) {
             JSONArray creeksFound = extraInfo.getJSONArray("creeks");
             if (!creeksFound.isEmpty()) {
                 map.addPOI(
-                    new POI(POI.TypePOI.CREEK,
-                    new Coordinate(
-                        drone.getX(), 
-                        drone.getY()), 
-                        creeksFound.getString(0)
-                    )
-                );
+                        new POI(POI.TypePOI.CREEK,
+                                new Coordinate(
+                                        drone.getX(),
+                                        drone.getY()),
+                                creeksFound.getString(0)));
             }
         }
 
@@ -80,16 +75,13 @@ public class GridSearch implements Search {
             JSONArray sites = extraInfo.getJSONArray("sites");
             if (!sites.isEmpty()) {
                 map.addPOI(
-                    new POI(POI.TypePOI.EMERGENCY_SITE, 
-                    new Coordinate(
-                        drone.getX(), 
-                        drone.getY()),
-                        sites.getString(0)
-                    )
-                );
+                        new POI(POI.TypePOI.EMERGENCY_SITE,
+                                new Coordinate(
+                                        drone.getX(),
+                                        drone.getY()),
+                                sites.getString(0)));
             }
         }
-
 
     }
 }
