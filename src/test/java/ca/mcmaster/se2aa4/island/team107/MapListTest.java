@@ -32,7 +32,6 @@ public class MapListTest {
         map.addPOI(creek4);
         map.addPOI(creek5);
         map.addPOI(site);
-        // POI closest = map.getClosestCreek();
         assertEquals(map.getClosestCreek().getID(), "5");
 
     }
