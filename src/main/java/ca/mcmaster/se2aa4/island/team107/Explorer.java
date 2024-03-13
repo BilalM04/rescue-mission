@@ -3,6 +3,8 @@ package ca.mcmaster.se2aa4.island.team107;
 import ca.mcmaster.se2aa4.island.team107.Drone.Drone;
 import ca.mcmaster.se2aa4.island.team107.Drone.SimpleDrone;
 import ca.mcmaster.se2aa4.island.team107.Position.*;
+import ca.mcmaster.se2aa4.island.team107.Search.GridSearch;
+import ca.mcmaster.se2aa4.island.team107.Search.Search;
 
 import java.io.StringReader;
 

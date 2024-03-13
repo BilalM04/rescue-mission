@@ -1,4 +1,4 @@
-package ca.mcmaster.se2aa4.island.team107;
+package ca.mcmaster.se2aa4.island.team107.Search;
 import ca.mcmaster.se2aa4.island.team107.Drone.*;
 import ca.mcmaster.se2aa4.island.team107.DronePhases.*;
 import ca.mcmaster.se2aa4.island.team107.Position.*;
@@ -77,7 +77,5 @@ public class GridSearch implements Search {
                 map.addPOI(new POI(POI.TypePOI.EMERGENCY_SITE, drone.getLocation(), sites.getString(0)));
             }
         }
-
-
     }
 }
