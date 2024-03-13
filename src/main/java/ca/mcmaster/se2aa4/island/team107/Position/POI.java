@@ -4,8 +4,7 @@ public class POI {
 
     public enum TypePOI {
         CREEK,
-        EMERGENCY_SITE,
-        HOMEBASE
+        EMERGENCY_SITE
     }
 
     private final TypePOI kind;
@@ -23,7 +22,7 @@ public class POI {
     }
 
     public Coordinate getLocation() {
-        return this.location;
+        return new Coordinate(location.getX(), location.getY());
     }
 
     public String getID() {

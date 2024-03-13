@@ -1,17 +1,24 @@
 package ca.mcmaster.se2aa4.island.team107.DronePhases;
 
-import ca.mcmaster.se2aa4.island.team107.Drone.DroneController;
+import ca.mcmaster.se2aa4.island.team107.Drone.Controller;
 import ca.mcmaster.se2aa4.island.team107.Position.Direction;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class ScanLine implements Phase {
 
-    private final int FLY_MODE = 0;
-    private final int SCAN_MODE = 1;
-    private final int ECHO_FRONT = 2;
+    private enum State {
+        FLY,
+        SCAN,
+        ECHO_FRONT
+    }
 
-    private DroneController controller;
+    private final Logger logger = LogManager.getLogger();
+
+    private Controller controller;
 
     private Direction direction;
 
@@ -20,11 +27,10 @@ public class ScanLine implements Phase {
     private boolean hasMoved;
     private boolean moveOutwards;
 
-    private Integer flyCount;
-    private String command;
+    private State state;
 
 
-    public ScanLine(DroneController controller, 
+    public ScanLine(Controller controller, 
                       Direction initialDirection, 
                       boolean turnLeft) {
 
@@ -35,27 +41,55 @@ public class ScanLine implements Phase {
         this.offIsland = false;
         this.hasMoved = false;
         this.moveOutwards = false;
-        this.flyCount = 0;
+        this.state = State.FLY;
     }
 
     public String getDroneCommand() {
-        command = getDroneRoutineScan(flyCount);
-        flyCount++;
-        return command;
+        switch (state) {
+            case State.FLY:
+                return controller.fly();
+            
+            case State.SCAN:
+                return controller.scan();
+
+            case State.ECHO_FRONT:
+                return controller.echo(direction);
+            
+            default:
+                logger.info("Uh oh, something bad happened here!");
+                return controller.stop();
+        }
     }
 
     public void processInfo(JSONObject info) {
-        if (!info.has("found"))
-            return;
-        
-        String echoStatus = info.getString("found");
+        String echoStatus;
 
-        if (echoStatus.equals("OUT_OF_RANGE")) {
-            offIsland = true;
-            moveOutwards = info.getInt("range") >= 3;
-        }
-        else {
-            hasMoved = true;
+        switch (state) {
+            case State.FLY:
+                state = State.SCAN;
+                break;
+        
+            case State.SCAN:
+                if (isDroneOffLand(info)) {
+                    state = State.ECHO_FRONT;
+                }
+                else {
+                    state = State.FLY;
+                    hasMoved = true;
+                }
+                break;
+            
+            case State.ECHO_FRONT:
+                echoStatus = info.getString("found");
+                if (echoStatus.equals("OUT_OF_RANGE")) {
+                    offIsland = true;
+                    moveOutwards = (info.getInt("range") >= 3);
+                }
+                else {
+                    state = State.FLY;
+                    hasMoved = true;
+                }
+                break;
         }
     }
 
@@ -74,18 +108,9 @@ public class ScanLine implements Phase {
         return offIsland && !hasMoved;
     }
 
-    private String getDroneRoutineScan(int count) {
-        int mode = count % 3;
-
-        switch (mode) {
-            case FLY_MODE:
-                return controller.fly();
-            case SCAN_MODE:
-                return controller.scan();
-            case ECHO_FRONT:
-                return controller.echo(direction);
-        }
-
-        return "";
+    private boolean isDroneOffLand(JSONObject info) {
+        JSONArray biomes = info.getJSONArray("biomes");
+        String currentBiome = biomes.getString(0);
+        return (biomes.length() == 1) && currentBiome.equals("OCEAN");
     }
 }

@@ -3,7 +3,7 @@ package ca.mcmaster.se2aa4.island.team107.Drone;
 import ca.mcmaster.se2aa4.island.team107.Position.Coordinate;
 import ca.mcmaster.se2aa4.island.team107.Position.Direction;
 
-public class SimpleDrone implements Drone{
+public class SimpleDrone implements Drone {
 
     private Integer batteryLevel;
     private Direction heading;
@@ -24,7 +24,7 @@ public class SimpleDrone implements Drone{
     }
 
     public boolean notEnoughBattery(Integer costFly, Integer costHeading) {
-        if (((Math.abs(getX()) * costFly) + (Math.abs(getY()) * costFly) + costHeading) > getBatteryLevel()) {
+        if (((Math.abs(location.getX()) * costFly) + (Math.abs(location.getY()) * costFly) + costHeading) > getBatteryLevel()) {
             return true;
         }
         return false;
@@ -34,27 +34,24 @@ public class SimpleDrone implements Drone{
         return this.heading;
     }
 
-    public int getX() {
-        return this.location.getX();
+    public Coordinate getLocation() {
+        return new Coordinate(location.getX(), location.getY());
     }
-
-    public int getY() {
-        return this.location.getY();
-    }
+    
 
     public void flyForward() {
         switch (this.heading) {
             case Direction.NORTH:
-                location.setY(getY() + 1);
+                location.setY(location.getY() + 1);
                 break;
             case Direction.EAST:
-                location.setX(getX() + 1); 
+                location.setX(location.getX() + 1); 
                 break;
             case Direction.SOUTH:
-                location.setY(getY() - 1);
+                location.setY(location.getY() - 1);
                 break;
             case Direction.WEST:
-                location.setX(getX() - 1);
+                location.setX(location.getX() - 1);
                 break;
         }
     }
@@ -62,20 +59,20 @@ public class SimpleDrone implements Drone{
     public void turnRight() {
         switch (this.heading) {
             case Direction.NORTH: 
-                location.setY(getY() + 1);
-                location.setX(getX() + 1); 
+                location.setY(location.getY() + 1);
+                location.setX(location.getX() + 1); 
                 break;
             case Direction.EAST:
-                location.setY(getY() - 1);
-                location.setX(getX() + 1); 
+                location.setY(location.getY() - 1);
+                location.setX(location.getX() + 1); 
                 break;
             case Direction.SOUTH:
-                location.setY(getY() - 1);
-                location.setX(getX() - 1); 
+                location.setY(location.getY() - 1);
+                location.setX(location.getX() - 1); 
                 break;
             case Direction.WEST:
-                location.setY(getY() + 1);
-                location.setX(getX() - 1); 
+                location.setY(location.getY() + 1);
+                location.setX(location.getX() - 1); 
                 break;
         }
         heading = heading.getRight();
@@ -84,20 +81,20 @@ public class SimpleDrone implements Drone{
     public void turnLeft() {
         switch (this.heading) {
             case Direction.NORTH: 
-                location.setY(getY() + 1);
-                location.setX(getX() - 1); 
+                location.setY(location.getY() + 1);
+                location.setX(location.getX() - 1); 
                 break;
             case Direction.EAST:
-                location.setY(getY() + 1);
-                location.setX(getX() + 1); 
+                location.setY(location.getY() + 1);
+                location.setX(location.getX() + 1); 
                 break;
             case Direction.SOUTH:
-                location.setY(getY() - 1);
-                location.setX(getX() + 1); 
+                location.setY(location.getY() - 1);
+                location.setX(location.getX() + 1); 
                 break;
             case Direction.WEST:
-                location.setY(getY() - 1);
-                location.setX(getX() - 1); 
+                location.setY(location.getY() - 1);
+                location.setX(location.getX() - 1); 
                 break;
         }
         heading = heading.getLeft();
