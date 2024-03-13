@@ -3,81 +3,129 @@ package ca.mcmaster.se2aa4.island.team107.DronePhases;
 import ca.mcmaster.se2aa4.island.team107.Drone.DroneController;
 import ca.mcmaster.se2aa4.island.team107.Position.Direction;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.json.JSONObject;
 
 public class FindIsland implements Phase {
 
-    private final int FLY_MODE = 0;
-    private final int SCAN_MODE = 1;
-    private final int ECHO_FRONT = 2;
-    private final int ECHO_LEFT = 3;
-    private final int ECHO_RIGHT = 4;
+    private enum State {
+        FLY,
+        ECHO_LEFT,
+        ECHO_RIGHT,
+        TURN_LEFT,
+        TURN_RIGHT,
+        GET_RANGE,
+        FLY_TO_ISLAND
+    }
+
+    private final Logger logger = LogManager.getLogger();
 
     private DroneController controller;
 
-    private Integer flyCount;
-
     private Direction direction;
-    private Direction prevDirection;
 
-    private boolean leftEcho;
-    private boolean rightEcho;
-    private boolean hasTurned;
     private boolean atIsland;
+    private boolean uTurnLeft;
 
-    private String prevLeftEcho;
-    private String command;
+    private Integer flightsToIsland;
+
+    private State state;
 
     
     public FindIsland(DroneController controller, Direction initialDirection) {
         this.controller = controller;
         this.direction = initialDirection;
-        this.prevDirection = initialDirection;
-        this.flyCount = 0;
-        this.hasTurned = false;
         this.atIsland = false;
+        this.uTurnLeft = false;
+
+        this.flightsToIsland = 0;
+        this.state = State.FLY;
     }
 
     public String getDroneCommand() {
-        if (prevDirection != direction) {
-            prevDirection = direction;
-            command = controller.heading(direction);
-        }
-        else {
-            command = getDroneRoutineSearch(flyCount);
-            flyCount++;
-        }
+        switch (state) {
+            case State.FLY:
+                return controller.fly();
 
-        return command;
+            case State.ECHO_LEFT:
+                return controller.echo(direction.getLeft());
+
+            case State.ECHO_RIGHT:
+                return controller.echo(direction.getRight());
+
+            case State.TURN_LEFT:
+                direction = direction.getLeft();
+                return controller.heading(direction);
+
+            case State.TURN_RIGHT:
+                direction = direction.getRight();
+                return controller.heading(direction);
+
+            case State.GET_RANGE:
+                return controller.echo(direction);
+
+            case State.FLY_TO_ISLAND:
+                return controller.fly();
+
+            default:
+                logger.info("Uh oh, something bad happened here!");
+                return controller.stop();
+        }
     }
 
     public void processInfo(JSONObject info) {
-        if (!info.has("found"))
-            return;
+        String echoStatus;
 
-        String echoStatus = info.getString("found");
-        int range = info.getInt("range");
+        switch (state) {
+            case State.FLY:
+                state = State.ECHO_LEFT;
+                break;
+            
+            case State.ECHO_LEFT:
+                echoStatus = info.getString("found");
+                if (echoStatus.equals("GROUND")) {
+                    state = State.TURN_LEFT;
+                    uTurnLeft = false;
+                } else {
+                    state = State.ECHO_RIGHT;
+                }
+                break;
 
-        if (leftEcho) {
-            prevLeftEcho = echoStatus;
-        }
+            case State.ECHO_RIGHT:
+                echoStatus = info.getString("found");
+                if (echoStatus.equals("GROUND")) {
+                    state = State.TURN_RIGHT;
+                    uTurnLeft = true;
+                } else {
+                    state = State.FLY;
+                }
+                break;
 
-        if (echoStatus.equals("GROUND")) {
-            if (range == 0) {
-                atIsland = true;
-            }
+            case State.TURN_LEFT:
+                state = State.GET_RANGE;
+                break;
+            
+            case State.TURN_RIGHT:
+                state = State.GET_RANGE;
+                break;
 
-            if (!hasTurned) {
-                Direction t = (leftEcho) ? direction.getLeft() : direction;
-                direction = (rightEcho) ? direction.getRight() : t;
-                hasTurned = true;
-            }
+            case State.GET_RANGE:
+                flightsToIsland = info.getInt("range");
+                state = State.FLY_TO_ISLAND;
+                break;
+            
+            case State.FLY_TO_ISLAND:
+                flightsToIsland -= 1;
+                if (flightsToIsland <= 0)
+                    atIsland = true;
+                break;
         }
     }
 
     public Phase getNextPhase() {
         Phase scanPhase = new ScanLine(
-            controller, direction, prevLeftEcho.equals("GROUND")
+            controller, direction, uTurnLeft
         );
         return scanPhase;
     }
@@ -88,29 +136,5 @@ public class FindIsland implements Phase {
 
     public boolean isLastPhase() {
         return false;
-    }
-
-    private String getDroneRoutineSearch(int count) {
-        leftEcho = false;
-        rightEcho = false;
-
-        int mode = count % 5;
-
-        switch (mode) {
-            case FLY_MODE:
-                return controller.fly();
-            case SCAN_MODE:
-                return controller.scan();
-            case ECHO_FRONT:
-                return controller.echo(direction);
-            case ECHO_LEFT:
-                leftEcho = true;
-                return controller.echo(direction.getLeft());
-            case ECHO_RIGHT:
-                rightEcho = true;
-                return controller.echo(direction.getRight());
-        }
-
-        return "";
     }
 }
