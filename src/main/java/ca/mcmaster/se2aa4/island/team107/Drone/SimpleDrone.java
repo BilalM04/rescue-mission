@@ -26,9 +26,9 @@ public class SimpleDrone implements Drone {
     public boolean notEnoughBattery(Integer costFly, Integer costHeading) {
         if (((Math.abs(location.getX()) * costFly) + (Math.abs(location.getY()) * costFly)
                 + costHeading) > getBatteryLevel()) {
-            return false;
+            return true;
         }
-        return true;
+        return false;
     }
 
     public Direction getHeading() {
