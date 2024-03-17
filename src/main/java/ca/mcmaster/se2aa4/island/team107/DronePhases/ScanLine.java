@@ -1,6 +1,6 @@
 package ca.mcmaster.se2aa4.island.team107.DronePhases;
 
-import ca.mcmaster.se2aa4.island.team107.Drone.DroneController;
+import ca.mcmaster.se2aa4.island.team107.Drone.Controller;
 import ca.mcmaster.se2aa4.island.team107.Position.Direction;
 
 import org.apache.logging.log4j.LogManager;
@@ -18,7 +18,7 @@ public class ScanLine implements Phase {
 
     private final Logger logger = LogManager.getLogger();
 
-    private DroneController controller;
+    private Controller controller;
 
     private Direction direction;
 
@@ -30,7 +30,7 @@ public class ScanLine implements Phase {
     private State state;
 
 
-    public ScanLine(DroneController controller, 
+    public ScanLine(Controller controller, 
                       Direction initialDirection, 
                       boolean turnLeft) {
 

@@ -1,4 +1,4 @@
-package ca.mcmaster.se2aa4.island.team107;
+package ca.mcmaster.se2aa4.island.team107.Search;
 
 import ca.mcmaster.se2aa4.island.team107.Drone.*;
 import ca.mcmaster.se2aa4.island.team107.DronePhases.*;
@@ -13,7 +13,7 @@ public class GridSearch implements Search {
     private final Logger logger = LogManager.getLogger();
 
     private Drone drone;
-    private DroneController controller;
+    private Controller controller;
     private Map map;
     private Phase phase;
 
@@ -25,7 +25,8 @@ public class GridSearch implements Search {
     }
 
     public String performSearch() {
-        logger.info("Position X: {}, Position Y: {}", drone.getX(), drone.getY());
+        Coordinate loc = drone.getLocation();
+        logger.info("Position X: {}, Position Y: {}", loc.getX(), loc.getY());
 
         String command = "";
 
@@ -63,25 +64,15 @@ public class GridSearch implements Search {
             JSONArray creeksFound = extraInfo.getJSONArray("creeks");
             if (!creeksFound.isEmpty()) {
                 map.addPOI(
-                        new POI(POI.TypePOI.CREEK,
-                                new Coordinate(
-                                        drone.getX(),
-                                        drone.getY()),
-                                creeksFound.getString(0)));
+                        new POI(POI.TypePOI.CREEK, drone.getLocation(), creeksFound.getString(0)));
             }
         }
 
         if (extraInfo.has("sites")) {
             JSONArray sites = extraInfo.getJSONArray("sites");
             if (!sites.isEmpty()) {
-                map.addPOI(
-                        new POI(POI.TypePOI.EMERGENCY_SITE,
-                                new Coordinate(
-                                        drone.getX(),
-                                        drone.getY()),
-                                sites.getString(0)));
+                map.addPOI(new POI(POI.TypePOI.EMERGENCY_SITE, drone.getLocation(), sites.getString(0)));
             }
         }
-
     }
 }

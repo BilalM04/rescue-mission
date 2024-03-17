@@ -2,7 +2,6 @@ package ca.mcmaster.se2aa4.island.team107;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -51,36 +50,32 @@ public class SimpleDroneTest {
     }
 
     @Test
-    public void testGetX() {
-        assertEquals(drone.getX(), coord.getX());
-    }
-
-    @Test
-    public void testGetY() {
-        assertNotEquals(drone.getY(), coord.getY());
+    public void testGetLocation() {
+        Coordinate droneCoord = drone.getLocation();
+        assertEquals(droneCoord, coord.getX());
     }
 
     @Test
     public void testFlyForward() {
         drone.flyForward();
         assertEquals(dir, drone.getHeading(), "Drone direction should remain unchanged after flying forward.");
-        assertEquals(coord1.getX(), drone.getX(), "Drone X coordinate should match expected after flying forward.");
-        assertEquals(coord1.getY(), drone.getY(), "Drone Y coordinate should match expected after flying forward.");
+        Coordinate droneCoord = drone.getLocation();
+        assertEquals(coord1, droneCoord);
     }
 
     @Test
     public void testTurnRight() {
         drone.turnRight();
         assertEquals(drone.getHeading(), Direction.SOUTH);
-        assertEquals(drone.getX(), coord2.getX());
-        assertEquals(drone.getY(), coord2.getY());
+        Coordinate droneCoord = drone.getLocation();
+        assertEquals(droneCoord, coord2);
     }
 
     @Test
     public void testTurnLeft() {
         drone.turnLeft();
         assertEquals(drone.getHeading(), Direction.NORTH);
-        assertEquals(drone.getX(), coord3.getX());
-        assertEquals(drone.getY(), coord3.getY());
+        Coordinate droneCoord = drone.getLocation();
+        assertEquals(droneCoord, coord3);
     }
 }

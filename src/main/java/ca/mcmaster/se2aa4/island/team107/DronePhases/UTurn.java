@@ -1,13 +1,13 @@
 package ca.mcmaster.se2aa4.island.team107.DronePhases;
 
-import ca.mcmaster.se2aa4.island.team107.Drone.DroneController;
+import ca.mcmaster.se2aa4.island.team107.Drone.Controller;
 import ca.mcmaster.se2aa4.island.team107.Position.Direction;
 
 import org.json.JSONObject;
 
 public class UTurn implements Phase {
 
-    private DroneController controller;
+    private Controller controller;
 
     private Direction direction;
 
@@ -21,7 +21,7 @@ public class UTurn implements Phase {
     private String command;
     
 
-    public UTurn(DroneController controller, 
+    public UTurn(Controller controller, 
                  Direction dir, 
                  boolean turnLeft, 
                  boolean outward) {

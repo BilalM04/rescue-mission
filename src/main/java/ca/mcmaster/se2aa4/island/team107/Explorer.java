@@ -3,8 +3,11 @@ package ca.mcmaster.se2aa4.island.team107;
 import ca.mcmaster.se2aa4.island.team107.Drone.Drone;
 import ca.mcmaster.se2aa4.island.team107.Drone.SimpleDrone;
 import ca.mcmaster.se2aa4.island.team107.Position.*;
+import ca.mcmaster.se2aa4.island.team107.Search.GridSearch;
+import ca.mcmaster.se2aa4.island.team107.Search.Search;
 
 import java.io.StringReader;
+import java.util.NoSuchElementException;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -52,11 +55,11 @@ public class Explorer implements IExplorerRaid {
 
     @Override
     public String deliverFinalReport() {
-        POI creek = map.getClosestCreek();
-        logger.info("** Closest creek: " + creek.getID());
+        // POI creek = map.getClosestCreek();
+        // logger.info("** Closest creek: " + creek.getID());
 
-        String result = "The closest creek is id: " + creek.getID();
+        // String result = "The closest creek is id: " + creek.getID();
 
-        return result;
+        return "";
     }
 }

@@ -1,40 +1,39 @@
 package ca.mcmaster.se2aa4.island.team107.DronePhases;
 
-import ca.mcmaster.se2aa4.island.team107.Drone.DroneController;
+import ca.mcmaster.se2aa4.island.team107.Drone.Controller;
 import ca.mcmaster.se2aa4.island.team107.Position.Direction;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.json.JSONObject;
 
 
 public class MoveToCorner implements Phase {
 
     private enum State {
-        A, // echos left to find distance
-        B, // echos right to find distance
-        C, // turns to shortest distance direction
-        D, // moves to corner
-        E, // turns to face inwards
-        F, // temporary state to perform scan to see if drone is in the corner of the svg
-        G // stops drone
+        ECHO_LEFT, 
+        ECHO_RIGHT, 
+        TURN_TO_CORNER, 
+        FLY_TO_CORNER, 
+        TURN_INWARD, 
     }
 
-    private DroneController controller;
+    private final Logger logger = LogManager.getLogger();
 
+    private Controller controller;
     private Direction direction;
-
+    private Direction finalDirection;
     private State state;
 
-    private String command;
     private int distanceLeft;
     private int distanceRight;
-    private int count = 0;
-    private Direction finalDirection;
+    private int distanceTraveled = 0;
     private boolean hasReachedCorner;
 
-    public MoveToCorner(DroneController controller, Direction initialDir) {
+    public MoveToCorner(Controller controller, Direction initialDir) {
         this.controller = controller;
         this.direction = initialDir;
-        this.state = State.A;
+        this.state = State.ECHO_LEFT;
         this.finalDirection = initialDir;
         this.hasReachedCorner = false;
     }
@@ -42,69 +41,64 @@ public class MoveToCorner implements Phase {
     public String getDroneCommand() {
 
         switch (state) {
-            case State.A:
-                command = controller.echo(direction.getLeft());
-                break;
-            case State.B:
-                command = controller.echo(direction.getRight());
-                break;
-            case State.C:
+            case State.ECHO_LEFT:
+                return controller.echo(direction.getLeft());
+                
+            case State.ECHO_RIGHT:
+                return controller.echo(direction.getRight());
+                
+            case State.TURN_TO_CORNER:
                 if (distanceRight < distanceLeft) {
-                    command = controller.heading(direction.getRight());
                     direction = direction.getRight();
+                    return controller.heading(direction);
                 } else {
-                    command = controller.heading(direction.getLeft());
                     direction = direction.getLeft();
+                    return controller.heading(direction);
                 }
-                break;
-            case State.D:
-                command = controller.fly();
-                count++;
-                break;
-            case State.E:
-                command = controller.heading(finalDirection);
+
+            case State.FLY_TO_CORNER:
+                distanceTraveled++;
+                return controller.fly();
+                
+            case State.TURN_INWARD:
                 direction = finalDirection;
-                break;
-            case State.F:
-                command = controller.scan();
-                break;
+                return controller.heading(finalDirection);
+                
             default:
-                command = controller.scan();
-                hasReachedCorner = true;
-                break;
+                logger.info("Uh oh, something bad happened here!");
+                return controller.stop();
         }
-        return command;
     }
 
     public void processInfo(JSONObject info) {
         switch (state) {
-            case State.A:
+            case State.ECHO_LEFT:
                 distanceLeft = info.getInt("range");
-                state = State.B;
+                state = State.ECHO_RIGHT;
                 break;
-            case State.B:
+
+            case State.ECHO_RIGHT:
                 distanceRight = info.getInt("range");
                 if (Math.min(distanceLeft, distanceRight) > 2) {
-                    state = State.C;
+                    state = State.TURN_TO_CORNER;
                 } else {
-                    state = State.F;
+                    hasReachedCorner = true;
                 }
                 break;
-            case State.C:
-                state = State.D;
+
+            case State.TURN_TO_CORNER:
+                state = State.FLY_TO_CORNER;
                 break;
-            case State.D:
-                if (count >= Math.min(distanceLeft, distanceRight) - 2) {
-                    state = State.E;
+
+            case State.FLY_TO_CORNER:
+                if (distanceTraveled >= Math.min(distanceLeft, distanceRight) - 2) {
+                    state = State.TURN_INWARD;
                 }
                 break;
-            case State.E:
-                state = State.F;
-                break;
-            case State.F:
-                state = State.G;
-            default:
-                return;
+
+            case State.TURN_INWARD:
+                hasReachedCorner = true;
+                
         }
     }
 

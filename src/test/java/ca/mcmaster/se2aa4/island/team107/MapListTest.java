@@ -32,7 +32,7 @@ public class MapListTest {
         map.addPOI(creek4);
         map.addPOI(creek5);
         map.addPOI(site);
-        assertEquals(map.getClosestCreek().getID(), "5");
+        assertEquals(map.getClosestCreekID(), "5");
 
     }
 }
