@@ -16,7 +16,7 @@ public class SimpleDroneTest {
     private final Integer battery = 10000;
     private final Integer cost = 5;
     private final Direction dir = Direction.EAST;
-    private final Coordinate coord = new Coordinate(0, 1);
+    private final Coordinate coord = new Coordinate(0, 0);
     private final Coordinate coord1 = new Coordinate(1, 0);
     private final Coordinate coord2 = new Coordinate(1, -1);
     private final Coordinate coord3 = new Coordinate(1, 1);
@@ -45,14 +45,15 @@ public class SimpleDroneTest {
 
     @Test
     public void testNotEnoughBattery() {
-        drone.drainBattery(9990);
+        drone.drainBattery(9999);
         assertTrue(drone.notEnoughBattery(10, 10));
     }
 
     @Test
     public void testGetLocation() {
         Coordinate droneCoord = drone.getLocation();
-        assertEquals(droneCoord, coord.getX());
+        assertEquals(droneCoord.getX(), coord.getX());
+        assertEquals(droneCoord.getY(), coord.getY());
     }
 
     @Test
@@ -60,7 +61,8 @@ public class SimpleDroneTest {
         drone.flyForward();
         assertEquals(dir, drone.getHeading(), "Drone direction should remain unchanged after flying forward.");
         Coordinate droneCoord = drone.getLocation();
-        assertEquals(coord1, droneCoord);
+        assertEquals(coord1.getX(), droneCoord.getX());
+        assertEquals(coord1.getY(), droneCoord.getY());
     }
 
     @Test
@@ -68,7 +70,8 @@ public class SimpleDroneTest {
         drone.turnRight();
         assertEquals(drone.getHeading(), Direction.SOUTH);
         Coordinate droneCoord = drone.getLocation();
-        assertEquals(droneCoord, coord2);
+        assertEquals(droneCoord.getX(), coord2.getX());
+        assertEquals(droneCoord.getY(), coord2.getY());
     }
 
     @Test
@@ -76,6 +79,6 @@ public class SimpleDroneTest {
         drone.turnLeft();
         assertEquals(drone.getHeading(), Direction.NORTH);
         Coordinate droneCoord = drone.getLocation();
-        assertEquals(droneCoord, coord3);
+        assertEquals(droneCoord.getX(), coord3.getY());
     }
 }

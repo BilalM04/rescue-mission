@@ -55,11 +55,27 @@ public class Explorer implements IExplorerRaid {
 
     @Override
     public String deliverFinalReport() {
-        // POI creek = map.getClosestCreek();
-        // logger.info("** Closest creek: " + creek.getID());
+        String creekID;
+        String emergencySiteID;
 
-        // String result = "The closest creek is id: " + creek.getID();
+        try {
+            creekID = map.getClosestCreekID();
+        } catch (NoSuchElementException e) {
+            creekID = "Unable to locate a creek.";
+        }
 
-        return "";
+        try {
+            emergencySiteID = map.getEmergencySiteID();
+        } catch (NoSuchElementException e) {
+            emergencySiteID = "Unable to locate emergency site.";
+        }
+
+        StringBuilder report = new StringBuilder();
+        report.append("Emergency site ID: ").append(emergencySiteID).append("\n");
+        report.append("Closest creek ID: ").append(creekID);
+
+        logger.info(report.toString());
+
+        return report.toString();
     }
 }
