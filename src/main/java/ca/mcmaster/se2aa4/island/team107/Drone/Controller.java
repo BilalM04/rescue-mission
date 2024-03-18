@@ -9,7 +9,7 @@ public interface Controller {
     public String heading(Direction dir);
 
     public String echo(Direction dir);
-    
+
     public String scan();
 
     public String stop();

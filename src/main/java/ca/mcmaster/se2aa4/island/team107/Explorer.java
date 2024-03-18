@@ -7,7 +7,6 @@ import ca.mcmaster.se2aa4.island.team107.Search.GridSearch;
 import ca.mcmaster.se2aa4.island.team107.Search.Search;
 
 import java.io.StringReader;
-import java.util.NoSuchElementException;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -48,34 +47,16 @@ public class Explorer implements IExplorerRaid {
     @Override
     public void acknowledgeResults(String s) {
         JSONObject response = new JSONObject(new JSONTokener(new StringReader(s)));
-        logger.info("** Response received:\n"+response.toString(2));
+        logger.info("** Response received:\n" + response.toString(2));
 
         gridSearch.readResponse(response);
     }
 
     @Override
     public String deliverFinalReport() {
-        String creekID;
-        String emergencySiteID;
-
-        try {
-            creekID = map.getClosestCreekID();
-        } catch(NoSuchElementException e) {
-            creekID = "Unable to locate a creek.";
-        }
-
-        try {
-            emergencySiteID = map.getEmergencySiteID();
-        } catch (NoSuchElementException e) {
-            emergencySiteID = "Unable to locate emergency site.";
-        }
-
-        StringBuilder report = new StringBuilder();
-        report.append("Emergency site ID: ").append(emergencySiteID).append("\n");
-        report.append("Closest creek ID: ").append(creekID);
-
-        logger.info(report.toString());
-        
-        return report.toString();
+        Report report = new MissionReport(map);
+        String finalReport = report.generateReport();
+        logger.info(finalReport);
+        return finalReport;
     }
 }
