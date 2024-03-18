@@ -4,7 +4,7 @@ import org.json.JSONObject;
 
 import ca.mcmaster.se2aa4.island.team107.Position.Direction;
 
-public class DroneController implements Controller{
+public class DroneController implements Controller {
     private Drone drone;
 
     public DroneController(Drone drone) {
@@ -21,7 +21,7 @@ public class DroneController implements Controller{
     public String heading(Direction dir) {
         JSONObject decision = new JSONObject();
         JSONObject params = new JSONObject();
-        
+
         decision.put("action", "heading");
         params.put("direction", dir.getSymbol());
         decision.put("parameters", params);
@@ -38,7 +38,7 @@ public class DroneController implements Controller{
     public String echo(Direction dir) {
         JSONObject decision = new JSONObject();
         JSONObject params = new JSONObject();
-        
+
         decision.put("action", "echo");
         params.put("direction", dir.getSymbol());
         decision.put("parameters", params);

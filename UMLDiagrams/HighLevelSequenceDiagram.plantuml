@@ -1,0 +1,31 @@
+@startuml
+    title "High Level Sequence Diagram For Drone Exploration"
+
+    participant Explorer
+    participant GridSearch as GS
+    participant MoveToCorner as MTC
+    participant FindIsland
+    participant ScanLine
+    participant UTurn
+    
+    Explorer -> Explorer ++: initialize(s: String)
+    Explorer -> GS ++: takeDecision
+    Explorer <-- GS: return PerformSearch()
+    GS -> MTC ++: PerformSearch()
+    GS <-- MTC ++: return new FindIsland()
+
+    GS -> FindIsland ++: PerformSearch()
+    GS <-- FindIsland ++: return new ScanLine()
+
+    group loop offIsland && !HasMoved
+        GS -> ScanLine ++: PerformSearch()
+        GS <-- ScanLine ++: return new UTurn()
+        GS -> UTurn ++: PerformSearch()
+        GS <-- UTurn ++: return new ScanLine()
+    end
+
+    ' FindIsland(controller: Controller, direction: Direction)
+    ' ScanLine(controller: Controller, direction: Direction, uTurnLeft: boolean)
+    ' UTurn(controller: Controller, direction: Direction, turnLeft: boolean, moveOutwards: boolean)
+
+@enduml

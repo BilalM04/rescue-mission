@@ -24,7 +24,8 @@ public class SimpleDrone implements Drone {
     }
 
     public boolean notEnoughBattery(Integer costFly, Integer costHeading) {
-        if (((Math.abs(location.getX()) * costFly) + (Math.abs(location.getY()) * costFly) + costHeading) > getBatteryLevel()) {
+        if (((Math.abs(location.getX()) * costFly) + (Math.abs(location.getY()) * costFly)
+                + costHeading) > getBatteryLevel()) {
             return true;
         }
         return false;
@@ -37,7 +38,6 @@ public class SimpleDrone implements Drone {
     public Coordinate getLocation() {
         return new Coordinate(location.getX(), location.getY());
     }
-    
 
     public void flyForward() {
         switch (this.heading) {
@@ -45,7 +45,7 @@ public class SimpleDrone implements Drone {
                 location.setY(location.getY() + 1);
                 break;
             case Direction.EAST:
-                location.setX(location.getX() + 1); 
+                location.setX(location.getX() + 1);
                 break;
             case Direction.SOUTH:
                 location.setY(location.getY() - 1);
@@ -58,21 +58,21 @@ public class SimpleDrone implements Drone {
 
     public void turnRight() {
         switch (this.heading) {
-            case Direction.NORTH: 
+            case Direction.NORTH:
                 location.setY(location.getY() + 1);
-                location.setX(location.getX() + 1); 
+                location.setX(location.getX() + 1);
                 break;
             case Direction.EAST:
                 location.setY(location.getY() - 1);
-                location.setX(location.getX() + 1); 
+                location.setX(location.getX() + 1);
                 break;
             case Direction.SOUTH:
                 location.setY(location.getY() - 1);
-                location.setX(location.getX() - 1); 
+                location.setX(location.getX() - 1);
                 break;
             case Direction.WEST:
                 location.setY(location.getY() + 1);
-                location.setX(location.getX() - 1); 
+                location.setX(location.getX() - 1);
                 break;
         }
         heading = heading.getRight();
@@ -80,21 +80,21 @@ public class SimpleDrone implements Drone {
 
     public void turnLeft() {
         switch (this.heading) {
-            case Direction.NORTH: 
+            case Direction.NORTH:
                 location.setY(location.getY() + 1);
-                location.setX(location.getX() - 1); 
+                location.setX(location.getX() - 1);
                 break;
             case Direction.EAST:
                 location.setY(location.getY() + 1);
-                location.setX(location.getX() + 1); 
+                location.setX(location.getX() + 1);
                 break;
             case Direction.SOUTH:
                 location.setY(location.getY() - 1);
-                location.setX(location.getX() + 1); 
+                location.setX(location.getX() + 1);
                 break;
             case Direction.WEST:
                 location.setY(location.getY() - 1);
-                location.setX(location.getX() - 1); 
+                location.setX(location.getX() - 1);
                 break;
         }
         heading = heading.getLeft();

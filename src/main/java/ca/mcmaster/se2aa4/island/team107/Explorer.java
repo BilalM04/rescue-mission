@@ -48,7 +48,7 @@ public class Explorer implements IExplorerRaid {
     @Override
     public void acknowledgeResults(String s) {
         JSONObject response = new JSONObject(new JSONTokener(new StringReader(s)));
-        logger.info("** Response received:\n"+response.toString(2));
+        logger.info("** Response received:\n" + response.toString(2));
 
         gridSearch.readResponse(response);
     }
@@ -60,7 +60,7 @@ public class Explorer implements IExplorerRaid {
 
         try {
             creekID = map.getClosestCreekID();
-        } catch(NoSuchElementException e) {
+        } catch (NoSuchElementException e) {
             creekID = "Unable to locate a creek.";
         }
 
@@ -75,7 +75,7 @@ public class Explorer implements IExplorerRaid {
         report.append("Closest creek ID: ").append(creekID);
 
         logger.info(report.toString());
-        
+
         return report.toString();
     }
 }

@@ -1,4 +1,5 @@
 package ca.mcmaster.se2aa4.island.team107.Search;
+
 import ca.mcmaster.se2aa4.island.team107.Drone.*;
 import ca.mcmaster.se2aa4.island.team107.DronePhases.*;
 import ca.mcmaster.se2aa4.island.team107.Position.*;
@@ -26,17 +27,15 @@ public class GridSearch implements Search {
     public String performSearch() {
         Coordinate loc = drone.getLocation();
         logger.info("Position X: {}, Position Y: {}", loc.getX(), loc.getY());
-        
+
         String command = "";
 
         if (phase.isLastPhase() || drone.getBatteryLevel() < 100) {
             command = controller.stop();
-        }
-        else {
+        } else {
             if (!phase.isFinished()) {
                 command = phase.getDroneCommand();
-            }
-            else {
+            } else {
                 phase = phase.getNextPhase();
                 command = phase.getDroneCommand();
             }
@@ -59,15 +58,13 @@ public class GridSearch implements Search {
         JSONObject extraInfo = response.getJSONObject("extras");
         logger.info("Additional information received: {}", extraInfo);
 
-
         phase.processInfo(extraInfo);
-
 
         if (extraInfo.has("creeks")) {
             JSONArray creeksFound = extraInfo.getJSONArray("creeks");
             if (!creeksFound.isEmpty()) {
                 map.addPOI(
-                    new POI(POI.TypePOI.CREEK, drone.getLocation(), creeksFound.getString(0)));
+                        new POI(POI.TypePOI.CREEK, drone.getLocation(), creeksFound.getString(0)));
             }
         }
 
