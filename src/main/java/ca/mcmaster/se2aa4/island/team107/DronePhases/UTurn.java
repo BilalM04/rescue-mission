@@ -44,10 +44,10 @@ public class UTurn implements Phase {
     }
 
     public String getDroneCommand() {
-        if (turnCount == TURN_OPPOSITE) {
+        if (turnCount.equals(TURN_OPPOSITE)) {
             command = turnCommand(!turnLeft);
         }
-        else if (turnCount == FLY) {
+        else if (turnCount.equals(FLY)) {
             command = controller.fly();
         }
         else {
