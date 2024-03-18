@@ -37,8 +37,7 @@ public class ListMap implements Map {
             throw new NoSuchElementException("Cannot find closest creek: missing data");
         }
 
-        POI closestCreek = null;
-        Double shortestDistance = Double.MAX_VALUE;
+        POI closestCreek = creeks.get(0);
         Coordinate emergencyLoc;
 
         if (emergencySite != null) {
@@ -46,6 +45,8 @@ public class ListMap implements Map {
         } else {
             emergencyLoc = new Coordinate(0, 0);
         }
+
+        Double shortestDistance = emergencyLoc.distanceTo(closestCreek.getLocation());
 
         for (POI creek : creeks) {
             Coordinate creekLoc = creek.getLocation();
