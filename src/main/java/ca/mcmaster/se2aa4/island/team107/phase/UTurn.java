@@ -60,7 +60,7 @@ public class UTurn implements Phase {
     }
 
     public void processInfo(JSONObject info) { 
-        // Phase does need to process any information from JSON response. Fixed drone U-turn logic.
+        // Phase does need to process any information from JSON response. Drone U-turn logic is fixed.
     }
 
 

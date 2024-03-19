@@ -2,7 +2,9 @@ package ca.mcmaster.se2aa4.island.team107;
 
 import ca.mcmaster.se2aa4.island.team107.drone.Drone;
 import ca.mcmaster.se2aa4.island.team107.drone.SimpleDrone;
-import ca.mcmaster.se2aa4.island.team107.position.*;
+import ca.mcmaster.se2aa4.island.team107.position.Direction;
+import ca.mcmaster.se2aa4.island.team107.position.ListMap;
+import ca.mcmaster.se2aa4.island.team107.position.Map;
 import ca.mcmaster.se2aa4.island.team107.report.MissionReport;
 import ca.mcmaster.se2aa4.island.team107.report.Report;
 import ca.mcmaster.se2aa4.island.team107.search.GridSearch;
