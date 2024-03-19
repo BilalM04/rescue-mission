@@ -60,7 +60,7 @@ public class SimpleDroneTest {
     @Test
     public void testFlyForward() {
         drone.flyForward();
-        assertEquals(dir, drone.getHeading(), "Drone direction should remain unchanged after flying forward.");
+        assertEquals(dir, drone.getHeading());
         Coordinate droneCoord = drone.getLocation();
         assertEquals(coord1.getX(), droneCoord.getX());
         assertEquals(coord1.getY(), droneCoord.getY());

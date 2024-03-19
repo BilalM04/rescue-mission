@@ -34,6 +34,11 @@ public class MapListTest {
         map.addPOI(creek5);
         map.addPOI(site);
         assertEquals("5", map.getClosestCreekID());
+    }
 
+    @Test
+    public void testGetEmergencySite(){
+        map.addPOI(site);
+        assertEquals("site", map.getEmergencySiteID());
     }
 }
