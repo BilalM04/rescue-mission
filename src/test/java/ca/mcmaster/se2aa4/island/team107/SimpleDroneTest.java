@@ -41,7 +41,7 @@ public class SimpleDroneTest {
     @Test
     public void testDrainBattery() {
         drone.drainBattery(cost);
-        assertTrue(drone.getBatteryLevel().equals(battery - cost));
+        assertEquals(battery - cost, drone.getBatteryLevel());
     }
 
     @Test
