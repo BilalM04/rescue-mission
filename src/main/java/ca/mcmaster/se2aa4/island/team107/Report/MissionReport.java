@@ -1,4 +1,4 @@
-package ca.mcmaster.se2aa4.island.team107.ReportGenerator;
+package ca.mcmaster.se2aa4.island.team107.Report;
 
 import java.util.NoSuchElementException;
 import ca.mcmaster.se2aa4.island.team107.Position.Map;
