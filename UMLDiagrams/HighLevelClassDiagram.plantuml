@@ -236,6 +236,22 @@ class Explorer {
 '   + deliverFinalReport(): String
 }
 
+class MissionReport{
+    ' - map: Map
+    ' --
+    ' this(map: Map)
+    ' --
+    ' + generateReport(): String
+    ' - closestCreekID(): String
+    ' - emergencySiteID(): String
+}
+
+interface Report{
+    ' + generateReport(): String
+}
+MissionReport --* Explorer
+Report <|.. MissionReport
+
 Controller <|.. DroneController
 Search <|.. GridSearch
 Drone <|.. SimpleDrone
@@ -243,6 +259,7 @@ Phase <|... MoveToCorner
 Phase <|... FindIsland
 Phase <|... ScanLine
 Phase <|... UTurn
+
 Map <|.. ListMap
 
 Coordinate --o SimpleDrone
@@ -274,10 +291,10 @@ MoveToCorner o-- Controller
 MoveToCorner o-- Direction
 GridSearch *-- Phase
 
-MoveToCorner --- FindIsland
-FindIsland --- ScanLine
-ScanLine --- UTurn
-UTurn --- ScanLine
+MoveToCorner -- FindIsland
+FindIsland -- ScanLine
+ScanLine -- UTurn
+UTurn -- ScanLine
 
 
 @enduml
