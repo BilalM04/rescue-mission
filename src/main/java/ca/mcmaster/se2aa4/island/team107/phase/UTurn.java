@@ -77,7 +77,7 @@ public class UTurn implements Phase {
     }
 
     private String turnCommand(boolean dirLeft) {
-        direction = (dirLeft) ? direction.getLeft() : direction.getRight();
+        direction = dirLeft ? direction.getLeft() : direction.getRight();
         return controller.heading(direction);
     }
 }

@@ -117,8 +117,9 @@ public class FindIsland implements Phase {
             
             case State.FLY_TO_ISLAND:
                 flightsToIsland -= 1;
-                if (flightsToIsland <= 0)
+                if (flightsToIsland <= 0) {
                     atIsland = true;
+                }
                 break;
         }
     }
