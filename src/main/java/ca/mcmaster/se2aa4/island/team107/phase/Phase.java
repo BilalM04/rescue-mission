@@ -4,14 +4,13 @@ import org.json.JSONObject;
 
 public interface Phase {
 
-    public String getDroneCommand();
+    String getDroneCommand();
 
-    public void processInfo(JSONObject info);
+    void processInfo(JSONObject info);
 
-    public Phase getNextPhase();
+    Phase getNextPhase();
 
-    public boolean isFinished();
+    boolean isFinished();
 
-    public boolean isLastPhase();
-
+    boolean isLastPhase();
 }
