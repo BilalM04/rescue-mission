@@ -24,11 +24,8 @@ public class SimpleDrone implements Drone {
     }
 
     public boolean notEnoughBattery(Integer costFly, Integer costHeading) {
-        if (((Math.abs(location.getX()) * costFly) + (Math.abs(location.getY()) * costFly)
-                + costHeading) > getBatteryLevel()) {
-            return true;
-        }
-        return false;
+        return (((Math.abs(location.getX()) * costFly) + (Math.abs(location.getY()) * costFly)
+                + costHeading) > getBatteryLevel());
     }
 
     public Direction getHeading() {
