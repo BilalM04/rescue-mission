@@ -5,19 +5,19 @@ import ca.mcmaster.se2aa4.island.team107.position.Direction;
 
 public interface Drone {
 
-    public Integer getBatteryLevel();
+    Integer getBatteryLevel();
 
-    public void drainBattery(Integer cost);
+    void drainBattery(Integer cost);
 
-    public boolean notEnoughBattery(Integer costFly, Integer costHeading);
+    boolean notEnoughBattery(Integer costFly, Integer costHeading);
 
-    public Direction getHeading();
+    Direction getHeading();
 
-    public Coordinate getLocation();
+    Coordinate getLocation();
 
-    public void flyForward();
+    void flyForward();
 
-    public void turnRight();
+    void turnRight();
 
-    public void turnLeft();
+    void turnLeft();
 }

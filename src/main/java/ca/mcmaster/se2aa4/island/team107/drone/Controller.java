@@ -4,13 +4,13 @@ import ca.mcmaster.se2aa4.island.team107.position.Direction;
 
 public interface Controller {
 
-    public String fly();
+    String fly();
 
-    public String heading(Direction dir);
+    String heading(Direction dir);
 
-    public String echo(Direction dir);
+    String echo(Direction dir);
 
-    public String scan();
+    String scan();
 
-    public String stop();
+    String stop();
 }
