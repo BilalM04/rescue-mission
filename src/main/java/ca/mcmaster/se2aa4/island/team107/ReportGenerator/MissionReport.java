@@ -1,10 +1,10 @@
-package ca.mcmaster.se2aa4.island.team107;
+package ca.mcmaster.se2aa4.island.team107.ReportGenerator;
 
 import java.util.NoSuchElementException;
 import ca.mcmaster.se2aa4.island.team107.Position.Map;
 
 public class MissionReport implements Report {
-    
+
     Map map;
 
     public MissionReport(Map map) {
