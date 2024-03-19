@@ -4,7 +4,7 @@ import org.json.JSONObject;
 
 public interface Search {
 
-    public String performSearch();
+    String performSearch();
 
-    public void readResponse(JSONObject response);
+    void readResponse(JSONObject response);
 } 

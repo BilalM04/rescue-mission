@@ -2,9 +2,9 @@ package ca.mcmaster.se2aa4.island.team107.position;
 
 public interface Map {
     
-    public void addPOI(POI poi);
+    void addPOI(POI poi);
 
-    public String getEmergencySiteID();
+    String getEmergencySiteID();
 
-    public String getClosestCreekID();
+    String getClosestCreekID();
 }
