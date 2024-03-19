@@ -20,14 +20,21 @@ public class MissionReportTest {
     @BeforeEach
     public void setUp() {
         map = new ListMap();
-        map.addPOI(new POI(TypePOI.CREEK, new Coordinate(0, 0), "creek"));
-        map.addPOI(new POI(TypePOI.EMERGENCY_SITE, new Coordinate(0, 0), "site"));
-        report = new MissionReport(map);
     }
 
     @Test
     public void testGenerateReport() {
+        map.addPOI(new POI(TypePOI.CREEK, new Coordinate(0, 0), "creek"));
+        map.addPOI(new POI(TypePOI.EMERGENCY_SITE, new Coordinate(0, 0), "site"));
+        report = new MissionReport(map);
         String result = "Emergency Site ID: site\nClosest Creek ID: creek\n";
+        assertEquals(report.generateReport(), result); 
+    }
+
+    @Test
+    public void testGenerateReportNull() {
+        report = new MissionReport(map);
+        String result = "Emergency Site ID: Unable to locate emergency site.\nClosest Creek ID: Unable to locate a creek.\n";
         assertEquals(report.generateReport(), result); 
     }
 }
