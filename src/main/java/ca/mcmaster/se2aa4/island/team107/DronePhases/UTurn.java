@@ -65,10 +65,7 @@ public class UTurn implements Phase {
 
 
     public Phase getNextPhase() {
-        Phase scanPhase = new ScanLine(
-            controller, direction, !turnLeft
-        );
-        return scanPhase;
+        return new ScanLine(controller, direction, !turnLeft);
     }
 
     public boolean isFinished() {
