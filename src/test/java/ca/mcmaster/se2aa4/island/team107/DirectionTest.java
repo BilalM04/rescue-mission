@@ -11,17 +11,17 @@ public class DirectionTest {
     @Test
     public void testGetRight() {
         Direction dirR = dir.getRight();
-        assertEquals(dirR, Direction.SOUTH);
+        assertEquals(Direction.SOUTH, dirR);
     }
 
     @Test
     public void testGetLeft() {
         Direction dirL = dir.getLeft();
-        assertEquals(dirL, Direction.NORTH);
+        assertEquals(Direction.NORTH, dirL);
     }
 
     @Test
     public void testGetSymbol() {
-        assertEquals(dir.getSymbol().toUpperCase(), "E");
+        assertEquals("E", dir.getSymbol());
     }
 }
