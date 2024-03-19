@@ -24,36 +24,56 @@ class Coordinate {
     + distanceTo(other: Coordinate): double
 }
 
-enum TypePOI {
-  CREEK
-  EMERGENCY_SITE
-  HOMEBASE
-}
-
-class PointOfInterest {
-  - kind: String
-  - id: String
-  - location: Coordinate
-  --
-    + this(kind: String, location: Coordinate, id: String)
-  --
-    + getLocation(): Coordinate
-    + getKind(): String
-    + getID(): String
-}
-
-class Map {
+class ListMap {
     + creeks: List<POI>
-    + emergencySite: List<POI>
+    + emergencySite: POI
     --
     + this()
     --
-    + addCreek(creek: POI)
-    + addEmergencySite(site: POI)
+    + addPOI(poi: POI): void
+    + getEmergencySiteID(): String
+    + getClosetCreekID(): String
 }
 
-TypePOI -- PointOfInterest
-Coordinate --o PointOfInterest
-PointOfInterest --* Map
+interface Map {
+    + addPOI(poi: POI): void
+    + getEmergencySiteID(): String
+    + getClosetCreekID(): String
+}
+
+enum TypePOI {
+  CREEK
+  EMERGENCY_SITE
+}
+
+class POI {
+  - kind: TypePOI
+  - location: Coordinate
+  - id: String
+  --
+  + this(kind: TypePOI, location: Coordinate, id: String)
+  --
+  + getKind(): TypePOI
+  + getLocation(): Coordinate
+  + getID(): String
+}
+
+class Explorer {
+  - logger: Logger
+  - drone: Drone
+  - gridSearch: Search
+  - map: Map
+  --
+  + initialize(s: String): void
+  + takeDecision(): String
+  + acknowledgeResults(s: String): void
+  + deliverFinalReport(): String
+}
+
+Map <|.. ListMap
+Coordinate --o POI
+POI --* ListMap
+ListMap --* Explorer
+TypePOI -- POI
 
 @enduml
