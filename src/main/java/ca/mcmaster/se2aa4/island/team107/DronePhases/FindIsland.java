@@ -124,10 +124,7 @@ public class FindIsland implements Phase {
     }
 
     public Phase getNextPhase() {
-        Phase scanPhase = new ScanLine(
-            controller, direction, uTurnLeft
-        );
-        return scanPhase;
+        return new ScanLine(controller, direction, uTurnLeft);
     }
 
     public boolean isFinished() {

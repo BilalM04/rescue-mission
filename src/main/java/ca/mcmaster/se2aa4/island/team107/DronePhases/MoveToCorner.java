@@ -103,8 +103,7 @@ public class MoveToCorner implements Phase {
     }
 
     public Phase getNextPhase() {
-        Phase goToIsland = new FindIsland(controller, direction);
-        return goToIsland;
+        return new FindIsland(controller, direction);
     }
 
     public boolean isFinished() {

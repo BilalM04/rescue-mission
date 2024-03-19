@@ -63,8 +63,9 @@ public class GridSearch implements Search {
         if (extraInfo.has("creeks")) {
             JSONArray creeksFound = extraInfo.getJSONArray("creeks");
             if (!creeksFound.isEmpty()) {
-                map.addPOI(
-                        new POI(POI.TypePOI.CREEK, drone.getLocation(), creeksFound.getString(0)));
+                for (int i = 0; i < creeksFound.length(); i++) {
+                    map.addPOI(new POI(POI.TypePOI.CREEK, drone.getLocation(), creeksFound.getString(0)));
+                }
             }
         }
 

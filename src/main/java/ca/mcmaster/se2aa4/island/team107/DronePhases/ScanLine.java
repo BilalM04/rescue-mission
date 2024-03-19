@@ -94,10 +94,7 @@ public class ScanLine implements Phase {
     }
 
     public Phase getNextPhase() {
-        Phase turnPhase = new UTurn(
-            controller, direction, turnLeft, moveOutwards
-        );
-        return turnPhase;
+        return new UTurn(controller, direction, turnLeft, moveOutwards);
     }
 
     public boolean isFinished() {

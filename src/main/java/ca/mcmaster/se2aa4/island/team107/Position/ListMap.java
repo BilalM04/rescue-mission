@@ -33,7 +33,7 @@ public class ListMap implements Map {
     }
 
     public String getClosestCreekID() {
-        if (creeks.size() == 0) {
+        if (creeks.isEmpty()) {
             throw new NoSuchElementException("Cannot find closest creek: missing data");
         }
 

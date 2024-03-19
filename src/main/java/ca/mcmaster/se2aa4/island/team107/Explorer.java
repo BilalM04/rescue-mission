@@ -22,7 +22,6 @@ public class Explorer implements IExplorerRaid {
 
     private final Logger logger = LogManager.getLogger();
 
-    private Drone drone;
     private Search gridSearch;
     private Map map;
 
@@ -37,7 +36,7 @@ public class Explorer implements IExplorerRaid {
         logger.info("Battery level is {}", batteryLevel);
 
         this.map = new ListMap();
-        this.drone = new SimpleDrone(batteryLevel, Direction.fromSymbol(direction));
+        Drone drone = new SimpleDrone(batteryLevel, Direction.fromSymbol(direction));
         this.gridSearch = new GridSearch(drone, map);
     }
 
