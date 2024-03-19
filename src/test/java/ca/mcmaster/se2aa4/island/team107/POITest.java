@@ -1,8 +1,8 @@
 package ca.mcmaster.se2aa4.island.team107;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import ca.mcmaster.se2aa4.island.team107.position.Coordinate;
 import ca.mcmaster.se2aa4.island.team107.position.POI;
@@ -18,11 +18,13 @@ public class POITest {
 
     @Test
     public void testGetLocation() {
-        assertEquals(poi.getLocation(), new Coordinate(7, 19));
+        Coordinate coord = new Coordinate(7, 19);
+        assertEquals(poi.getLocation().getX(), coord.getX());
+        assertEquals(poi.getLocation().getY(), coord.getY());
     }
 
     @Test
     public void testGetID() {
-        assertEquals(poi.getID(), "14567890");
+        assertEquals(poi.getID(), "1234567890");
     }
 }
