@@ -49,6 +49,8 @@ public class SimpleDrone implements Drone {
             case Direction.WEST:
                 location.setX(location.getX() - 1);
                 break;
+            default:
+                throw new IllegalStateException();
         }
     }
 
@@ -70,6 +72,8 @@ public class SimpleDrone implements Drone {
                 location.setY(location.getY() + 1);
                 location.setX(location.getX() - 1);
                 break;
+            default:
+                throw new IllegalStateException();
         }
         heading = heading.getRight();
     }
@@ -92,6 +96,8 @@ public class SimpleDrone implements Drone {
                 location.setY(location.getY() - 1);
                 location.setX(location.getX() - 1);
                 break;
+            default:
+                throw new IllegalStateException();
         }
         heading = heading.getLeft();
     }
