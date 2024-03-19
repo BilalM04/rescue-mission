@@ -1,10 +1,8 @@
-package ca.mcmaster.se2aa4.island.team107.Configuration;
+package ca.mcmaster.se2aa4.island.team107;
 
 import static eu.ace_design.island.runner.Runner.run;
 
 import java.io.File;
-
-import ca.mcmaster.se2aa4.island.team107.Explorer;
 
 public class Runner {
 
