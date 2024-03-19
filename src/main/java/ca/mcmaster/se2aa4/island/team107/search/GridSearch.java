@@ -1,8 +1,8 @@
-package ca.mcmaster.se2aa4.island.team107.Search;
+package ca.mcmaster.se2aa4.island.team107.search;
 
-import ca.mcmaster.se2aa4.island.team107.Drone.*;
-import ca.mcmaster.se2aa4.island.team107.DronePhases.*;
-import ca.mcmaster.se2aa4.island.team107.Position.*;
+import ca.mcmaster.se2aa4.island.team107.drone.*;
+import ca.mcmaster.se2aa4.island.team107.phase.*;
+import ca.mcmaster.se2aa4.island.team107.position.*;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

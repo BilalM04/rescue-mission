@@ -1,7 +1,7 @@
-package ca.mcmaster.se2aa4.island.team107.DronePhases;
+package ca.mcmaster.se2aa4.island.team107.phase;
 
-import ca.mcmaster.se2aa4.island.team107.Drone.Controller;
-import ca.mcmaster.se2aa4.island.team107.Position.Direction;
+import ca.mcmaster.se2aa4.island.team107.drone.Controller;
+import ca.mcmaster.se2aa4.island.team107.position.Direction;
 
 import org.json.JSONObject;
 

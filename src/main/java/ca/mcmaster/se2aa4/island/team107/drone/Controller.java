@@ -1,6 +1,6 @@
-package ca.mcmaster.se2aa4.island.team107.Drone;
+package ca.mcmaster.se2aa4.island.team107.drone;
 
-import ca.mcmaster.se2aa4.island.team107.Position.Direction;
+import ca.mcmaster.se2aa4.island.team107.position.Direction;
 
 public interface Controller {
 

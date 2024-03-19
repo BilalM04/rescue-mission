@@ -1,4 +1,4 @@
-package ca.mcmaster.se2aa4.island.team107.Search;
+package ca.mcmaster.se2aa4.island.team107.search;
 
 import org.json.JSONObject;
 

@@ -1,12 +1,12 @@
 package ca.mcmaster.se2aa4.island.team107;
 
-import ca.mcmaster.se2aa4.island.team107.Drone.Drone;
-import ca.mcmaster.se2aa4.island.team107.Drone.SimpleDrone;
-import ca.mcmaster.se2aa4.island.team107.Position.*;
-import ca.mcmaster.se2aa4.island.team107.Report.MissionReport;
-import ca.mcmaster.se2aa4.island.team107.Report.Report;
-import ca.mcmaster.se2aa4.island.team107.Search.GridSearch;
-import ca.mcmaster.se2aa4.island.team107.Search.Search;
+import ca.mcmaster.se2aa4.island.team107.drone.Drone;
+import ca.mcmaster.se2aa4.island.team107.drone.SimpleDrone;
+import ca.mcmaster.se2aa4.island.team107.position.*;
+import ca.mcmaster.se2aa4.island.team107.report.MissionReport;
+import ca.mcmaster.se2aa4.island.team107.report.Report;
+import ca.mcmaster.se2aa4.island.team107.search.GridSearch;
+import ca.mcmaster.se2aa4.island.team107.search.Search;
 
 import java.io.StringReader;
 

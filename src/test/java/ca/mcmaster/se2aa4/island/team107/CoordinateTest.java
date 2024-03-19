@@ -3,9 +3,10 @@ package ca.mcmaster.se2aa4.island.team107;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.BeforeEach;
 
-import ca.mcmaster.se2aa4.island.team107.Position.Coordinate;
+import ca.mcmaster.se2aa4.island.team107.position.Coordinate;
+
+import org.junit.jupiter.api.BeforeEach;
 
 public class CoordinateTest {
     private Coordinate coordOne;

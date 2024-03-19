@@ -3,7 +3,8 @@ package ca.mcmaster.se2aa4.island.team107;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Test;
-import ca.mcmaster.se2aa4.island.team107.Position.Direction;
+
+import ca.mcmaster.se2aa4.island.team107.position.Direction;
 
 public class DirectionTest {
     private final Direction dir = Direction.EAST;

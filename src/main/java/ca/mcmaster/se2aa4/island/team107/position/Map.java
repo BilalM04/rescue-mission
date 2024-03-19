@@ -1,4 +1,4 @@
-package ca.mcmaster.se2aa4.island.team107.Position;
+package ca.mcmaster.se2aa4.island.team107.position;
 
 public interface Map {
     
