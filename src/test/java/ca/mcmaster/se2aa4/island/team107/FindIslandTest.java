@@ -26,8 +26,14 @@ public class FindIslandTest {
     }
 
     @Test
-    public void testGetDroneCommand() {
-        // assertEquals(p1.getDroneCommand(), "{\"action\":\"fly\"}");
+    public void testStateFly() {
+        assertEquals(p1.getDroneCommand(), controller.fly());
     }
+
+    // @Test
+    // public void testStateEchoLeft() {
+    //     p1.getDroneCommand();
+    //     p1.processInfo(null);
+    // }
 
 }
