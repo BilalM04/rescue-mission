@@ -7,11 +7,11 @@ import static org.junit.Assert.assertEquals;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import ca.mcmaster.se2aa4.island.team107.Drone.Drone;
-import ca.mcmaster.se2aa4.island.team107.Drone.DroneController;
-import ca.mcmaster.se2aa4.island.team107.Drone.SimpleDrone;
-import ca.mcmaster.se2aa4.island.team107.DronePhases.UTurn;
-import ca.mcmaster.se2aa4.island.team107.Position.Direction;
+import ca.mcmaster.se2aa4.island.team107.drone.Drone;
+import ca.mcmaster.se2aa4.island.team107.drone.DroneController;
+import ca.mcmaster.se2aa4.island.team107.drone.SimpleDrone;
+import ca.mcmaster.se2aa4.island.team107.phase.UTurn;
+import ca.mcmaster.se2aa4.island.team107.position.Direction;
 
 
 public class UTurnTest {
