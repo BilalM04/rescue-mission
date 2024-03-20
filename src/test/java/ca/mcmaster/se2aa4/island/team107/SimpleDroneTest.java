@@ -1,17 +1,15 @@
 package ca.mcmaster.se2aa4.island.team107;
 
-import static org.junit.Assert.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import ca.mcmaster.se2aa4.island.team107.Drone.Drone;
-import ca.mcmaster.se2aa4.island.team107.Drone.SimpleDrone;
-import ca.mcmaster.se2aa4.island.team107.Position.Coordinate;
-import ca.mcmaster.se2aa4.island.team107.Position.Direction;
+import ca.mcmaster.se2aa4.island.team107.drone.Drone;
+import ca.mcmaster.se2aa4.island.team107.drone.SimpleDrone;
+import ca.mcmaster.se2aa4.island.team107.position.Coordinate;
+import ca.mcmaster.se2aa4.island.team107.position.Direction;
 
 public class SimpleDroneTest {
     private final Integer battery = 10000;
@@ -60,7 +58,7 @@ public class SimpleDroneTest {
     @Test
     public void testFlyForward() {
         drone.flyForward();
-        assertEquals(dir, drone.getHeading(), "Drone direction should remain unchanged after flying forward.");
+        assertEquals(dir, drone.getHeading());
         Coordinate droneCoord = drone.getLocation();
         assertEquals(coord1.getX(), droneCoord.getX());
         assertEquals(coord1.getY(), droneCoord.getY());

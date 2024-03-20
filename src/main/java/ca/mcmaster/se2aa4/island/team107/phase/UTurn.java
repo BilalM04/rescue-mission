@@ -1,7 +1,7 @@
-package ca.mcmaster.se2aa4.island.team107.DronePhases;
+package ca.mcmaster.se2aa4.island.team107.phase;
 
-import ca.mcmaster.se2aa4.island.team107.Drone.Controller;
-import ca.mcmaster.se2aa4.island.team107.Position.Direction;
+import ca.mcmaster.se2aa4.island.team107.drone.Controller;
+import ca.mcmaster.se2aa4.island.team107.position.Direction;
 
 import org.json.JSONObject;
 
@@ -60,7 +60,7 @@ public class UTurn implements Phase {
     }
 
     public void processInfo(JSONObject info) { 
-        // Phase does need to process any information from JSON response. Fixed drone U-turn logic.
+        // Phase does need to process any information from JSON response. Drone U-turn logic is fixed.
     }
 
 
@@ -77,7 +77,7 @@ public class UTurn implements Phase {
     }
 
     private String turnCommand(boolean dirLeft) {
-        direction = (dirLeft) ? direction.getLeft() : direction.getRight();
+        direction = dirLeft ? direction.getLeft() : direction.getRight();
         return controller.heading(direction);
     }
 }
