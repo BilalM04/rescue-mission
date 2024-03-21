@@ -44,7 +44,9 @@ public class Explorer implements IExplorerRaid {
 
     @Override
     public String takeDecision() {
-        return gridSearch.performSearch();
+        String command = gridSearch.performSearch();
+        logger.info(command);
+        return command;
     }
 
     @Override
