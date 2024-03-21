@@ -1,12 +1,14 @@
 package ca.mcmaster.se2aa4.island.team107;
 
-import ca.mcmaster.se2aa4.island.team107.Drone.Drone;
-import ca.mcmaster.se2aa4.island.team107.Drone.SimpleDrone;
-import ca.mcmaster.se2aa4.island.team107.Position.*;
-import ca.mcmaster.se2aa4.island.team107.ReportGenerator.MissionReport;
-import ca.mcmaster.se2aa4.island.team107.ReportGenerator.Report;
-import ca.mcmaster.se2aa4.island.team107.Search.GridSearch;
-import ca.mcmaster.se2aa4.island.team107.Search.Search;
+import ca.mcmaster.se2aa4.island.team107.drone.Drone;
+import ca.mcmaster.se2aa4.island.team107.drone.SimpleDrone;
+import ca.mcmaster.se2aa4.island.team107.position.Direction;
+import ca.mcmaster.se2aa4.island.team107.position.ListMap;
+import ca.mcmaster.se2aa4.island.team107.position.Map;
+import ca.mcmaster.se2aa4.island.team107.report.MissionReport;
+import ca.mcmaster.se2aa4.island.team107.report.Report;
+import ca.mcmaster.se2aa4.island.team107.search.GridSearch;
+import ca.mcmaster.se2aa4.island.team107.search.Search;
 
 import java.io.StringReader;
 
@@ -22,7 +24,6 @@ public class Explorer implements IExplorerRaid {
 
     private final Logger logger = LogManager.getLogger();
 
-    private Drone drone;
     private Search gridSearch;
     private Map map;
 
@@ -37,7 +38,7 @@ public class Explorer implements IExplorerRaid {
         logger.info("Battery level is {}", batteryLevel);
 
         this.map = new ListMap();
-        this.drone = new SimpleDrone(batteryLevel, Direction.fromSymbol(direction));
+        Drone drone = new SimpleDrone(batteryLevel, Direction.fromSymbol(direction));
         this.gridSearch = new GridSearch(drone, map);
     }
 
@@ -49,7 +50,7 @@ public class Explorer implements IExplorerRaid {
     @Override
     public void acknowledgeResults(String s) {
         JSONObject response = new JSONObject(new JSONTokener(new StringReader(s)));
-        logger.info("** Response received:\n" + response.toString(2));
+        logger.info("** Response received:\n {}", response.toString(2));
 
         gridSearch.readResponse(response);
     }

@@ -1,7 +1,7 @@
-package ca.mcmaster.se2aa4.island.team107.DronePhases;
+package ca.mcmaster.se2aa4.island.team107.phase;
 
-import ca.mcmaster.se2aa4.island.team107.Drone.Controller;
-import ca.mcmaster.se2aa4.island.team107.Position.Direction;
+import ca.mcmaster.se2aa4.island.team107.drone.Controller;
+import ca.mcmaster.se2aa4.island.team107.position.Direction;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -103,8 +103,7 @@ public class MoveToCorner implements Phase {
     }
 
     public Phase getNextPhase() {
-        Phase goToIsland = new FindIsland(controller, direction);
-        return goToIsland;
+        return new FindIsland(controller, direction);
     }
 
     public boolean isFinished() {

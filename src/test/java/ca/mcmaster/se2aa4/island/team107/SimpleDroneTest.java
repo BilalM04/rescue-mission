@@ -1,16 +1,15 @@
 package ca.mcmaster.se2aa4.island.team107;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import ca.mcmaster.se2aa4.island.team107.Drone.Drone;
-import ca.mcmaster.se2aa4.island.team107.Drone.SimpleDrone;
-import ca.mcmaster.se2aa4.island.team107.Position.Coordinate;
-import ca.mcmaster.se2aa4.island.team107.Position.Direction;
+import ca.mcmaster.se2aa4.island.team107.drone.Drone;
+import ca.mcmaster.se2aa4.island.team107.drone.SimpleDrone;
+import ca.mcmaster.se2aa4.island.team107.position.Coordinate;
+import ca.mcmaster.se2aa4.island.team107.position.Direction;
 
 public class SimpleDroneTest {
     private final Integer battery = 10000;
@@ -29,18 +28,18 @@ public class SimpleDroneTest {
 
     @Test
     public void testGetHeading() {
-        assertTrue(drone.getHeading().equals(Direction.EAST));
+        assertEquals(Direction.EAST, drone.getHeading());
     }
 
     @Test
     public void testGetBateryLevel() {
-        assertFalse(drone.getBatteryLevel().equals(battery - 1));
+        assertEquals(battery, drone.getBatteryLevel());
     }
 
     @Test
     public void testDrainBattery() {
         drone.drainBattery(cost);
-        assertTrue(drone.getBatteryLevel().equals(battery - cost));
+        assertEquals(battery - cost, drone.getBatteryLevel());
     }
 
     @Test
@@ -59,7 +58,7 @@ public class SimpleDroneTest {
     @Test
     public void testFlyForward() {
         drone.flyForward();
-        assertEquals(dir, drone.getHeading(), "Drone direction should remain unchanged after flying forward.");
+        assertEquals(dir, drone.getHeading());
         Coordinate droneCoord = drone.getLocation();
         assertEquals(coord1.getX(), droneCoord.getX());
         assertEquals(coord1.getY(), droneCoord.getY());
@@ -68,7 +67,7 @@ public class SimpleDroneTest {
     @Test
     public void testTurnRight() {
         drone.turnRight();
-        assertEquals(drone.getHeading(), Direction.SOUTH);
+        assertEquals(Direction.SOUTH, drone.getHeading());
         Coordinate droneCoord = drone.getLocation();
         assertEquals(droneCoord.getX(), coord2.getX());
         assertEquals(droneCoord.getY(), coord2.getY());
@@ -77,7 +76,7 @@ public class SimpleDroneTest {
     @Test
     public void testTurnLeft() {
         drone.turnLeft();
-        assertEquals(drone.getHeading(), Direction.NORTH);
+        assertEquals(Direction.NORTH, drone.getHeading());
         Coordinate droneCoord = drone.getLocation();
         assertEquals(droneCoord.getX(), coord3.getY());
     }

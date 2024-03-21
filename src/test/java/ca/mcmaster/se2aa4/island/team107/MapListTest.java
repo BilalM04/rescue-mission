@@ -2,12 +2,13 @@ package ca.mcmaster.se2aa4.island.team107;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import ca.mcmaster.se2aa4.island.team107.Position.Coordinate;
-import ca.mcmaster.se2aa4.island.team107.Position.ListMap;
-import ca.mcmaster.se2aa4.island.team107.Position.POI;
-import ca.mcmaster.se2aa4.island.team107.Position.POI.TypePOI;
+import ca.mcmaster.se2aa4.island.team107.position.Coordinate;
+import ca.mcmaster.se2aa4.island.team107.position.ListMap;
+import ca.mcmaster.se2aa4.island.team107.position.POI;
+import ca.mcmaster.se2aa4.island.team107.position.POI.TypePOI;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class MapListTest {
     private ListMap map;
@@ -32,7 +33,12 @@ public class MapListTest {
         map.addPOI(creek4);
         map.addPOI(creek5);
         map.addPOI(site);
-        assertEquals(map.getClosestCreekID(), "5");
+        assertEquals("5", map.getClosestCreekID());
+    }
 
+    @Test
+    public void testGetEmergencySite(){
+        map.addPOI(site);
+        assertEquals("site", map.getEmergencySiteID());
     }
 }

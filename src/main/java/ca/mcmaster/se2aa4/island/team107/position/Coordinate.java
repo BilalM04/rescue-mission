@@ -1,4 +1,4 @@
-package ca.mcmaster.se2aa4.island.team107.Position;
+package ca.mcmaster.se2aa4.island.team107.position;
 
 public class Coordinate {
     private int x;
@@ -26,6 +26,6 @@ public class Coordinate {
     }
 
     public double distanceTo(Coordinate other) {
-        return Math.sqrt(Math.pow(other.getX() - this.x, 2) + Math.pow(other.getY() - this.y, 2));
+        return Math.sqrt(Math.pow((double)other.getX() - this.x, 2) + Math.pow((double)other.getY() - this.y, 2));
     }
 }

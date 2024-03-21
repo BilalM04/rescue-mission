@@ -1,10 +1,10 @@
-package ca.mcmaster.se2aa4.island.team107.Position;
+package ca.mcmaster.se2aa4.island.team107.position;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
-import ca.mcmaster.se2aa4.island.team107.Position.POI.TypePOI;
+import ca.mcmaster.se2aa4.island.team107.position.POI.TypePOI;
 
 public class ListMap implements Map {
     private final List<POI> creeks;
@@ -33,7 +33,7 @@ public class ListMap implements Map {
     }
 
     public String getClosestCreekID() {
-        if (creeks.size() == 0) {
+        if (creeks.isEmpty()) {
             throw new NoSuchElementException("Cannot find closest creek: missing data");
         }
 

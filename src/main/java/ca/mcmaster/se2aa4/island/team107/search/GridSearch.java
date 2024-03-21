@@ -1,13 +1,18 @@
-package ca.mcmaster.se2aa4.island.team107.Search;
-
-import ca.mcmaster.se2aa4.island.team107.Drone.*;
-import ca.mcmaster.se2aa4.island.team107.DronePhases.*;
-import ca.mcmaster.se2aa4.island.team107.Position.*;
+package ca.mcmaster.se2aa4.island.team107.search;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.json.JSONArray;
 import org.json.JSONObject;
+
+import ca.mcmaster.se2aa4.island.team107.drone.Controller;
+import ca.mcmaster.se2aa4.island.team107.drone.Drone;
+import ca.mcmaster.se2aa4.island.team107.drone.DroneController;
+import ca.mcmaster.se2aa4.island.team107.phase.MoveToCorner;
+import ca.mcmaster.se2aa4.island.team107.phase.Phase;
+import ca.mcmaster.se2aa4.island.team107.position.Coordinate;
+import ca.mcmaster.se2aa4.island.team107.position.Map;
+import ca.mcmaster.se2aa4.island.team107.position.POI;
 
 public class GridSearch implements Search {
     private final Logger logger = LogManager.getLogger();
@@ -63,8 +68,9 @@ public class GridSearch implements Search {
         if (extraInfo.has("creeks")) {
             JSONArray creeksFound = extraInfo.getJSONArray("creeks");
             if (!creeksFound.isEmpty()) {
-                map.addPOI(
-                        new POI(POI.TypePOI.CREEK, drone.getLocation(), creeksFound.getString(0)));
+                for (int i = 0; i < creeksFound.length(); i++) {
+                    map.addPOI(new POI(POI.TypePOI.CREEK, drone.getLocation(), creeksFound.getString(0)));
+                }
             }
         }
 

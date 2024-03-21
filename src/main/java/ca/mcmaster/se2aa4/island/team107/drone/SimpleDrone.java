@@ -1,7 +1,7 @@
-package ca.mcmaster.se2aa4.island.team107.Drone;
+package ca.mcmaster.se2aa4.island.team107.drone;
 
-import ca.mcmaster.se2aa4.island.team107.Position.Coordinate;
-import ca.mcmaster.se2aa4.island.team107.Position.Direction;
+import ca.mcmaster.se2aa4.island.team107.position.Coordinate;
+import ca.mcmaster.se2aa4.island.team107.position.Direction;
 
 public class SimpleDrone implements Drone {
 
@@ -24,11 +24,7 @@ public class SimpleDrone implements Drone {
     }
 
     public boolean notEnoughBattery(Integer costFly, Integer costHeading) {
-        if (((Math.abs(location.getX()) * costFly) + (Math.abs(location.getY()) * costFly)
-                + costHeading) > getBatteryLevel()) {
-            return true;
-        }
-        return false;
+        return ((Math.abs(location.getX()) * costFly) + (Math.abs(location.getY()) * costFly) + costHeading) > getBatteryLevel();
     }
 
     public Direction getHeading() {
@@ -53,6 +49,8 @@ public class SimpleDrone implements Drone {
             case Direction.WEST:
                 location.setX(location.getX() - 1);
                 break;
+            default:
+                throw new IllegalStateException();
         }
     }
 
@@ -74,6 +72,8 @@ public class SimpleDrone implements Drone {
                 location.setY(location.getY() + 1);
                 location.setX(location.getX() - 1);
                 break;
+            default:
+                throw new IllegalStateException();
         }
         heading = heading.getRight();
     }
@@ -96,6 +96,8 @@ public class SimpleDrone implements Drone {
                 location.setY(location.getY() - 1);
                 location.setX(location.getX() - 1);
                 break;
+            default:
+                throw new IllegalStateException();
         }
         heading = heading.getLeft();
     }
