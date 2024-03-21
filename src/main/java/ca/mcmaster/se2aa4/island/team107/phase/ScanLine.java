@@ -18,7 +18,7 @@ public class ScanLine implements Phase {
 
     private final Logger logger = LogManager.getLogger();
 
-    private Controller controller;
+    //private Controller controller;
 
     private Direction direction;
 
@@ -30,11 +30,10 @@ public class ScanLine implements Phase {
     private State state;
 
 
-    public ScanLine(Controller controller, 
-                      Direction initialDirection, 
+    public ScanLine(Direction initialDirection, 
                       boolean turnLeft) {
 
-        this.controller = controller;
+        //this.controller = controller;
         this.direction = initialDirection;
         this.turnLeft = turnLeft;
 
@@ -44,7 +43,7 @@ public class ScanLine implements Phase {
         this.state = State.FLY;
     }
 
-    public String getDroneCommand() {
+    public String getDroneCommand(Controller controller) {
         switch (state) {
             case State.FLY:
                 return controller.fly();
@@ -94,7 +93,7 @@ public class ScanLine implements Phase {
     }
 
     public Phase getNextPhase() {
-        return new UTurn(controller, direction, turnLeft, moveOutwards);
+        return new UTurn(direction, turnLeft, moveOutwards);
     }
 
     public boolean isFinished() {

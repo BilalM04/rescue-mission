@@ -6,7 +6,7 @@ import ca.mcmaster.se2aa4.island.team107.position.Map;
 
 public class MissionReport implements Report {
 
-    Map map;
+    private Map map;
 
     public MissionReport(Map map) {
         this.map = map;

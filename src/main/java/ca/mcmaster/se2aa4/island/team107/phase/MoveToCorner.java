@@ -20,7 +20,7 @@ public class MoveToCorner implements Phase {
 
     private final Logger logger = LogManager.getLogger();
 
-    private Controller controller;
+    //private Controller controller;
     private Direction direction;
     private Direction finalDirection;
     private State state;
@@ -30,15 +30,15 @@ public class MoveToCorner implements Phase {
     private int distanceTraveled = 0;
     private boolean hasReachedCorner;
 
-    public MoveToCorner(Controller controller, Direction initialDir) {
-        this.controller = controller;
+    public MoveToCorner(Direction initialDir) {
+        //this.controller = controller;
         this.direction = initialDir;
         this.state = State.ECHO_LEFT;
         this.finalDirection = initialDir;
         this.hasReachedCorner = false;
     }
 
-    public String getDroneCommand() {
+    public String getDroneCommand(Controller controller) {
 
         switch (state) {
             case State.ECHO_LEFT:
@@ -103,7 +103,7 @@ public class MoveToCorner implements Phase {
     }
 
     public Phase getNextPhase() {
-        return new FindIsland(controller, direction);
+        return new FindIsland(direction);
     }
 
     public boolean isFinished() {
