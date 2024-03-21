@@ -8,12 +8,12 @@ import org.json.JSONObject;
 import ca.mcmaster.se2aa4.island.team107.drone.Controller;
 import ca.mcmaster.se2aa4.island.team107.drone.Drone;
 import ca.mcmaster.se2aa4.island.team107.drone.DroneController;
+import ca.mcmaster.se2aa4.island.team107.map.Map;
+import ca.mcmaster.se2aa4.island.team107.map.POI;
+import ca.mcmaster.se2aa4.island.team107.map.POI.TypePOI;
 import ca.mcmaster.se2aa4.island.team107.phase.MoveToCorner;
 import ca.mcmaster.se2aa4.island.team107.phase.Phase;
 import ca.mcmaster.se2aa4.island.team107.position.Coordinate;
-import ca.mcmaster.se2aa4.island.team107.position.Map;
-import ca.mcmaster.se2aa4.island.team107.position.POI;
-import ca.mcmaster.se2aa4.island.team107.position.POI.TypePOI;
 
 public class GridSearch implements Search {
     private final Logger logger = LogManager.getLogger();
