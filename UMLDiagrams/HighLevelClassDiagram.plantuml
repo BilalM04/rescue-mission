@@ -11,7 +11,7 @@ skinparam stereotypeCBorderColor #000000
 skinparam stereotypeCFontColor #000000
 
 
-package drone {
+package drone <<Frame>>{
     interface Controller {
         + fly(): String
         + heading(dir: Direction): String
@@ -66,7 +66,7 @@ package drone {
 
 
 
-package map {
+package map <<Frame>>{
     class ListMap {
     + creeks: List<POI>
     + emergencySite: POI
@@ -105,7 +105,7 @@ package map {
 
 
 
-package phase {
+package phase <<Frame>>{
     class UTurn {
         ' - controller: Controller
         ' - direction: Direction
@@ -193,7 +193,7 @@ package phase {
 
 
 
-package position {
+package position <<Frame>>{
     enum Direction {
     '   - symbol: String
     '   --
@@ -218,7 +218,7 @@ package position {
 }
 
 
-package search {
+package search <<Frame>>{
     class GridSearch {
         '   - logger: Logger
         '   - drone: Drone
@@ -241,7 +241,7 @@ package search {
 
 
 
-package report{
+package report <<Frame>>{
     class MissionReport{
         ' - map: Map
         ' --
@@ -274,25 +274,17 @@ Phase <|.up. MoveToCorner
 Phase <|.. FindIsland
 Phase <|..right. ScanLine
 Phase <|..left. UTurn
-' Direction -up- FindIsland
-' Direction -up- MoveToCorner
-' Direction -up- ScanLine
-' Direction -up- UTurn
 
 ' search package
 Search <|.up. GridSearch
-
-
 
 ' drone package
 Controller <|.up. DroneController
 Drone <|.up. SimpleDrone
 DroneController o-- Drone
 
-
 ' report package
 Report <|.up. MissionReport
-
 
 ' position package
 Coordinate --o POI
@@ -303,27 +295,38 @@ POI --* ListMap
 TypePOI -- POI
 
 
-Drone --o GridSearch
-Controller --o GridSearch
-Map -down-o GridSearch
-GridSearch *-up- Phase
+Drone -down-o GridSearch
+Controller -down-o GridSearch
+Map -right-o GridSearch
+GridSearch *-- Phase
+
 
 Coordinate ----o SimpleDrone
 Direction ----o SimpleDrone
 
 
-
-MissionReport o-- Map
-
-' UTurn o-up- Controller
-' ScanLine o---- Controller
-' FindIsland o---- Controller
-' MoveToCorner o---- Controller
+MissionReport o-left- Map
 
 
+Search -left-* Explorer
+Map ---* Explorer
+Report -right-* Explorer
 
-Search -up-* Explorer
-Map --* Explorer
-Report --* Explorer
 
+' Drone --o GridSearch
+' Controller --o GridSearch
+' Map -down-o GridSearch
+' GridSearch *-down- Phase
+
+
+' Coordinate ----o SimpleDrone
+' Direction ----o SimpleDrone
+
+
+' MissionReport o-- Map
+
+
+' Search -up-* Explorer
+' Map --* Explorer
+' Report --* Explorer
 @enduml
