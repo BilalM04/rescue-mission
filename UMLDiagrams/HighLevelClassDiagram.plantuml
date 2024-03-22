@@ -298,6 +298,7 @@ TypePOI -- POI
 
 Drone -down-o GridSearch
 Controller -down-o GridSearch
+Map -right-o GridSearch
 GridSearch *-- Phase
 
 
@@ -308,7 +309,7 @@ Direction --o SimpleDrone
 
 Search -left-* Explorer
 Map ---* Explorer
-Report --* Explorer
+Report -right-* Explorer
 
 
 ' Drone --o GridSearch
