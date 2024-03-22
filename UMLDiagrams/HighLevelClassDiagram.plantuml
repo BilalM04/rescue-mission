@@ -247,9 +247,9 @@ package report{
     class MissionReport{
         ' - map: Map
         ' --
-        + this(map: Map)
+        ' + this(map: Map)
         ' --
-        + generateReport(): String
+        ' + generateReport(): String
         ' - closestCreekID(): String
         ' - emergencySiteID(): String
     }
@@ -272,10 +272,10 @@ class Explorer {
 }
 
 ' phase package
-Phase <|.up. MoveToCorner
+Phase <|.. MoveToCorner
 Phase <|.. FindIsland
-Phase <|..right. ScanLine
-Phase <|..left. UTurn
+Phase <|.. ScanLine
+Phase <|.. UTurn
 ' Direction -up- FindIsland
 ' Direction -up- MoveToCorner
 ' Direction -up- ScanLine
@@ -301,7 +301,7 @@ Coordinate --o POI
 
 ' map package
 Map <|.up. ListMap
-POI --* ListMap
+POI "1..*"--* ListMap
 TypePOI -- POI
 
 
