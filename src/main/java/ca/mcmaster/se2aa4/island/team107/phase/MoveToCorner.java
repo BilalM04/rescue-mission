@@ -29,7 +29,7 @@ public class MoveToCorner implements Phase {
     private boolean hasReachedCorner;
     private boolean turnRight;
 
-    public MoveToCorner(Direction initialDir) {
+    public MoveToCorner() {
         this.state = State.ECHO_LEFT;
         this.hasReachedCorner = false;
     }
@@ -101,8 +101,8 @@ public class MoveToCorner implements Phase {
         }
     }
 
-    public Phase getNextPhase(Direction dir) {
-        return new FindIsland(dir);
+    public Phase getNextPhase() {
+        return new FindIsland();
     }
 
     public boolean isFinished() {

@@ -22,7 +22,7 @@ public class FindIslandTest {
     public void setup() {
         drone = new SimpleDrone(battery, dir);
         controller = new DroneController(drone);
-        p1 = new FindIsland(dir);
+        p1 = new FindIsland();
     }
 
     @Test

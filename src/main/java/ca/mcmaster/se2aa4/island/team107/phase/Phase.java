@@ -11,7 +11,7 @@ public interface Phase {
 
     void processInfo(JSONObject info);
 
-    Phase getNextPhase(Direction direction);
+    Phase getNextPhase();
 
     boolean isFinished();
 

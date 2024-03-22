@@ -18,10 +18,6 @@ public class ScanLine implements Phase {
 
     private final Logger logger = LogManager.getLogger();
 
-    //private Controller controller;
-
-    private Direction direction;
-
     private boolean turnLeft;
     private boolean offIsland;
     private boolean hasMoved;
@@ -30,13 +26,8 @@ public class ScanLine implements Phase {
     private State state;
 
 
-    public ScanLine(Direction initialDirection, 
-                      boolean turnLeft) {
-
-        //this.controller = controller;
-        this.direction = initialDirection;
+    public ScanLine(boolean turnLeft) {
         this.turnLeft = turnLeft;
-
         this.offIsland = false;
         this.hasMoved = false;
         this.moveOutwards = false;
@@ -52,7 +43,7 @@ public class ScanLine implements Phase {
                 return controller.scan();
 
             case State.ECHO_FRONT:
-                return controller.echo(direction);
+                return controller.echo(dir);
             
             default:
                 logger.info("Uh oh, something bad happened here!");
@@ -92,8 +83,8 @@ public class ScanLine implements Phase {
         }
     }
 
-    public Phase getNextPhase(Direction dir) {
-        return new UTurn(direction, turnLeft, moveOutwards);
+    public Phase getNextPhase() {
+        return new UTurn(turnLeft, moveOutwards);
     }
 
     public boolean isFinished() {

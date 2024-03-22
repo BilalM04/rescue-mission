@@ -63,19 +63,19 @@ public class UTurnTest {
 
     @Test
     public void turnLeftTest() {
-        p1 = new UTurn(dir, true, true);
+        p1 = new UTurn(true, true);
         runSequence(leftTurnSequence);
     }
     
     @Test
     public void turnRightTest() {
-        p1 = new UTurn(dir, false, true);
+        p1 = new UTurn(false, true);
         runSequence(rightTurnSequence);
     }
 
     @Test
     public void turnInwardTest() {
-        p1 = new UTurn(dir, true, false);
+        p1 = new UTurn(true, false);
         runSequence(inwardLeftTurnSequence);
     }
 }
