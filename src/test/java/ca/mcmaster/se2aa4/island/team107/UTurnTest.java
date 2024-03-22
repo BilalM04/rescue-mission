@@ -56,7 +56,7 @@ public class UTurnTest {
         String command;
         Iterator<String> expected = sequence.iterator();
         while (!p1.isFinished() || expected.hasNext()) {
-            command = p1.getDroneCommand(controller);
+            command = p1.getDroneCommand(controller, drone.getHeading());
             assertEquals(command, expected.next());
         }
     }

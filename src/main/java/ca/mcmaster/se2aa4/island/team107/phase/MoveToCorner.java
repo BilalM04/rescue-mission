@@ -35,7 +35,7 @@ public class MoveToCorner implements Phase {
         this.hasReachedCorner = false;
     }
 
-    public String getDroneCommand(Controller controller) {
+    public String getDroneCommand(Controller controller, Direction dir) {
 
         switch (state) {
             case State.ECHO_LEFT:

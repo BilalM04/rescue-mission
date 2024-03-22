@@ -27,7 +27,7 @@ public class FindIslandTest {
 
     @Test
     public void testStateFly() {
-        assertEquals(p1.getDroneCommand(controller), controller.fly());
+        assertEquals(p1.getDroneCommand(controller, drone.getHeading()), controller.fly());
     }
 
     // @Test

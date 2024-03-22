@@ -37,7 +37,7 @@ public class UTurn implements Phase {
         }
     }
 
-    public String getDroneCommand(Controller controller) {
+    public String getDroneCommand(Controller controller, Direction dir) {
         String command;
 
         if (turnCount.equals(TURN_OPPOSITE)) {

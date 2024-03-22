@@ -43,7 +43,7 @@ public class ScanLine implements Phase {
         this.state = State.FLY;
     }
 
-    public String getDroneCommand(Controller controller) {
+    public String getDroneCommand(Controller controller, Direction dir) {
         switch (state) {
             case State.FLY:
                 return controller.fly();
