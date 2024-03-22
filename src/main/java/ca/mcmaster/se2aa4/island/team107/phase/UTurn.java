@@ -55,7 +55,6 @@ public class UTurn implements Phase {
         // Phase does need to process any information from JSON response. Drone U-turn logic is fixed.
     }
 
-
     public Phase getNextPhase() {
         return new ScanLine(!turnLeft);
     }

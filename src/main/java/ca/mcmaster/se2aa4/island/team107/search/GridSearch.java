@@ -13,7 +13,6 @@ import ca.mcmaster.se2aa4.island.team107.map.POI;
 import ca.mcmaster.se2aa4.island.team107.map.POI.TypePOI;
 import ca.mcmaster.se2aa4.island.team107.phase.MoveToCorner;
 import ca.mcmaster.se2aa4.island.team107.phase.Phase;
-import ca.mcmaster.se2aa4.island.team107.position.Coordinate;
 
 public class GridSearch implements Search {
     private final Logger logger = LogManager.getLogger();
@@ -31,9 +30,6 @@ public class GridSearch implements Search {
     }
 
     public String performSearch() {
-        Coordinate loc = drone.getLocation();
-        logger.info("Position X: {}, Position Y: {}", loc.getX(), loc.getY());
-
         String command = "";
 
         if (phase.isLastPhase() || drone.getBatteryLevel() < 100) {
