@@ -271,10 +271,10 @@ class Explorer {
 }
 
 ' phase package
-Phase <|.up. MoveToCorner
+Phase <|.. MoveToCorner
 Phase <|.. FindIsland
-Phase <|..right. ScanLine
-Phase <|..left. UTurn
+Phase <|.. ScanLine
+Phase <|.. UTurn
 
 ' search package
 Search <|.up. GridSearch
@@ -298,18 +298,17 @@ TypePOI -- POI
 
 Drone -down-o GridSearch
 Controller -down-o GridSearch
-Map -right-o GridSearch
 GridSearch *-- Phase
 
 
-Coordinate ----o SimpleDrone
-Direction ----o SimpleDrone
+Coordinate --o SimpleDrone
+Direction --o SimpleDrone
 
 
 
 Search -left-* Explorer
 Map ---* Explorer
-Report -right-* Explorer
+Report --* Explorer
 
 
 ' Drone --o GridSearch
