@@ -59,8 +59,8 @@ public class Explorer implements IExplorerRaid {
 
     @Override
     public String deliverFinalReport() {
-        Report report = new MissionReport(map);
-        String finalReport = report.generateReport();
+        Report report = new MissionReport();
+        String finalReport = report.generateReport(map);
         logger.info(finalReport);
         return finalReport;
     }
