@@ -195,6 +195,8 @@ package phase {
 
 package position {
     enum Direction {
+        NORTH, EAST
+        SOUTH, WEST
     '   - symbol: String
     '   --
     '   + getSymbol(): String
@@ -234,7 +236,7 @@ package search {
 
     interface Search {
         + performSearch(): String
-        + readResponse(response: JSONObject): void
+        + readResponse(response: JSONObject, map: Map): void
     }
 
 }
@@ -253,7 +255,7 @@ package report{
     }
 
     interface Report{
-        + generateReport(): String
+        + generateReport(map: Map): String
     }
 }
 
@@ -305,7 +307,7 @@ TypePOI -- POI
 
 Drone --o GridSearch
 Controller --o GridSearch
-Map -down-o GridSearch
+' Map -down-o GridSearch
 GridSearch *-up- Phase
 
 Coordinate ----o SimpleDrone
@@ -313,7 +315,7 @@ Direction ----o SimpleDrone
 
 
 
-MissionReport o-- Map
+' MissionReport o-- Map
 
 ' UTurn o-up- Controller
 ' ScanLine o---- Controller
