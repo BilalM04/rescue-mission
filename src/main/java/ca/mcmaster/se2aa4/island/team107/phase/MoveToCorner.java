@@ -20,25 +20,22 @@ public class MoveToCorner implements Phase {
 
     private final Logger logger = LogManager.getLogger();
 
-    private Controller controller;
     private Direction direction;
-    private Direction finalDirection;
     private State state;
 
     private int distanceLeft;
     private int distanceRight;
     private int distanceTraveled = 0;
     private boolean hasReachedCorner;
+    private boolean turnRight;
 
-    public MoveToCorner(Controller controller, Direction initialDir) {
-        this.controller = controller;
+    public MoveToCorner(Direction initialDir) {
         this.direction = initialDir;
         this.state = State.ECHO_LEFT;
-        this.finalDirection = initialDir;
         this.hasReachedCorner = false;
     }
 
-    public String getDroneCommand() {
+    public String getDroneCommand(Controller controller, Direction dir) {
 
         switch (state) {
             case State.ECHO_LEFT:
@@ -49,9 +46,11 @@ public class MoveToCorner implements Phase {
                 
             case State.TURN_TO_CORNER:
                 if (distanceRight < distanceLeft) {
+                    turnRight = false;
                     direction = direction.getRight();
                     return controller.heading(direction);
                 } else {
+                    turnRight = true;
                     direction = direction.getLeft();
                     return controller.heading(direction);
                 }
@@ -61,8 +60,12 @@ public class MoveToCorner implements Phase {
                 return controller.fly();
                 
             case State.TURN_INWARD:
-                direction = finalDirection;
-                return controller.heading(finalDirection);
+                if (turnRight) {
+                    direction = direction.getRight();
+                } else {
+                    direction = direction.getLeft();
+                }
+                return controller.heading(direction);
                 
             default:
                 logger.info("Uh oh, something bad happened here!");
@@ -103,7 +106,7 @@ public class MoveToCorner implements Phase {
     }
 
     public Phase getNextPhase() {
-        return new FindIsland(controller, direction);
+        return new FindIsland(direction);
     }
 
     public boolean isFinished() {

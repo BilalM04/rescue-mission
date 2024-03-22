@@ -7,7 +7,7 @@ import org.json.JSONObject;
 
 public class UTurn implements Phase {
 
-    private Controller controller;
+    // private Controller controller;
 
     private Direction direction;
 
@@ -18,9 +18,9 @@ public class UTurn implements Phase {
     private Integer FLY;
     private Integer TURN_OPPOSITE;
 
-    public UTurn(Controller controller, Direction dir, boolean turnLeft, boolean outward) {
+    public UTurn(Direction dir, boolean turnLeft, boolean outward) {
 
-        this.controller = controller;
+        // this.controller = controller;
         this.direction = dir;
 
         this.hasTurned = false;
@@ -37,17 +37,17 @@ public class UTurn implements Phase {
         }
     }
 
-    public String getDroneCommand() {
+    public String getDroneCommand(Controller controller, Direction dir) {
         String command;
 
         if (turnCount.equals(TURN_OPPOSITE)) {
-            command = turnCommand(!turnLeft);
+            command = turnCommand(controller, !turnLeft);
         }
         else if (turnCount.equals(FLY)) {
             command = controller.fly();
         }
         else {
-            command = turnCommand(turnLeft);
+            command = turnCommand(controller, turnLeft);
         }
 
         if (turnCount >= 4) {
@@ -65,7 +65,7 @@ public class UTurn implements Phase {
 
 
     public Phase getNextPhase() {
-        return new ScanLine(controller, direction, !turnLeft);
+        return new ScanLine(direction, !turnLeft);
     }
 
     public boolean isFinished() {
@@ -76,7 +76,7 @@ public class UTurn implements Phase {
         return false;
     }
 
-    private String turnCommand(boolean dirLeft) {
+    private String turnCommand(Controller controller, boolean dirLeft) {
         direction = dirLeft ? direction.getLeft() : direction.getRight();
         return controller.heading(direction);
     }

@@ -2,9 +2,9 @@ package ca.mcmaster.se2aa4.island.team107;
 
 import ca.mcmaster.se2aa4.island.team107.drone.Drone;
 import ca.mcmaster.se2aa4.island.team107.drone.SimpleDrone;
+import ca.mcmaster.se2aa4.island.team107.map.ListMap;
+import ca.mcmaster.se2aa4.island.team107.map.Map;
 import ca.mcmaster.se2aa4.island.team107.position.Direction;
-import ca.mcmaster.se2aa4.island.team107.position.ListMap;
-import ca.mcmaster.se2aa4.island.team107.position.Map;
 import ca.mcmaster.se2aa4.island.team107.report.MissionReport;
 import ca.mcmaster.se2aa4.island.team107.report.Report;
 import ca.mcmaster.se2aa4.island.team107.search.GridSearch;
@@ -44,7 +44,9 @@ public class Explorer implements IExplorerRaid {
 
     @Override
     public String takeDecision() {
-        return gridSearch.performSearch();
+        String command = gridSearch.performSearch();
+        logger.info(command);
+        return command;
     }
 
     @Override

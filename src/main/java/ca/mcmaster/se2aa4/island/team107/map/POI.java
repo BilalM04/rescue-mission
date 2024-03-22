@@ -1,4 +1,6 @@
-package ca.mcmaster.se2aa4.island.team107.position;
+package ca.mcmaster.se2aa4.island.team107.map;
+
+import ca.mcmaster.se2aa4.island.team107.position.Coordinate;
 
 public class POI {
 

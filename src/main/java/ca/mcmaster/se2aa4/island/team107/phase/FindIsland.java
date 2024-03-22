@@ -21,7 +21,7 @@ public class FindIsland implements Phase {
 
     private final Logger logger = LogManager.getLogger();
 
-    private Controller controller;
+   // private Controller controller;
 
     private Direction direction;
 
@@ -33,8 +33,8 @@ public class FindIsland implements Phase {
     private State state;
 
     
-    public FindIsland(Controller controller, Direction initialDirection) {
-        this.controller = controller;
+    public FindIsland(Direction initialDirection) {
+        //this.controller = controller;
         this.direction = initialDirection;
         this.atIsland = false;
         this.uTurnLeft = false;
@@ -43,7 +43,7 @@ public class FindIsland implements Phase {
         this.state = State.FLY;
     }
 
-    public String getDroneCommand() {
+    public String getDroneCommand(Controller controller, Direction dir) {
         switch (state) {
             case State.FLY:
                 return controller.fly();
@@ -125,7 +125,7 @@ public class FindIsland implements Phase {
     }
 
     public Phase getNextPhase() {
-        return new ScanLine(controller, direction, uTurnLeft);
+        return new ScanLine(direction, uTurnLeft);
     }
 
     public boolean isFinished() {

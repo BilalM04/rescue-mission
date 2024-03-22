@@ -8,11 +8,12 @@ import org.json.JSONObject;
 import ca.mcmaster.se2aa4.island.team107.drone.Controller;
 import ca.mcmaster.se2aa4.island.team107.drone.Drone;
 import ca.mcmaster.se2aa4.island.team107.drone.DroneController;
+import ca.mcmaster.se2aa4.island.team107.map.Map;
+import ca.mcmaster.se2aa4.island.team107.map.POI;
+import ca.mcmaster.se2aa4.island.team107.map.POI.TypePOI;
 import ca.mcmaster.se2aa4.island.team107.phase.MoveToCorner;
 import ca.mcmaster.se2aa4.island.team107.phase.Phase;
 import ca.mcmaster.se2aa4.island.team107.position.Coordinate;
-import ca.mcmaster.se2aa4.island.team107.position.Map;
-import ca.mcmaster.se2aa4.island.team107.position.POI;
 
 public class GridSearch implements Search {
     private final Logger logger = LogManager.getLogger();
@@ -26,7 +27,7 @@ public class GridSearch implements Search {
         this.drone = drone;
         this.map = map;
         this.controller = new DroneController(drone);
-        this.phase = new MoveToCorner(controller, drone.getHeading());
+        this.phase = new MoveToCorner(drone.getHeading());
     }
 
     public String performSearch() {
@@ -39,10 +40,10 @@ public class GridSearch implements Search {
             command = controller.stop();
         } else {
             if (!phase.isFinished()) {
-                command = phase.getDroneCommand();
+                command = phase.getDroneCommand(controller, drone.getHeading());
             } else {
                 phase = phase.getNextPhase();
-                command = phase.getDroneCommand();
+                command = phase.getDroneCommand(controller, drone.getHeading());
             }
         }
 
@@ -69,7 +70,7 @@ public class GridSearch implements Search {
             JSONArray creeksFound = extraInfo.getJSONArray("creeks");
             if (!creeksFound.isEmpty()) {
                 for (int i = 0; i < creeksFound.length(); i++) {
-                    map.addPOI(new POI(POI.TypePOI.CREEK, drone.getLocation(), creeksFound.getString(0)));
+                    map.addPOI(new POI(TypePOI.CREEK, drone.getLocation(), creeksFound.getString(0)));
                 }
             }
         }
@@ -77,7 +78,7 @@ public class GridSearch implements Search {
         if (extraInfo.has("sites")) {
             JSONArray sites = extraInfo.getJSONArray("sites");
             if (!sites.isEmpty()) {
-                map.addPOI(new POI(POI.TypePOI.EMERGENCY_SITE, drone.getLocation(), sites.getString(0)));
+                map.addPOI(new POI(TypePOI.EMERGENCY_SITE, drone.getLocation(), sites.getString(0)));
             }
         }
     }

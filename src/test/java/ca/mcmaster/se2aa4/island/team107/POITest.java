@@ -4,9 +4,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Test;
 
+import ca.mcmaster.se2aa4.island.team107.map.POI;
+import ca.mcmaster.se2aa4.island.team107.map.POI.TypePOI;
 import ca.mcmaster.se2aa4.island.team107.position.Coordinate;
-import ca.mcmaster.se2aa4.island.team107.position.POI;
-import ca.mcmaster.se2aa4.island.team107.position.POI.TypePOI;
 
 public class POITest {
     private final POI poi = new POI(TypePOI.CREEK, new Coordinate(7, 19), "1234567890");
