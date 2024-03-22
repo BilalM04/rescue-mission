@@ -64,7 +64,7 @@ public class UTurn implements Phase {
     }
 
 
-    public Phase getNextPhase() {
+    public Phase getNextPhase(Direction dir) {
         return new ScanLine(direction, !turnLeft);
     }
 

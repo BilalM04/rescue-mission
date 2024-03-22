@@ -20,17 +20,16 @@ public class MoveToCorner implements Phase {
 
     private final Logger logger = LogManager.getLogger();
 
-    private Direction direction;
     private State state;
 
     private int distanceLeft;
     private int distanceRight;
     private int distanceTraveled = 0;
+
     private boolean hasReachedCorner;
     private boolean turnRight;
 
     public MoveToCorner(Direction initialDir) {
-        this.direction = initialDir;
         this.state = State.ECHO_LEFT;
         this.hasReachedCorner = false;
     }
@@ -39,20 +38,18 @@ public class MoveToCorner implements Phase {
 
         switch (state) {
             case State.ECHO_LEFT:
-                return controller.echo(direction.getLeft());
+                return controller.echo(dir.getLeft());
                 
             case State.ECHO_RIGHT:
-                return controller.echo(direction.getRight());
+                return controller.echo(dir.getRight());
                 
             case State.TURN_TO_CORNER:
                 if (distanceRight < distanceLeft) {
                     turnRight = false;
-                    direction = direction.getRight();
-                    return controller.heading(direction);
+                    return controller.heading(dir.getRight());
                 } else {
                     turnRight = true;
-                    direction = direction.getLeft();
-                    return controller.heading(direction);
+                    return controller.heading(dir.getLeft());
                 }
 
             case State.FLY_TO_CORNER:
@@ -61,11 +58,10 @@ public class MoveToCorner implements Phase {
                 
             case State.TURN_INWARD:
                 if (turnRight) {
-                    direction = direction.getRight();
+                    return controller.heading(dir.getRight());
                 } else {
-                    direction = direction.getLeft();
+                    return controller.heading(dir.getLeft());
                 }
-                return controller.heading(direction);
                 
             default:
                 logger.info("Uh oh, something bad happened here!");
@@ -105,8 +101,8 @@ public class MoveToCorner implements Phase {
         }
     }
 
-    public Phase getNextPhase() {
-        return new FindIsland(direction);
+    public Phase getNextPhase(Direction dir) {
+        return new FindIsland(dir);
     }
 
     public boolean isFinished() {

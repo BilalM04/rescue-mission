@@ -124,7 +124,7 @@ public class FindIsland implements Phase {
         }
     }
 
-    public Phase getNextPhase() {
+    public Phase getNextPhase(Direction dir) {
         return new ScanLine(direction, uTurnLeft);
     }
 

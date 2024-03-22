@@ -92,7 +92,7 @@ public class ScanLine implements Phase {
         }
     }
 
-    public Phase getNextPhase() {
+    public Phase getNextPhase(Direction dir) {
         return new UTurn(direction, turnLeft, moveOutwards);
     }
 

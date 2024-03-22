@@ -42,7 +42,7 @@ public class GridSearch implements Search {
             if (!phase.isFinished()) {
                 command = phase.getDroneCommand(controller, drone.getHeading());
             } else {
-                phase = phase.getNextPhase();
+                phase = phase.getNextPhase(drone.getHeading());
                 command = phase.getDroneCommand(controller, drone.getHeading());
             }
         }
