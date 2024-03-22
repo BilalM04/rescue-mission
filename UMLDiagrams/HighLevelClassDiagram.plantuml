@@ -1,5 +1,4 @@
 @startuml A2
-
 !define MyTheme
 skinparam class {
     BackgroundColor #LightYellow
@@ -11,7 +10,9 @@ skinparam stereotypeCBackgroundColor #LightYellow
 skinparam stereotypeCBorderColor #000000
 skinparam stereotypeCFontColor #000000
 
-interface Controller {
+
+package drone {
+    interface Controller {
   + fly(): String
   + heading(dir: Direction): String
   + echo(dir: Direction): String
@@ -61,53 +62,31 @@ class SimpleDrone {
 '   + getLocation(): Coordinate
 }
 
-class FindIsland {
-    ' - State: enum
-    ' - logger: Logger
-    ' - direction: Direction
-    ' - atIsland: boolean
-    ' - uTurnLeft: boolean
-    ' - flightsToIsland: Integer
-    ' - state: State
-    --
-    + this(controller: Controller, initialDirection: Direction)
-    --
-    + getDroneCommand(): String
-    + processInfo(info: JSONObject): void
-    + getNextPhase(): Phase
-    + isFinished(): boolean
-    + isLastPhase(): boolean
 }
 
-class MoveToCorner {
-    ' - State: enum
-    ' - logger: Logger
+
+
+
+package phase {
+    class UTurn {
     ' - controller: Controller
     ' - direction: Direction
-    ' - finalDirection: Direction
-    ' - state: State
-    ' - distanceLeft: int
-    ' - distanceRight: int
-    ' - distanceTraveled: int
-    ' - hasReachedCorner: boolean
-    --
-    + this(controller: Controller, initialDir: Direction)
+    ' - turnLeft: boolean
+    ' - hasTurned: boolean
+    ' - turnCount: Integer
+    ' - FLY: Integer
+    ' - TURN_OPPOSITE: Integer
+    ' - command: String
+    ' --
+    + this(controller: Controller, dir: Direction, turnLeft: boolean, outward: boolean)
     --
     + getDroneCommand(): String
     + processInfo(info: JSONObject): void
     + getNextPhase(): Phase
     + isFinished(): boolean
     + isLastPhase(): boolean
-}
-
-interface Phase {
-    + getDroneCommand(): String
-    + processInfo(info: JSONObject): void
-    + getNextPhase(): Phase
-    + isFinished(): boolean
-    + isLastPhase(): boolean
-}
-
+    ' - turnCommand(durLeft: boolean): String
+    }
 class ScanLine {
     ' - State: enum
     ' - logger: Logger
@@ -127,30 +106,85 @@ class ScanLine {
     + isFinished(): boolean
     + isLastPhase(): boolean
     ' - isDroneOffLand(info: JSONObject): boolean
-}
-
-class UTurn {
+    }
+    class MoveToCorner {
+    ' - State: enum
+    ' - logger: Logger
     ' - controller: Controller
     ' - direction: Direction
-    ' - turnLeft: boolean
-    ' - hasTurned: boolean
-    ' - turnCount: Integer
-    ' - FLY: Integer
-    ' - TURN_OPPOSITE: Integer
-    ' - command: String
-    ' --
-    + this(controller: Controller, dir: Direction, turnLeft: boolean, outward: boolean)
+    ' - finalDirection: Direction
+    ' - state: State
+    ' - distanceLeft: int
+    ' - distanceRight: int
+    ' - distanceTraveled: int
+    ' - hasReachedCorner: boolean
+    --
+    + this(controller: Controller, initialDir: Direction)
     --
     + getDroneCommand(): String
     + processInfo(info: JSONObject): void
     + getNextPhase(): Phase
     + isFinished(): boolean
     + isLastPhase(): boolean
-    ' - turnCommand(durLeft: boolean): String
+    }
+    class FindIsland {
+    ' - State: enum
+    ' - logger: Logger
+    ' - direction: Direction
+    ' - atIsland: boolean
+    ' - uTurnLeft: boolean
+    ' - flightsToIsland: Integer
+    ' - state: State
+    --
+    + this(controller: Controller, initialDirection: Direction)
+    --
+    + getDroneCommand(): String
+    + processInfo(info: JSONObject): void
+    + getNextPhase(): Phase
+    + isFinished(): boolean
+    + isLastPhase(): boolean
+    }
+    interface Phase {
+        + getDroneCommand(): String
+        + processInfo(info: JSONObject): void
+        + getNextPhase(): Phase
+        + isFinished(): boolean
+        + isLastPhase(): boolean
+    }
 }
 
+package search {
+    class GridSearch {
+'   - logger: Logger
+'   - drone: Drone
+'   - controller: Controller
+'   - map: Map
+'   - phase: Phase
+'   --
+  + this(drone: Drone, map: Map)
+  --
+  + performSearch(): String
+  + readResponse(response: JSONObject): void
+}
 
-class Coordinate {
+interface Search {
+  + performSearch(): String
+  + readResponse(response: JSONObject): void
+}
+
+}
+
+package position {
+    enum Direction {
+'   - symbol: String
+'   --
+'   + getSymbol(): String
+'   + getRight(): Direction
+'   + getLeft(): Direction
+  + <<static>> fromSymbol(s: String): Direction
+  
+}
+    class Coordinate {
     ' - x: int
     ' - y: int
     ' --
@@ -162,18 +196,10 @@ class Coordinate {
     ' + setY(y: int): void
     + distanceTo(other: Coordinate): double
 }
-
-enum Direction {
-'   - symbol: String
-'   --
-'   + getSymbol(): String
-'   + getRight(): Direction
-'   + getLeft(): Direction
-  + <<static>> fromSymbol(s: String): Direction
-  
 }
 
-class ListMap {
+package map {
+    class ListMap {
     + creeks: List<POI>
     + emergencySite: POI
     ' --
@@ -206,23 +232,22 @@ class POI {
 '   + getLocation(): Coordinate
 '   + getID(): String
 }
-
-class GridSearch {
-'   - logger: Logger
-'   - drone: Drone
-'   - controller: Controller
-'   - map: Map
-'   - phase: Phase
-'   --
-  + this(drone: Drone, map: Map)
-  --
-  + performSearch(): String
-  + readResponse(response: JSONObject): void
 }
 
-interface Search {
-  + performSearch(): String
-  + readResponse(response: JSONObject): void
+package report{
+    class MissionReport{
+    ' - map: Map
+    ' --
+    + this(map: Map)
+    ' --
+    + generateReport(): String
+    ' - closestCreekID(): String
+    ' - emergencySiteID(): String
+}
+
+interface Report{
+    + generateReport(): String
+}
 }
 
 class Explorer {
@@ -237,69 +262,61 @@ class Explorer {
   + deliverFinalReport(): String
 }
 
-class MissionReport{
-    ' - map: Map
-    ' --
-    + this(map: Map)
-    ' --
-    + generateReport(): String
-    ' - closestCreekID(): String
-    ' - emergencySiteID(): String
-}
+' phase package
+Phase <|.up. MoveToCorner
+Phase <|.. FindIsland
+Phase <|..right. ScanLine
+Phase <|..left. UTurn
+' Direction -up- FindIsland
+' Direction -up- MoveToCorner
+' Direction -up- ScanLine
+' Direction -up- UTurn
 
-interface Report{
-    + generateReport(): String
-}
+' search package
+Search <|.up. GridSearch
 
-Phase <|... MoveToCorner
-Phase <|... FindIsland
-Phase <|... ScanLine
-Phase <|... UTurn
 
-Report <|. MissionReport
-Search <|. GridSearch
-Drone <|. SimpleDrone
-Map <|. ListMap
 
-Controller <|.. DroneController
+' drone package
+Controller <|.up. DroneController
+Drone <|.up. SimpleDrone
+DroneController o-- Drone
 
-Search --* Explorer
-Drone --* Explorer
+
+' report package
+Report <|.up. MissionReport
+
+
+' position package
+Coordinate --o POI
+
+' map package
+Map <|.up. ListMap
+POI --* ListMap
+TypePOI -- POI
+
+
+Drone --o GridSearch
+Controller --o GridSearch
+Map -down-o GridSearch
+GridSearch *-up- Phase
+
+Coordinate ----o SimpleDrone
+Direction ----o SimpleDrone
+
+
+
+MissionReport o-- Map
+
+' UTurn o-up- Controller
+' ScanLine o---- Controller
+' FindIsland o---- Controller
+' MoveToCorner o---- Controller
+
+
+
+Search -up-* Explorer
 Map --* Explorer
 Report --* Explorer
-
-SimpleDrone --o GridSearch
-Controller --o GridSearch
-
-Coordinate ---o SimpleDrone
-Direction --o SimpleDrone
-
-Coordinate --o POI
-POI --* ListMap
-
-
-
-GridSearch o-- Map
-TypePOI -- POI
-Direction -- DroneController
-
-DroneController o-- Drone
-MissionReport o-- Map
-UTurn o---- Controller
-UTurn o---- Direction
-ScanLine o---- Controller
-ScanLine o---- Direction
-FindIsland o---- Controller
-FindIsland o---- Direction
-MoveToCorner o---- Controller
-MoveToCorner o---- Direction
-GridSearch *-- Phase
-
-MoveToCorner - FindIsland
-ScanLine - UTurn
-FindIsland - ScanLine
-
-
-
 
 @enduml
