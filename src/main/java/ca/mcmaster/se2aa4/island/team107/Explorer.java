@@ -39,7 +39,7 @@ public class Explorer implements IExplorerRaid {
 
         this.map = new ListMap();
         Drone drone = new SimpleDrone(batteryLevel, Direction.fromSymbol(direction));
-        this.gridSearch = new GridSearch(drone, map);
+        this.gridSearch = new GridSearch(drone);
     }
 
     @Override
@@ -54,7 +54,7 @@ public class Explorer implements IExplorerRaid {
         JSONObject response = new JSONObject(new JSONTokener(new StringReader(s)));
         logger.info("** Response received:\n {}", response.toString(2));
 
-        gridSearch.readResponse(response);
+        gridSearch.readResponse(response, map);
     }
 
     @Override

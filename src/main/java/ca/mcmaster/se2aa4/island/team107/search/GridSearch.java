@@ -19,12 +19,10 @@ public class GridSearch implements Search {
 
     private Drone drone;
     private Controller controller;
-    private Map map;
     private Phase phase;
 
-    public GridSearch(Drone drone, Map map) {
+    public GridSearch(Drone drone) {
         this.drone = drone;
-        this.map = map;
         this.controller = new DroneController(drone);
         this.phase = new MoveToCorner();
     }
@@ -46,7 +44,7 @@ public class GridSearch implements Search {
         return command;
     }
 
-    public void readResponse(JSONObject response) {
+    public void readResponse(JSONObject response, Map map) {
         Integer cost = response.getInt("cost");
         logger.info("The cost of the action was {}", cost);
 
