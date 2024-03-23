@@ -89,8 +89,8 @@ package position{
 
 Direction -[hidden]-> Coordinate
 Map <|.up. ListMap
-Coordinate -left-o POI
-POI "1..* "--* ListMap
+Coordinate -right-o POI
+POI "1..* "-right-* ListMap
 Map -right-* Explorer
 TypePOI -- POI
 
