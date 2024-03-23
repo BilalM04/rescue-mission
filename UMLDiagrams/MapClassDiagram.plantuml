@@ -11,51 +11,40 @@ skinparam stereotypeCBackgroundColor #LightYellow
 skinparam stereotypeCBorderColor #000000
 skinparam stereotypeCFontColor #000000
 
-class Coordinate {
-    - x: int
-    - y: int
-    --
-    + this(x: int, y: int)
-    --
-    + getX(): int
-    + getY(): int
-    + setX(x: int): void
-    + setY(y: int): void
-    + distanceTo(other: Coordinate): double
-}
-
-class ListMap {
+package map {
+    class ListMap {
     + creeks: List<POI>
     + emergencySite: POI
-    --
+    ' --
     + this()
-    --
+    ' --
     + addPOI(poi: POI): void
     + getEmergencySiteID(): String
     + getClosetCreekID(): String
 }
 
-interface Map {
-    + addPOI(poi: POI): void
-    + getEmergencySiteID(): String
-    + getClosetCreekID(): String
-}
+    interface Map {
+        + addPOI(poi: POI): void
+        + getEmergencySiteID(): String
+        + getClosetCreekID(): String
+    }
 
-enum TypePOI {
-  CREEK
-  EMERGENCY_SITE
-}
+    enum TypePOI {
+        CREEK
+        EMERGENCY_SITE
+    }
 
-class POI {
-  - kind: TypePOI
-  - location: Coordinate
-  - id: String
-  --
-  + this(kind: TypePOI, location: Coordinate, id: String)
-  --
-  + getKind(): TypePOI
-  + getLocation(): Coordinate
-  + getID(): String
+    class POI {
+          - kind: TypePOI
+          - location: Coordinate
+          - id: String
+          --
+        + this(kind: TypePOI, location: Coordinate, id: String)
+        --
+          + getKind(): TypePOI
+          + getLocation(): Coordinate
+          + getID(): String
+    }
 }
 
 class Explorer {
@@ -69,11 +58,40 @@ class Explorer {
   + acknowledgeResults(s: String): void
   + deliverFinalReport(): String
 }
+package position{
+    class Coordinate {
+        - x: int
+        - y: int
+        --
+        + this(x: int, y: int)
+        --
+        + getX(): int
+        + getY(): int
+        + setX(x: int): void
+        + setY(y: int): void
+        + distanceTo(other: Coordinate): double
+    }
+    
+  enum Direction {
+        NORTH, EAST
+        SOUTH, WEST
+      - symbol: String
+      --
+      + getSymbol(): String
+      + getRight(): Direction
+      + getLeft(): Direction
+    + <<static>> fromSymbol(s: String): Direction
+  
+    }
+    
+  
+}
 
-Map <|.. ListMap
-Coordinate --o POI
-POI --* ListMap
-Map --* Explorer
+Direction -[hidden]-> Coordinate
+Map <|.up. ListMap
+Coordinate -left-o POI
+POI "1..* "--* ListMap
+Map -right-* Explorer
 TypePOI -- POI
 
 @enduml

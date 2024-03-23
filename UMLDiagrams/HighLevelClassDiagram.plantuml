@@ -11,7 +11,7 @@ skinparam stereotypeCBorderColor #000000
 skinparam stereotypeCFontColor #000000
 
 
-package drone <<Frame>>{
+package drone {
     interface Controller {
         + fly(): String
         + heading(dir: Direction): String
@@ -24,7 +24,7 @@ package drone <<Frame>>{
     interface Drone {
     '   + getBatteryLevel(): Integer
         + drainBattery(cost: Integer): void
-        + notEnoughBattery(costFly: Integer, costHeading: Integer): boolean
+        ' + notEnoughBattery(costFly: Integer, costHeading: Integer): boolean
         '   + getHeading(): Direction
         '   + getLocation(): Coordinate
         + flyForward(): void
@@ -56,6 +56,7 @@ package drone <<Frame>>{
         ' + flyForward(): void
         ' + turnRight(): void
         ' + turnLeft(): void
+
         '   + getBatteryLevel(): Integer
         '   + getHeading(): Direction
         '   + getLocation(): Coordinate
@@ -65,7 +66,7 @@ package drone <<Frame>>{
 
 
 
-package map <<Frame>>{
+package map {
     class ListMap {
     ' + creeks: List<POI>
     ' + emergencySite: POI
@@ -73,14 +74,14 @@ package map <<Frame>>{
     ' + this()
     ' ' --
     ' + addPOI(poi: POI): void
-    ' ' + getEmergencySiteID(): String
-    ' ' + getClosetCreekID(): String
+    ' + getEmergencySiteID(): String
+    ' + getClosetCreekID(): String
 }
 
     interface Map {
         + addPOI(poi: POI): void
-        ' + getEmergencySiteID(): String
-        ' + getClosetCreekID(): String
+        + getEmergencySiteID(): String
+        + getClosetCreekID(): String
     }
 
     enum TypePOI {
@@ -94,7 +95,7 @@ package map <<Frame>>{
         '   - id: String
         '   --
         ' + this(kind: TypePOI, location: Coordinate, id: String)
-        ' --
+        --
         '   + getKind(): TypePOI
         '   + getLocation(): Coordinate
         '   + getID(): String
@@ -104,17 +105,17 @@ package map <<Frame>>{
 
 
 
-package phase <<Frame>>{
+package phase {
     class UTurn {
-        ' - controller: Controller
-        ' - direction: Direction
-        ' - turnLeft: boolean
-        ' - hasTurned: boolean
-        ' - turnCount: Integer
-        ' - FLY: Integer
-        ' - TURN_OPPOSITE: Integer
-        ' - command: String
-        ' --
+        ' ' - controller: Controller
+        ' ' - direction: Direction
+        ' ' - turnLeft: boolean
+        ' ' - hasTurned: boolean
+        ' ' - turnCount: Integer
+        ' ' - FLY: Integer
+        ' ' - TURN_OPPOSITE: Integer
+        ' ' - command: String
+        ' ' --
         ' + this(controller: Controller, dir: Direction, turnLeft: boolean, outward: boolean)
         ' --
         ' + getDroneCommand(): String
@@ -125,16 +126,16 @@ package phase <<Frame>>{
         ' ' - turnCommand(durLeft: boolean): String
     }
     class ScanLine {
-        ' - State: enum
-        ' - logger: Logger
-        ' - controller: Controller
-        ' - direction: Direction
-        ' - turnLeft: boolean
-        ' - offIsland: boolean
-        ' - hasMoved: boolean
-        ' - moveOutwards: boolean
-        ' - state: State
-        ' --
+        ' ' - State: enum
+        ' ' - logger: Logger
+        ' ' - controller: Controller
+        ' ' - direction: Direction
+        ' ' - turnLeft: boolean
+        ' ' - offIsland: boolean
+        ' ' - hasMoved: boolean
+        ' ' - moveOutwards: boolean
+        ' ' - state: State
+        ' ' --
         ' + this(controller: Controller, initialDirection: Direction, turnLeft: boolean)
         ' --
         ' + getDroneCommand(): String
@@ -145,16 +146,16 @@ package phase <<Frame>>{
         ' ' - isDroneOffLand(info: JSONObject): boolean
     }
     class MoveToCorner {
-        ' - State: enum
-        ' - logger: Logger
-        ' - controller: Controller
-        ' - direction: Direction
-        ' - finalDirection: Direction
-        ' - state: State
-        ' - distanceLeft: int
-        ' - distanceRight: int
-        ' - distanceTraveled: int
-        ' - hasReachedCorner: boolean
+        ' ' - State: enum
+        ' ' - logger: Logger
+        ' ' - controller: Controller
+        ' ' - direction: Direction
+        ' ' - finalDirection: Direction
+        ' ' - state: State
+        ' ' - distanceLeft: int
+        ' ' - distanceRight: int
+        ' ' - distanceTraveled: int
+        ' ' - hasReachedCorner: boolean
         ' --
         ' + this(controller: Controller, initialDir: Direction)
         ' --
@@ -165,13 +166,13 @@ package phase <<Frame>>{
         ' + isLastPhase(): boolean
     }
     class FindIsland {
-        ' - State: enum
-        ' - logger: Logger
-        ' - direction: Direction
-        ' - atIsland: boolean
-        ' - uTurnLeft: boolean
-        ' - flightsToIsland: Integer
-        ' - state: State
+        ' ' - State: enum
+        ' ' - logger: Logger
+        ' ' - direction: Direction
+        ' ' - atIsland: boolean
+        ' ' - uTurnLeft: boolean
+        ' ' - flightsToIsland: Integer
+        ' ' - state: State
         ' --
         ' + this(controller: Controller, initialDirection: Direction)
         ' --
@@ -192,9 +193,9 @@ package phase <<Frame>>{
 
 
 
-package position <<Frame>>{
+package position {
     enum Direction {
-        NORTH, EAST, 
+        NORTH, EAST
         SOUTH, WEST
     '   - symbol: String
     '   --
@@ -219,7 +220,7 @@ package position <<Frame>>{
 }
 
 
-package search <<Frame>>{
+package search {
     class GridSearch {
         '   - logger: Logger
         '   - drone: Drone
@@ -228,33 +229,33 @@ package search <<Frame>>{
         '   - phase: Phase
         '   --
         ' + this(drone: Drone, map: Map)
-        ' --
+        --
         ' + performSearch(): String
         ' + readResponse(response: JSONObject): void
     }
 
     interface Search {
         + performSearch(): String
-        + readResponse(response: JSONObject): void
+        + readResponse(response: JSONObject, map: Map): void
     }
 
 }
 
 
 
-package report <<Frame>>{
+package report{
     class MissionReport{
         ' - map: Map
         ' --
-        + this(map: Map)
+        ' + this(map: Map)
         ' --
-        + generateReport(): String
+        ' + generateReport(): String
         ' - closestCreekID(): String
         ' - emergencySiteID(): String
     }
 
     interface Report{
-        + generateReport(): String
+        + generateReport(map: Map): String
     }
 }
 
@@ -275,57 +276,56 @@ Phase <|.. MoveToCorner
 Phase <|.. FindIsland
 Phase <|.. ScanLine
 Phase <|.. UTurn
+' Direction -up- FindIsland
+' Direction -up- MoveToCorner
+' Direction -up- ScanLine
+' Direction -up- UTurn
 
 ' search package
 Search <|.up. GridSearch
+
+
 
 ' drone package
 Controller <|.up. DroneController
 Drone <|.up. SimpleDrone
 DroneController o-- Drone
 
+
 ' report package
-Report <|.up. MissionReport
+Report <|.down. MissionReport
+
 
 ' position package
 Coordinate --o POI
 
 ' map package
 Map <|.up. ListMap
-POI "1.. *" --*  ListMap
+POI "1..*"--* ListMap
 TypePOI -- POI
 
 
-Drone -down-o GridSearch
-Controller -down-o GridSearch
-Map -right-o GridSearch
-GridSearch *-- Phase
-
+Drone --o GridSearch
+Controller --o GridSearch
+' Map -down-o GridSearch
+GridSearch *-right- Phase
 
 Coordinate --o SimpleDrone
 Direction --o SimpleDrone
 
 
 
-Search -left-* Explorer
-Map ---* Explorer
-Report -right-* Explorer
-
-
-' Drone --o GridSearch
-' Controller --o GridSearch
-' Map -down-o GridSearch
-' GridSearch *-down- Phase
-
-
-' Coordinate ----o SimpleDrone
-' Direction ----o SimpleDrone
-
-
 ' MissionReport o-- Map
 
+' UTurn o-up- Controller
+' ScanLine o---- Controller
+' FindIsland o---- Controller
+' MoveToCorner o---- Controller
 
-' Search -up-* Explorer
-' Map --* Explorer
-' Report --* Explorer
+
+
+Search -right-* Explorer
+Map --* Explorer
+Report -up-* Explorer
+
 @enduml
