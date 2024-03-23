@@ -7,10 +7,6 @@ import org.json.JSONObject;
 
 public class UTurn implements Phase {
 
-    private Controller controller;
-
-    private Direction direction;
-
     private boolean hasTurned;
     private boolean turnLeft;
 
@@ -18,11 +14,7 @@ public class UTurn implements Phase {
     private Integer FLY;
     private Integer TURN_OPPOSITE;
 
-    public UTurn(Controller controller, Direction dir, boolean turnLeft, boolean outward) {
-
-        this.controller = controller;
-        this.direction = dir;
-
+    public UTurn(boolean turnLeft, boolean outward) {
         this.hasTurned = false;
         this.turnLeft = turnLeft;
         this.turnCount = 0;
@@ -37,17 +29,17 @@ public class UTurn implements Phase {
         }
     }
 
-    public String getDroneCommand() {
+    public String getDroneCommand(Controller controller, Direction dir) {
         String command;
 
         if (turnCount.equals(TURN_OPPOSITE)) {
-            command = turnCommand(!turnLeft);
+            command = turnCommand(controller, !turnLeft, dir);
         }
         else if (turnCount.equals(FLY)) {
             command = controller.fly();
         }
         else {
-            command = turnCommand(turnLeft);
+            command = turnCommand(controller, turnLeft, dir);
         }
 
         if (turnCount >= 4) {
@@ -63,9 +55,8 @@ public class UTurn implements Phase {
         // Phase does need to process any information from JSON response. Drone U-turn logic is fixed.
     }
 
-
     public Phase getNextPhase() {
-        return new ScanLine(controller, direction, !turnLeft);
+        return new ScanLine(!turnLeft);
     }
 
     public boolean isFinished() {
@@ -76,7 +67,7 @@ public class UTurn implements Phase {
         return false;
     }
 
-    private String turnCommand(boolean dirLeft) {
+    private String turnCommand(Controller controller, boolean dirLeft, Direction direction) {
         direction = dirLeft ? direction.getLeft() : direction.getRight();
         return controller.heading(direction);
     }

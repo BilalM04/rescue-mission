@@ -1,10 +1,11 @@
-package ca.mcmaster.se2aa4.island.team107.position;
+package ca.mcmaster.se2aa4.island.team107.map;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
-import ca.mcmaster.se2aa4.island.team107.position.POI.TypePOI;
+import ca.mcmaster.se2aa4.island.team107.map.POI.TypePOI;
+import ca.mcmaster.se2aa4.island.team107.position.Coordinate;
 
 public class ListMap implements Map {
     private final List<POI> creeks;

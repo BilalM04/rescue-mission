@@ -3,10 +3,10 @@ package ca.mcmaster.se2aa4.island.team107;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import ca.mcmaster.se2aa4.island.team107.map.ListMap;
+import ca.mcmaster.se2aa4.island.team107.map.POI;
+import ca.mcmaster.se2aa4.island.team107.map.POI.TypePOI;
 import ca.mcmaster.se2aa4.island.team107.position.Coordinate;
-import ca.mcmaster.se2aa4.island.team107.position.ListMap;
-import ca.mcmaster.se2aa4.island.team107.position.POI;
-import ca.mcmaster.se2aa4.island.team107.position.POI.TypePOI;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 

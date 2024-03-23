@@ -2,9 +2,9 @@ package ca.mcmaster.se2aa4.island.team107;
 
 import ca.mcmaster.se2aa4.island.team107.drone.Drone;
 import ca.mcmaster.se2aa4.island.team107.drone.SimpleDrone;
+import ca.mcmaster.se2aa4.island.team107.map.ListMap;
+import ca.mcmaster.se2aa4.island.team107.map.Map;
 import ca.mcmaster.se2aa4.island.team107.position.Direction;
-import ca.mcmaster.se2aa4.island.team107.position.ListMap;
-import ca.mcmaster.se2aa4.island.team107.position.Map;
 import ca.mcmaster.se2aa4.island.team107.report.MissionReport;
 import ca.mcmaster.se2aa4.island.team107.report.Report;
 import ca.mcmaster.se2aa4.island.team107.search.GridSearch;
@@ -39,12 +39,14 @@ public class Explorer implements IExplorerRaid {
 
         this.map = new ListMap();
         Drone drone = new SimpleDrone(batteryLevel, Direction.fromSymbol(direction));
-        this.gridSearch = new GridSearch(drone, map);
+        this.gridSearch = new GridSearch(drone);
     }
 
     @Override
     public String takeDecision() {
-        return gridSearch.performSearch();
+        String command = gridSearch.performSearch();
+        logger.info(command);
+        return command;
     }
 
     @Override
@@ -52,13 +54,13 @@ public class Explorer implements IExplorerRaid {
         JSONObject response = new JSONObject(new JSONTokener(new StringReader(s)));
         logger.info("** Response received:\n {}", response.toString(2));
 
-        gridSearch.readResponse(response);
+        gridSearch.readResponse(response, map);
     }
 
     @Override
     public String deliverFinalReport() {
-        Report report = new MissionReport(map);
-        String finalReport = report.generateReport();
+        Report report = new MissionReport();
+        String finalReport = report.generateReport(map);
         logger.info(finalReport);
         return finalReport;
     }
