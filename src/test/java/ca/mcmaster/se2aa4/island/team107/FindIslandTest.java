@@ -22,12 +22,12 @@ public class FindIslandTest {
     public void setup() {
         drone = new SimpleDrone(battery, dir);
         controller = new DroneController(drone);
-        p1 = new FindIsland(controller, dir);
+        p1 = new FindIsland();
     }
 
     @Test
     public void testStateFly() {
-        assertEquals(p1.getDroneCommand(), controller.fly());
+        assertEquals(p1.getDroneCommand(controller, drone.getHeading()), controller.fly());
     }
 
     // @Test

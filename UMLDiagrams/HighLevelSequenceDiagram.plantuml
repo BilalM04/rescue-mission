@@ -12,16 +12,16 @@
     Explorer -> GS ++: takeDecision
     Explorer <-- GS: return PerformSearch()
     GS -> MTC ++: PerformSearch()
-    GS <-- MTC ++: return new FindIsland()
+    GS <-- MTC: return new FindIsland()
 
     GS -> FindIsland ++: PerformSearch()
-    GS <-- FindIsland ++: return new ScanLine()
+    GS <-- FindIsland: return new ScanLine()
 
-    group loop offIsland && !HasMoved
+    group loop phase.isLastPhase
         GS -> ScanLine ++: PerformSearch()
-        GS <-- ScanLine ++: return new UTurn()
+        GS <-- ScanLine: return new UTurn()
         GS -> UTurn ++: PerformSearch()
-        GS <-- UTurn ++: return new ScanLine()
+        GS <-- UTurn: return new ScanLine()
     end
 
     ' FindIsland(controller: Controller, direction: Direction)

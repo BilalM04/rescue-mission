@@ -2,24 +2,18 @@ package ca.mcmaster.se2aa4.island.team107.report;
 
 import java.util.NoSuchElementException;
 
-import ca.mcmaster.se2aa4.island.team107.position.Map;
+import ca.mcmaster.se2aa4.island.team107.map.Map;
 
 public class MissionReport implements Report {
 
-    Map map;
-
-    public MissionReport(Map map) {
-        this.map = map;
-    }
-
-    public String generateReport() {
+    public String generateReport(Map map) {
         StringBuilder report = new StringBuilder();
-        report.append("Emergency Site ID: ").append(emergencySiteID()).append("\n");
-        report.append("Closest Creek ID: ").append(closestCreekID()).append("\n");
+        report.append("Emergency Site ID: ").append(emergencySiteID(map)).append("\n");
+        report.append("Closest Creek ID: ").append(closestCreekID(map)).append("\n");
         return report.toString();
     }
 
-    private String closestCreekID() {
+    private String closestCreekID(Map map) {
         String creekID;
 
         try {
@@ -31,7 +25,7 @@ public class MissionReport implements Report {
         return creekID;
     }
 
-    private String emergencySiteID() {
+    private String emergencySiteID(Map map) {
         String emergencySiteID;
 
         try {

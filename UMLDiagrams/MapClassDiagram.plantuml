@@ -73,7 +73,7 @@ class Explorer {
 Map <|.. ListMap
 Coordinate --o POI
 POI --* ListMap
-ListMap --* Explorer
+Map --* Explorer
 TypePOI -- POI
 
 @enduml
