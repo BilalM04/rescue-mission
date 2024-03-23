@@ -13,8 +13,8 @@ skinparam stereotypeCFontColor #000000
 
 package map {
     class ListMap {
-    + creeks: List<POI>
-    + emergencySite: POI
+    - creeks: List<POI>
+    - emergencySite: POI
     ' --
     + this()
     ' --
@@ -47,17 +47,17 @@ package map {
     }
 }
 
-class Explorer {
-  - logger: Logger
-  - drone: Drone
-  - gridSearch: Search
-  - map: Map
-  --
-  + initialize(s: String): void
-  + takeDecision(): String
-  + acknowledgeResults(s: String): void
-  + deliverFinalReport(): String
-}
+' class Explorer {
+'   - logger: Logger
+'   - drone: Drone
+'   - gridSearch: Search
+'   - map: Map
+'   --
+'   + initialize(s: String): void
+'   + takeDecision(): String
+'   + acknowledgeResults(s: String): void
+'   + deliverFinalReport(): String
+' }
 package position{
     class Coordinate {
         - x: int
@@ -72,26 +72,26 @@ package position{
         + distanceTo(other: Coordinate): double
     }
     
-  enum Direction {
-        NORTH, EAST
-        SOUTH, WEST
-      - symbol: String
-      --
-      + getSymbol(): String
-      + getRight(): Direction
-      + getLeft(): Direction
-    + <<static>> fromSymbol(s: String): Direction
+  ' enum Direction {
+  '       NORTH, EAST
+  '       SOUTH, WEST
+  '     - symbol: String
+  '     --
+  '     + getSymbol(): String
+  '     + getRight(): Direction
+  '     + getLeft(): Direction
+  '   + <<static>> fromSymbol(s: String): Direction
   
-    }
+  '   }
     
   
 }
 
-Direction -[hidden]-> Coordinate
+' Direction -[hidden]-> Coordinate
 Map <|.up. ListMap
-Coordinate -right-o POI
-POI "1..* "-right-* ListMap
-Map -right-* Explorer
-TypePOI -- POI
+Coordinate <-right-o POI
+POI "1..* "<-right--* ListMap
+' Map -right-* Explorer
+TypePOI <-- POI
 
 @enduml
