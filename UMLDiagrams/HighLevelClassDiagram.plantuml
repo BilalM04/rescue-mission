@@ -293,7 +293,7 @@ DroneController o-- Drone
 
 
 ' report package
-Report <|.up. MissionReport
+Report <|.down. MissionReport
 
 
 ' position package
@@ -308,10 +308,10 @@ TypePOI -- POI
 Drone --o GridSearch
 Controller --o GridSearch
 ' Map -down-o GridSearch
-GridSearch *-up- Phase
+GridSearch *-right- Phase
 
-Coordinate ----o SimpleDrone
-Direction ----o SimpleDrone
+Coordinate --o SimpleDrone
+Direction --o SimpleDrone
 
 
 
@@ -324,8 +324,8 @@ Direction ----o SimpleDrone
 
 
 
-Search -up-* Explorer
+Search -right-* Explorer
 Map --* Explorer
-Report --* Explorer
+Report -up-* Explorer
 
 @enduml
