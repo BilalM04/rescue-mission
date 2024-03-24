@@ -43,12 +43,6 @@ public class SimpleDroneTest {
     }
 
     @Test
-    public void testNotEnoughBattery() {
-        drone.drainBattery(9999);
-        assertTrue(drone.notEnoughBattery(10, 10));
-    }
-
-    @Test
     public void testGetLocation() {
         Coordinate droneCoord = drone.getLocation();
         assertEquals(droneCoord.getX(), coord.getX());

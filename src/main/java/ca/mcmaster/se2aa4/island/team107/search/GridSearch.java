@@ -30,7 +30,7 @@ public class GridSearch implements Search {
     public String performSearch() {
         String command = "";
 
-        if (phase.isLastPhase() || drone.getBatteryLevel() < 100) {
+        if (phase.isLastPhase() || drone.getBatteryLevel() < 50) {
             command = controller.stop();
         } else {
             if (!phase.isFinished()) {
