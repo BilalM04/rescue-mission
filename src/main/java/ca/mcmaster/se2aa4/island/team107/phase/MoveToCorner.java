@@ -3,8 +3,6 @@ package ca.mcmaster.se2aa4.island.team107.phase;
 import ca.mcmaster.se2aa4.island.team107.drone.Controller;
 import ca.mcmaster.se2aa4.island.team107.position.Direction;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.json.JSONObject;
 
 
@@ -17,8 +15,6 @@ public class MoveToCorner implements Phase {
         FLY_TO_CORNER, 
         TURN_INWARD, 
     }
-
-    private final Logger logger = LogManager.getLogger();
 
     private State state;
 
@@ -64,7 +60,6 @@ public class MoveToCorner implements Phase {
                 }
                 
             default:
-                logger.info("Uh oh, something bad happened here!");
                 return controller.stop();
         }
     }

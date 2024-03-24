@@ -1,4 +1,4 @@
-@startuml
+@startuml Map
 
 !define MyTheme
 skinparam class {
@@ -11,69 +11,60 @@ skinparam stereotypeCBackgroundColor #LightYellow
 skinparam stereotypeCBorderColor #000000
 skinparam stereotypeCFontColor #000000
 
-class Coordinate {
-    - x: int
-    - y: int
-    --
-    + this(x: int, y: int)
-    --
-    + getX(): int
-    + getY(): int
-    + setX(x: int): void
-    + setY(y: int): void
-    + distanceTo(other: Coordinate): double
-}
-
-class ListMap {
-    + creeks: List<POI>
-    + emergencySite: POI
-    --
+package map {
+    class ListMap {
+    - creeks: List<POI>
+    - emergencySite: POI
+    ' --
     + this()
-    --
+    ' --
     + addPOI(poi: POI): void
     + getEmergencySiteID(): String
     + getClosetCreekID(): String
 }
 
-interface Map {
-    + addPOI(poi: POI): void
-    + getEmergencySiteID(): String
-    + getClosetCreekID(): String
+    interface Map {
+        + addPOI(poi: POI): void
+        + getEmergencySiteID(): String
+        + getClosetCreekID(): String
+    }
+
+    enum TypePOI {
+        CREEK
+        EMERGENCY_SITE
+    }
+
+    class POI {
+          - kind: TypePOI
+          - location: Coordinate
+          - id: String
+          --
+          + this(kind: TypePOI, location: Coordinate, id: String)
+          --
+          + getKind(): TypePOI
+          + getLocation(): Coordinate
+          + getID(): String
+    }
 }
 
-enum TypePOI {
-  CREEK
-  EMERGENCY_SITE
+package position{
+    class Coordinate {
+        - x: int
+        - y: int
+        --
+        + this(x: int, y: int)
+        --
+        + getX(): int
+        + getY(): int
+        + setX(x: int): void
+        + setY(y: int): void
+        + distanceTo(other: Coordinate): double
+    }
 }
 
-class POI {
-  - kind: TypePOI
-  - location: Coordinate
-  - id: String
-  --
-  + this(kind: TypePOI, location: Coordinate, id: String)
-  --
-  + getKind(): TypePOI
-  + getLocation(): Coordinate
-  + getID(): String
-}
-
-class Explorer {
-  - logger: Logger
-  - drone: Drone
-  - gridSearch: Search
-  - map: Map
-  --
-  + initialize(s: String): void
-  + takeDecision(): String
-  + acknowledgeResults(s: String): void
-  + deliverFinalReport(): String
-}
-
-Map <|.. ListMap
-Coordinate --o POI
-POI --* ListMap
-Map --* Explorer
-TypePOI -- POI
+Map <|.up. ListMap
+Coordinate "   1"<-right-o POI
+POI "1..* \n"<-right--* ListMap
+TypePOI <-- POI
 
 @enduml

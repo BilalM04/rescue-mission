@@ -9,8 +9,6 @@ public interface Drone {
 
     void drainBattery(Integer cost);
 
-    boolean notEnoughBattery(Integer costFly, Integer costHeading);
-
     Direction getHeading();
 
     Coordinate getLocation();

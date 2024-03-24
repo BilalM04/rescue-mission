@@ -1,7 +1,6 @@
 package ca.mcmaster.se2aa4.island.team107;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -40,12 +39,6 @@ public class SimpleDroneTest {
     public void testDrainBattery() {
         drone.drainBattery(cost);
         assertEquals(battery - cost, drone.getBatteryLevel());
-    }
-
-    @Test
-    public void testNotEnoughBattery() {
-        drone.drainBattery(9999);
-        assertTrue(drone.notEnoughBattery(10, 10));
     }
 
     @Test

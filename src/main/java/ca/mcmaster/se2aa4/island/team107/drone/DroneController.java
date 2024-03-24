@@ -6,6 +6,7 @@ import ca.mcmaster.se2aa4.island.team107.position.Direction;
 
 public class DroneController implements Controller {
     private Drone drone;
+    private String decisionKey = "action";
 
     public DroneController(Drone drone) {
         this.drone = drone;
@@ -13,7 +14,7 @@ public class DroneController implements Controller {
 
     public String fly() {
         JSONObject decision = new JSONObject();
-        decision.put("action", "fly");
+        decision.put(decisionKey, "fly");
         drone.flyForward();
         return decision.toString();
     }
@@ -22,7 +23,7 @@ public class DroneController implements Controller {
         JSONObject decision = new JSONObject();
         JSONObject params = new JSONObject();
 
-        decision.put("action", "heading");
+        decision.put(decisionKey, "heading");
         params.put("direction", dir.getSymbol());
         decision.put("parameters", params);
 
@@ -39,7 +40,7 @@ public class DroneController implements Controller {
         JSONObject decision = new JSONObject();
         JSONObject params = new JSONObject();
 
-        decision.put("action", "echo");
+        decision.put(decisionKey, "echo");
         params.put("direction", dir.getSymbol());
         decision.put("parameters", params);
 
@@ -48,13 +49,13 @@ public class DroneController implements Controller {
 
     public String scan() {
         JSONObject decision = new JSONObject();
-        decision.put("action", "scan");
+        decision.put(decisionKey, "scan");
         return decision.toString();
     }
 
     public String stop() {
         JSONObject decision = new JSONObject();
-        decision.put("action", "stop");
+        decision.put(decisionKey, "stop");
         return decision.toString();
     }
 }

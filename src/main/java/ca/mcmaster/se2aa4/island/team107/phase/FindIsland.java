@@ -3,8 +3,6 @@ package ca.mcmaster.se2aa4.island.team107.phase;
 import ca.mcmaster.se2aa4.island.team107.drone.Controller;
 import ca.mcmaster.se2aa4.island.team107.position.Direction;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.json.JSONObject;
 
 public class FindIsland implements Phase {
@@ -18,8 +16,6 @@ public class FindIsland implements Phase {
         GET_RANGE,
         FLY_TO_ISLAND
     }
-
-    private final Logger logger = LogManager.getLogger();
 
     private boolean atIsland;
     private boolean uTurnLeft;
@@ -59,7 +55,6 @@ public class FindIsland implements Phase {
                 return controller.fly();
 
             default:
-                logger.info("Uh oh, something bad happened here!");
                 return controller.stop();
         }
     }
@@ -74,7 +69,7 @@ public class FindIsland implements Phase {
             
             case State.ECHO_LEFT:
                 echoStatus = info.getString("found");
-                if (echoStatus.equals("GROUND")) {
+                if (echoStatus.equals("GROUND")) { 
                     state = State.TURN_LEFT;
                     uTurnLeft = false;
                 } else {

@@ -21,12 +21,12 @@ public class CoordinateTest {
 
     @Test
     public void testDistanceToTrue() {
-        assertEquals(coordOne.distanceTo(coordTwo), Math.sqrt(2402));
+        assertEquals(Math.sqrt(2402), coordOne.distanceTo(coordTwo));
     }
 
     @Test
     public void testDistanceToFalse() {
-        assertNotEquals(coordOne.distanceTo(coordThree), 0);
+        assertNotEquals(0, coordOne.distanceTo(coordThree));
     }
 
     @Test
@@ -42,12 +42,12 @@ public class CoordinateTest {
     @Test
     public void testSetX() {
         coordOne.setX(9);
-        assertEquals(coordOne.getX(), 9);
+        assertEquals(9, coordOne.getX());
     }
 
     @Test
     public void testSetY() {
         coordOne.setY(197);
-        assertEquals(coordOne.getY(), 197);
+        assertEquals(197, coordOne.getY());
     }
 }

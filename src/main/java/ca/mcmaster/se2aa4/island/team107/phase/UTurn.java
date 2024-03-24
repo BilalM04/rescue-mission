@@ -11,8 +11,8 @@ public class UTurn implements Phase {
     private boolean turnLeft;
 
     private Integer turnCount;
-    private Integer FLY;
-    private Integer TURN_OPPOSITE;
+    private Integer flyDistance;
+    private Integer turnOpposite;
 
     public UTurn(boolean turnLeft, boolean outward) {
         this.hasTurned = false;
@@ -20,22 +20,22 @@ public class UTurn implements Phase {
         this.turnCount = 0;
 
         if (outward) {
-            FLY = 3;
-            TURN_OPPOSITE = 0;
+            flyDistance = 3;
+            turnOpposite = 0;
         } 
         else {
-            FLY = 1;
-            TURN_OPPOSITE = 4;
+            flyDistance = 1;
+            turnOpposite = 4;
         }
     }
 
     public String getDroneCommand(Controller controller, Direction dir) {
         String command;
 
-        if (turnCount.equals(TURN_OPPOSITE)) {
+        if (turnCount.equals(turnOpposite)) {
             command = turnCommand(controller, !turnLeft, dir);
         }
-        else if (turnCount.equals(FLY)) {
+        else if (turnCount.equals(flyDistance)) {
             command = controller.fly();
         }
         else {

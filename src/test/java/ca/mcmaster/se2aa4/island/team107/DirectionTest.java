@@ -30,9 +30,9 @@ public class DirectionTest {
 
     @Test
     public void testToSymbol() {
-        assertEquals(Direction.fromSymbol("N"), Direction.NORTH);
-        assertEquals(Direction.fromSymbol("E"), Direction.EAST);
-        assertEquals(Direction.fromSymbol("S"), Direction.SOUTH);
-        assertEquals(Direction.fromSymbol("W"), Direction.WEST);
+        assertEquals(Direction.NORTH, Direction.fromSymbol("N"));
+        assertEquals(Direction.EAST, Direction.fromSymbol("E"));
+        assertEquals(Direction.SOUTH, Direction.fromSymbol("S"));
+        assertEquals(Direction.WEST, Direction.fromSymbol("W"));
     }
 }
