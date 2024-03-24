@@ -3,8 +3,6 @@ package ca.mcmaster.se2aa4.island.team107.phase;
 import ca.mcmaster.se2aa4.island.team107.drone.Controller;
 import ca.mcmaster.se2aa4.island.team107.position.Direction;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -15,8 +13,6 @@ public class ScanLine implements Phase {
         SCAN,
         ECHO_FRONT
     }
-
-    private final Logger logger = LogManager.getLogger();
 
     private boolean turnLeft;
     private boolean offIsland;
@@ -46,7 +42,6 @@ public class ScanLine implements Phase {
                 return controller.echo(dir);
             
             default:
-                logger.info("Uh oh, something bad happened here!");
                 return controller.stop();
         }
     }
