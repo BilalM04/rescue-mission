@@ -13,18 +13,18 @@ public class POITest {
 
     @Test
     public void testGetKind() {
-        assertEquals(poi.getKind(), TypePOI.CREEK);
+        assertEquals(TypePOI.CREEK, poi.getKind());
     }
 
     @Test
     public void testGetLocation() {
         Coordinate coord = new Coordinate(7, 19);
-        assertEquals(poi.getLocation().getX(), coord.getX());
-        assertEquals(poi.getLocation().getY(), coord.getY());
+        assertEquals(coord.getX(), poi.getLocation().getX());
+        assertEquals(coord.getY(), poi.getLocation().getY());
     }
 
     @Test
     public void testGetID() {
-        assertEquals(poi.getID(), "1234567890");
+        assertEquals("1234567890", poi.getID());
     }
 }

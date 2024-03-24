@@ -28,13 +28,13 @@ public class DroneControllerTest {
         JSONObject decision = new JSONObject();
         decision.put("action", "fly");
 
-        assertEquals(controller.fly(), decision.toString());
+        assertEquals(decision.toString(), controller.fly());
 
         Coordinate loc = drone.getLocation();
 
-        assertEquals(loc.getX(), 1);
-        assertEquals(loc.getY(), 0);
-        assertEquals(drone.getHeading(), Direction.EAST);
+        assertEquals(1, loc.getX());
+        assertEquals(0, loc.getY());
+        assertEquals(Direction.EAST, drone.getHeading());
     }
 
     @Test 
@@ -46,13 +46,13 @@ public class DroneControllerTest {
         params.put("direction", "N");
         decision.put("parameters", params);
 
-        assertEquals(controller.heading(Direction.NORTH), decision.toString());
+        assertEquals(decision.toString(), controller.heading(Direction.NORTH));
 
         Coordinate loc = drone.getLocation();
 
-        assertEquals(loc.getX(), 1);
-        assertEquals(loc.getY(), 1);
-        assertEquals(drone.getHeading(), Direction.NORTH);
+        assertEquals(1, loc.getX());
+        assertEquals(1, loc.getY());
+        assertEquals(Direction.NORTH, drone.getHeading());
     }
 
     @Test
@@ -64,7 +64,7 @@ public class DroneControllerTest {
         params.put("direction", "W");
         decision.put("parameters", params);
 
-        assertEquals(controller.echo(Direction.WEST), decision.toString());
+        assertEquals(decision.toString(), controller.echo(Direction.WEST));
     }
 
     @Test
@@ -72,7 +72,7 @@ public class DroneControllerTest {
         JSONObject decision = new JSONObject();
         decision.put("action", "scan");
 
-        assertEquals(controller.scan(), decision.toString());
+        assertEquals(decision.toString(), controller.scan());
     }
 
     @Test
@@ -80,6 +80,6 @@ public class DroneControllerTest {
         JSONObject decision = new JSONObject();
         decision.put("action", "stop");
 
-        assertEquals(controller.stop(), decision.toString());
+        assertEquals(decision.toString(), controller.stop());
     }
 }
