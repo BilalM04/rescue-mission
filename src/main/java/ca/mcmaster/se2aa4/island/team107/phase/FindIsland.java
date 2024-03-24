@@ -69,7 +69,7 @@ public class FindIsland implements Phase {
             
             case State.ECHO_LEFT:
                 echoStatus = info.getString("found");
-                if (echoStatus.equals("GROUND")) {
+                if (echoStatus.equals("GROUND")) { 
                     state = State.TURN_LEFT;
                     uTurnLeft = false;
                 } else {
