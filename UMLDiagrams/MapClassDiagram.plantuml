@@ -64,7 +64,7 @@ package position{
 
 Map <|.up. ListMap
 Coordinate "   1"<-right-o POI
-POI "1..* "<-right--* ListMap
+POI "1..* \n"<-right--* ListMap
 TypePOI <-- POI
 
 @enduml

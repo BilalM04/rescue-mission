@@ -1,5 +1,4 @@
 @startuml Sequence
-    title "High Level Sequence Diagram For Drone Exploration"
 
     participant Explorer
     participant Search
