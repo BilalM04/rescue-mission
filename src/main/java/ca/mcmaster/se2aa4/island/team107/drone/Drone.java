@@ -9,7 +9,7 @@ public interface Drone {
 
     void drainBattery(Integer cost);
 
-    boolean notEnoughBattery(Integer costFly, Integer costHeading);
+    boolean notEnoughBattery();
 
     Direction getHeading();
 

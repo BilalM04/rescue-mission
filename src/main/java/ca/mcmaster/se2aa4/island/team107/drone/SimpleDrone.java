@@ -8,6 +8,8 @@ public class SimpleDrone implements Drone {
     private Integer batteryLevel;
     private Direction heading;
     private Coordinate location;
+    private Integer costFly = 5;
+    private Integer costHeading = 10;
 
     public SimpleDrone(Integer batteryLevel, Direction heading) {
         this.batteryLevel = batteryLevel;
@@ -23,8 +25,9 @@ public class SimpleDrone implements Drone {
         this.batteryLevel -= cost;
     }
 
-    public boolean notEnoughBattery(Integer costFly, Integer costHeading) {
-        return ((Math.abs(location.getX()) * costFly) + (Math.abs(location.getY()) * costFly) + costHeading) > getBatteryLevel();
+    public boolean notEnoughBattery() {
+        return ((Math.abs(location.getX()) * costFly) + (Math.abs(location.getY()) * costFly)
+                + costHeading) > getBatteryLevel();
     }
 
     public Direction getHeading() {

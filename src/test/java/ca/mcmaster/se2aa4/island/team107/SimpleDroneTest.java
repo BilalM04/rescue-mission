@@ -45,7 +45,7 @@ public class SimpleDroneTest {
     @Test
     public void testNotEnoughBattery() {
         drone.drainBattery(9999);
-        assertTrue(drone.notEnoughBattery(10, 10));
+        assertTrue(drone.notEnoughBattery());
     }
 
     @Test
