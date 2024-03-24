@@ -1,4 +1,4 @@
-@startuml
+@startuml Map
 
 !define MyTheme
 skinparam class {
@@ -39,25 +39,14 @@ package map {
           - location: Coordinate
           - id: String
           --
-        + this(kind: TypePOI, location: Coordinate, id: String)
-        --
+          + this(kind: TypePOI, location: Coordinate, id: String)
+          --
           + getKind(): TypePOI
           + getLocation(): Coordinate
           + getID(): String
     }
 }
 
-' class Explorer {
-'   - logger: Logger
-'   - drone: Drone
-'   - gridSearch: Search
-'   - map: Map
-'   --
-'   + initialize(s: String): void
-'   + takeDecision(): String
-'   + acknowledgeResults(s: String): void
-'   + deliverFinalReport(): String
-' }
 package position{
     class Coordinate {
         - x: int
@@ -71,27 +60,11 @@ package position{
         + setY(y: int): void
         + distanceTo(other: Coordinate): double
     }
-    
-  ' enum Direction {
-  '       NORTH, EAST
-  '       SOUTH, WEST
-  '     - symbol: String
-  '     --
-  '     + getSymbol(): String
-  '     + getRight(): Direction
-  '     + getLeft(): Direction
-  '   + <<static>> fromSymbol(s: String): Direction
-  
-  '   }
-    
-  
 }
 
-' Direction -[hidden]-> Coordinate
 Map <|.up. ListMap
-Coordinate <-right-o POI
+Coordinate "   1"<-right-o POI
 POI "1..* "<-right--* ListMap
-' Map -right-* Explorer
 TypePOI <-- POI
 
 @enduml
