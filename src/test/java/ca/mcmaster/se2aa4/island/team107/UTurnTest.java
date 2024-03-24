@@ -3,7 +3,7 @@ package ca.mcmaster.se2aa4.island.team107;
 import java.util.List;
 import java.util.Iterator;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
