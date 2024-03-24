@@ -43,13 +43,13 @@ public class Explorer implements IExplorerRaid {
     @Override
     public String takeDecision() {
         String command = gridSearch.performSearch();
-        logger.info("**Command: "+ command);
+        logger.info("Command: {}", command);
         return command;
     }
 
     @Override
     public void acknowledgeResults(String s) {
-        logger.info("**Response: " + s);
+        logger.info("Response: {}", s);
         JSONObject response = new JSONObject(new JSONTokener(new StringReader(s)));
         gridSearch.readResponse(response, map);
     }

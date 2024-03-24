@@ -49,10 +49,10 @@ public class GridSearch implements Search {
     public void readResponse(JSONObject response, Map map) {
         Integer cost = response.getInt("cost");
         drone.drainBattery(cost);
-        logger.info("**Budget Remaining: " + drone.getBatteryLevel());
+        logger.info("Budget Remaining: {}", drone.getBatteryLevel());
 
         Coordinate droneLoc = drone.getLocation();
-        logger.info("**Drone Position: ({}, {})", droneLoc.getX(), droneLoc.getY());
+        logger.info("Drone Position: ({}, {})", droneLoc.getX(), droneLoc.getY());
 
         JSONObject extraInfo = response.getJSONObject("extras");
         phase.processInfo(extraInfo);
