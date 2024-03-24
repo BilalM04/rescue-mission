@@ -14,10 +14,15 @@ import java.io.StringReader;
 
 import eu.ace_design.island.bot.IExplorerRaid;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
 public class Explorer implements IExplorerRaid {
+
+    private final Logger logger = LogManager.getLogger();
 
     private Search gridSearch;
     private Map map;
@@ -37,17 +42,22 @@ public class Explorer implements IExplorerRaid {
 
     @Override
     public String takeDecision() {
-        return gridSearch.performSearch();
+        String command = gridSearch.performSearch();
+        logger.info("**Command: "+ command);
+        return command;
     }
 
     @Override
     public void acknowledgeResults(String s) {
+        logger.info("**Response: " + s);
         JSONObject response = new JSONObject(new JSONTokener(new StringReader(s)));
         gridSearch.readResponse(response, map);
     }
 
     @Override
     public String deliverFinalReport() {
-        return report.generateReport(map);
+        String finalReport = report.generateReport(map);
+        logger.info(finalReport);
+        return finalReport;
     }
 }
