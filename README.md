@@ -13,7 +13,7 @@ This product is an _exploration command center_ for the [Island](https://ace-des
 - The `ca.mcmaster.se2aa4.island.team107.Explorer` class implements the command center, used to compete with the others.
 - The `ca.mcmaster.se2aa4.island.team107.Runner` class allows one to run the command center on a specific map.
 
-### Strategy description
+### Strategy Description
 
 The exploration approach utilizes a comprehensive grid search technique to methodically scan the entire island, identifying inlets and locating the emergency site.
 
@@ -26,7 +26,7 @@ https://github.com/BilalM04/rescue-mission/assets/77511892/ceb74a5f-1175-4e9d-b1
 
 </div>
 
-## How to compile, run and deploy
+## How to Compile and Run
 
 ### Compiling the project:
 
