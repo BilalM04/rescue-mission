@@ -1,28 +1,37 @@
 
 # Island Rescue Mission
 
-- Authors:
-  - [John Cho](choj35@mcmaster.ca) 
-  - [Ahsan Muzammil](muzammia@mcmaster.ca)
-  - [Mohammad Bilal](bilalm14@mcmaster.ca)
+Authors: 
+- [Mohammad Bilal](bilalm14@mcmaster.ca)
+- [John Cho](choj35@mcmaster.ca)
+- [Ahsan Muzammil](muzammia@mcmaster.ca)
 
 ## Product Description
 
 This product is an _exploration command center_ for the [Island](https://ace-design.github.io/island/) serious game. 
 
 - The `ca.mcmaster.se2aa4.island.team107.Explorer` class implements the command center, used to compete with the others.
-- The `Runner` class allows one to run the command center on a specific map.
+- The `ca.mcmaster.se2aa4.island.team107.Runner` class allows one to run the command center on a specific map.
 
 ### Strategy description
 
-The exploration strategy is for now to stop exploring as soon as we start. We stay safe and fly back to base immediately.
+The exploration approach utilizes a comprehensive grid search technique to methodically scan the entire island, identifying inlets and locating the emergency site.
+
+### Sample Execution
+Here is a graphical representation of a sample execution using the `./maps/map10.json` map. <br/>
+
+<div align="center">
+  
+https://github.com/BilalM04/rescue-mission/assets/77511892/ceb74a5f-1175-4e9d-b14e-3c2e6ecd5d72
+
+</div>
 
 ## How to compile, run and deploy
 
 ### Compiling the project:
 
 ```
-mosser@azrael a2-template % mvn clean package
+bilal@mohd % mvn clean package
 ...
 [INFO] ------------------------------------------------------------------------
 [INFO] BUILD SUCCESS
@@ -30,10 +39,10 @@ mosser@azrael a2-template % mvn clean package
 [INFO] Total time:  0.960 s
 [INFO] Finished at: 2024-01-20T18:26:43-05:00
 [INFO] ------------------------------------------------------------------------
-mosser@azrael a2-template % 
+bilal@mohd % 
 ```
 
-This creates one jar file in the `target` directory, named after the team identifier (i.e., team 00 uses `team00-1.0.jar`).
+This creates one jar file in the `target` directory, named after the team identifier.
 
 As the project is intended to run in the competition arena, this jar is not executable. 
 
@@ -44,7 +53,7 @@ The project is not intended to be started by the user, but instead to be part of
 To do so, we ask maven to execute the `Runner` class, using a map provided as parameter:
 
 ```
-mosser@azrael a2-template % mvn exec:java -q -Dexec.args="./maps/map03.json"
+bilal@mohd % mvn exec:java -q -Dexec.args="./maps/map03.json"
 ```
 
 It creates three files in the `outputs` directory:
@@ -52,9 +61,3 @@ It creates three files in the `outputs` directory:
 - `_pois.json`: the location of the points of interests
 - `Explorer_Island.json`: a transcript of the dialogue between the player and the game engine
 - `Explorer.svg`: the map explored by the player, with a fog of war for the tiles that were not visited.
-
-### Deploying the project to the arena
-
-Each week, you'll have to `tag` the version you want to submit for the competition. This version will be used in the weekly run. No tag means no competition.
-
-The tag syntax is `wX`, with `X` the week number. So your product for the first week will be tagged `w1`.
